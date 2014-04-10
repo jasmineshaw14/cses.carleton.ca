@@ -256,13 +256,17 @@
 		},
 		/** Log out.
 		 * 
-		 * This removes the current auth token from the library.
+		 * This removes the current auth token from the library and invalidates
+		 * it on the server.
 		 * 
-		 * @TODO: Invalidate the token on the server.
+		 * @return A promise that will be fulfilled when the token has been
+		 *         successfully invalidated.
 		 */
 		unauthorize: {
 			value: function CSES_unauthorize(){
+				var r = cses.request("POST", "/auth/invalidate");
 				cses.authtoken = false;
+				return r;
 			},
 		},
 		
