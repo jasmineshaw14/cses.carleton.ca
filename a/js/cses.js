@@ -121,7 +121,6 @@
 				var burl = URL.build(api);
 				
 				return Q(opt.auth).then(function(auth){
-					console.log("5");
 					var r = Q.defer();
 					
 					var headers = {
@@ -219,6 +218,7 @@
 		authorize: {
 			value: function CSES_authorize(user, pass) {
 				var def = Q.defer();
+				cses.authtoken = def.promise;
 				
 				// If one argument, authtoken provided.
 				if (typeof pass == "undefined") {
@@ -227,7 +227,7 @@
 					}).then(function(r){
 						cses.authperm = r.perm;
 						cses.authuser = new Person(r.user);
-						def.resolve(r.token);
+						def.resolve(user);
 						return r;
 					}, function(r){
 						def.resolve(false);
@@ -251,8 +251,6 @@
 					def.resolve(false);
 					throw r;
 				});
-				
-				cses.authtoken = def.promise;
 			},
 			enumerable: true,
 		},
