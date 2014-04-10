@@ -16,5 +16,6 @@ The server will be serving files on `http://localhost:1234/`.
 
 ### No PHP.
 
-While installing PHP is recommended it is only required for the static fallback.
-You will however be required to comment of the config that imports mod_php.
+While installing PHP is recommended it is only required for the static
+fallback.  You will however be required to comment of the config that imports
+`mod_php`.
