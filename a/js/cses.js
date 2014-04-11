@@ -127,7 +127,7 @@
 						"Content-Type": "application/json",
 					};
 					if (auth)
-						headers["Authorization"] = "token "+auth;
+						headers["Authorization"] = "Bearer "+auth;
 					
 					$.ajax({
 						method: method,
