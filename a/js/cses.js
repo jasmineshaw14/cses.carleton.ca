@@ -20,7 +20,7 @@
 		api = URL.parse("http://localhost:8080");
 	var authtoken_ = Q("");
 	
-	var WM = WeakMap;
+	var WM = window.WeakMap;
 	if (typeof WM != "function") {
 		// Oh noes!  Define our fully compliant WeakMap shim.
 		WM = function FakeWeakMap(){};
