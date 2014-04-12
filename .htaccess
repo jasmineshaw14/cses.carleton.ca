@@ -16,9 +16,11 @@ RewriteRule '' /index.html [END]
 
 AddType text/cache-manifest .manifest
 
-Header set Cache-Control "max-age=72000, public"
+# Cache most files for 24h. (A manual refresh will re-request)
+Header set Cache-Control "max-age=86400,stale-while-revalidate=86400"
 <Files "a/">
-	Header set Cache-Control "max-age=31536000, public"
+	# Static files are versioned and can be kept forever. (and longer in case of error).
+	Header set Cache-Control "max-age=31536000,stale-while-revalidate=31536000,stale-if-error=31536000"
 </Files>
 
 <IfDefine dev>
