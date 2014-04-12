@@ -27,7 +27,10 @@ define(function(){
 			"https://cdn.jsdelivr.net/underscorejs/1.6.0/underscore-min",
 			"https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min",
 		],
-		url1: "/a/js/url",
+		url1: [
+			"http://yourjavascript.com/9241412125/url1-min",
+			"/a/js/url1",
+		],
 	};
 	
 	if (window.location.hostname == "localhost") {

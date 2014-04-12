@@ -8,7 +8,6 @@
 	paths: {
 		site: "",
 		cses0: "cses",
-		url1: "url",
 		
 		jquery: "empty:",
 		jssignals1: "empty:",
