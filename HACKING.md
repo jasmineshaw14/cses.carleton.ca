@@ -9,9 +9,10 @@ as a lot of URLs don't actually have a file backing them.
 
 This repository has a dev config file for apache as well as a `.htaccess` file
 that does the proper rewrites.  Once you have apache and PHP installed the
-following command should start the server.
+following command should start the server assuming `$repo` points to the root
+of the repository.
 
-	httpd -DFOREGROUND -f"$repo/httpd.conf" -C"DocumentRoot $repo"
+	httpd -Ddev -f"$repo/httpd.conf" -C"DocumentRoot $repo"
 
 The server will be serving files on `http://localhost:1234/`.
 

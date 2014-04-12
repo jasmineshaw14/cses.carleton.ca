@@ -1,14 +1,10 @@
 ({
 	appDir: "a/",
-	dir: "build/a/",
 	
 	baseUrl: "js",
 	//mainConfigFile: "a/js/bootstrap.js",
 	
 	paths: {
-		site: "",
-		cses0: "cses",
-		
 		jquery: "empty:",
 		jssignals1: "empty:",
 		q1: "empty:",
@@ -17,7 +13,7 @@
 		underscore: "empty:",
 	},
 	deps: [ // Preload modules we know we will need.
-		"cses0",
+		"cses",
 		"site/Page",
 		"site/PageStatic",
 		"site/PageGenerated",

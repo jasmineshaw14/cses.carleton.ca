@@ -1,5 +1,7 @@
 <?php
 
+$buildid = ''; # Will be filled by build script.
+
 $components = preg_split('/[\\/\\?]/', $_SERVER['REQUEST_URI'], 3);
 
 function simple($title, $text) {
@@ -19,9 +21,9 @@ default:
 	$script = __dir__.$components[1].'/index.php';
 	if (file_exists($script)) {
 		include($script);
-	} elseif (file_exists($_SERVER['DOCUMENT_ROOT'].'a/js/page/'.$components[1].'.js')) {
+	} elseif (file_exists("$_SERVER[DOCUMENT_ROOT]/a/$buildid/js/site/page/$components[1].js")) {
 		simple('Not Available — CSES', "Sorry Javascript is required to view this page.");
 	} else {
-		simple('404 Not Fount — CSES', "This page does not exist.");
+		simple('404 Not Found — CSES', "This page does not exist.");
 	}
 }

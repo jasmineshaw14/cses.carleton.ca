@@ -1,4 +1,4 @@
-define(["jquery", "site/main", "site/PageGenerated", "cses0"],
+define(["jquery", "site/main", "site/PageGenerated", "cses"],
 function($,        main,        mkgen,                cses)
 {
 	"use strict";

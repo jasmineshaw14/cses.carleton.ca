@@ -1,4 +1,4 @@
-define(["cses0", "store2", "site/Router", "site/session", "jquery"],
+define(["cses", "store2", "site/Router", "site/session", "jquery"],
 function(cses,    store,    Router,        session,        $){
 	var r = {};
 	

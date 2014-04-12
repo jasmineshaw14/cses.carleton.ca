@@ -2,10 +2,6 @@ define(function(){
 	"use strict";
 	
 	var paths = {
-		//requirejs: "require",
-		site: "/a/js",
-		cses0: "/a/js/cses",
-		
 		jquery: [ // jQuery won't let us name it.
 			"https://cdn.jsdelivr.net/jquery/2.1.0/jquery.min",
 			"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min",
@@ -25,7 +21,7 @@ define(function(){
 		],
 		underscore: [ // Underscore won't let us name it.
 			"https://cdn.jsdelivr.net/underscorejs/1.6.0/underscore-min",
-			"https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min",
+			"ttps://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min",
 		],
 		url1: [
 			"http://yourjavascript.com/9241412125/url1-min",
@@ -50,7 +46,6 @@ define(function(){
 	}
 	
 	require.config({
-		baseUrl: "/dev/null",
 		paths: paths,
 		waitSeconds: 15,
 		//enforceDefine: true,

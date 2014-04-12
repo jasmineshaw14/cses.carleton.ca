@@ -1,4 +1,4 @@
-define(["jquery", "store2", "site/main", "cses0"],
+define(["jquery", "store2", "site/main", "cses"],
 function($,        store,    main,        cses){
 	"use strict";
 	

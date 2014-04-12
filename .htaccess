@@ -3,22 +3,16 @@ RewriteBase /
 
 # Strip www
 RewriteCond %{HTTP_HOST} ^www\.(.*)$
-RewriteRule .* http://%1%{REQUEST_URI} [R=301,L]
+RewriteRule '' %{REQUEST_SCHEME}://%1%{REQUEST_URI} [R=301,END]
 
-# Allow static files.
-RewriteRule ^a/([0-9]+/)?(.*) a/$2 [L]
-
-# Allow some files.
-RewriteRule ^sitemap.xml sitemap.xml [L]
-RewriteRule ^robots.txt robots.txt [L]
-RewriteRule ^cache.manifest cache.manifest [L]
+RewriteRule ^a/ - [L]
 
 # If we need to generate a static page.
 RewriteCond %{QUERY_STRING} _escaped_fragment_
-RewriteRule .* noscript/router.php [L]
+RewriteRule '' /noscript/router.php [END]
 
-# Otherwise serve our page.
-RewriteRule .* index.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule '' /index.html [END]
 
 AddType text/cache-manifest .manifest
 
@@ -27,5 +21,6 @@ Header set Cache-Control "max-age=72000, public"
 	Header set Cache-Control "max-age=31536000, public"
 </Files>
 
-# For development.
-Header set Cache-Control "no-cache"
+<IfDefine dev>
+	Header set Cache-Control "no-cache"
+</IfDefine>
