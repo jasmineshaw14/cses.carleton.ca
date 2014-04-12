@@ -54,7 +54,11 @@ function($,        url)
 				var p = url.parse(u);
 				
 				if ( p.host != oururl.host || p.scheme != oururl.scheme ) return false;
-				return url.build(Object.select(p, ["path","query","hash"]));
+				return url.build({
+					path: p.path,
+					query: p.query,
+					hash: p.hash,
+				});
 			}
 		},
 	});
