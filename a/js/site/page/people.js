@@ -1,5 +1,5 @@
-define(["jquery", "site/main", "site/PageGenerated", "cses"],
-function($,        main,        mkgen,                cses)
+define(["jquery", "site/main", "site/PageGenerated", "site/session", "cses"],
+function($,        main,        mkgen,                session,        cses)
 {
 	"use strict";
 	
@@ -10,7 +10,7 @@ function($,        main,        mkgen,                cses)
 		if (!uid) {
 			if (cses.authuser) uid = cses.authuser.id;
 			else {
-				main.router.go("/login");
+				session.loginRequest("/people");
 				return;
 			}
 		}

@@ -39,7 +39,7 @@ function($,        url)
 			}
 		});
 		
-		this.load(window.location.pathname.substr(1));
+		setTimeout(function(){ self.load(window.location.pathname.substr(1)) }, 0);
 	}
 	Object.defineProperties(Router, {
 		/** Get relative portion of URL.

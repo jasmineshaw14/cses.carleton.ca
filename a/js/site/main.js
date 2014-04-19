@@ -1,7 +1,5 @@
-define(["cses", "store2", "site/Router", "site/session", "jquery"],
-function(cses,    store,    Router,        session,        $){
-	var r = {};
-	
+define(["exports", "cses", "store2", "site/Router", "site/session", "jquery"],
+function(r,         cses,    store,    Router,        session,        $){
 	session.restore();
 	
 	var content = $("<div>").appendTo("body");
