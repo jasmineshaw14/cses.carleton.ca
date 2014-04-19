@@ -12,7 +12,6 @@ define(function(){
 		],
 		q1: [
 			"https://cdnjs.cloudflare.com/ajax/libs/q.js/1.0.0/q.min",
-			"http://yourjavascript.com/1247410609/q-min.js", // Note, also cloudflare.
 			"https://googledrive.com/host/0B5Q4xFi89w8sSHBHaUtMeXM5c28", // A slow worst-case.
 		],
 		store2: [
@@ -24,8 +23,12 @@ define(function(){
 			"ttps://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min",
 		],
 		url1: [
-			"http://yourjavascript.com/9241412125/url1-min",
+			"https://kevincox-cdn.appspot.com/url-1.0.2.min",
 			"/a/js/url1",
+		],
+		Paragon1: [
+			"https://kevincox-cdn.appspot.com/Paragon-1.0.1.min",
+			"/a/js/Paragon1",
 		],
 	};
 	

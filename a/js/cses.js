@@ -2,17 +2,18 @@
 	"use strict";
 	
 	if (typeof define == "function" && define["amd"]) { // AMD
-		define(["jquery", "q1", "url1"], cses);
+		define(["jquery", "q1", "url1", "Paragon1"], cses);
 	} else if (typeof module == "object" && module.exports) { // Node
 		module["exports"] = cses(
 			require("jquery"),
 			require("q"),
-			require("url")
+			require("url"),
+			require("Paragon")
 		);
 	} else {
-		root["cses"] = cses(jQuery, Q, url);
+		root["cses"] = cses(jQuery, Q, url, Paragon);
 	}
-}(this, function CSES($, Q, URL){
+}(this, function CSES($, Q, URL, Paragon){
 	"use strict";
 	var cses = {};
 	var api = URL.parse("https://api.cses.carleton.ca");
@@ -33,6 +34,12 @@
 		});
 	}
 	
+	var PersonModel = Paragon.create({
+		id: 0,
+		perm: 0,
+		name: "",
+		namefull: "",
+	});
 	/** A Person.
 	 * 
 	 * A person has the following attributes.
@@ -46,13 +53,17 @@
 	 * @param id {String} The user id.
 	 */
 	function Person(id) {
+		PersonModel.call(this);
+		
 		this.id = id; //|| cses.authuser.id;
 		this.perm = [];
 		this.name = "";
 		this.namefull = "";
 	}
 	Object.preventExtensions(Person);
-	Object.defineProperties(Person.prototype, {
+	Person.prototype = Object.create(PersonModel.prototype, {
+		constructor: {value: Person},
+		
 		/** Load fields from server.
 		 * 
 		 * This function updates all fields from the values on the server.
@@ -244,7 +255,7 @@
 					},
 				}).then(function(r){
 					cses.authperm = r.perm;
-					cses.authuser = r.user;
+					cses.authuser = new Person(r.user);
 					def.resolve(r.token);
 					return r;
 				}, function(r){

@@ -4,19 +4,21 @@ function($,        main,        mkgen,                cses)
 	"use strict";
 	
 	return mkgen("User — CSES", function($cont){
-		var uid = document.location.pathname.split("/")[1];
+		var uid = document.location.pathname.split("/")[2];
+		console.log(uid);
 		
 		if (!uid) {
 			if (cses.authuser) uid = cses.authuser.id;
 			else {
-				
 				main.router.go("/login");
 				return;
 			}
 		}
+		var p = new cses.Person(uid);
 		
-		$cont.append($("<h1>", {
-			text: "User",
-		}));
+		var title = $("<h1>").appendTo($cont);
+		p.namefullchanged.add(function(n){ title.text(n) });
+		
+		p.load();
 	});
 });
