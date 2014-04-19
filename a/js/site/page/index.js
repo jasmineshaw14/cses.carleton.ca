@@ -10,8 +10,8 @@ function($, mkstatic)
 		.append($("<ul>")
 			.append($("<li>")
 				.append($("<a>", {
-					text: "user",
-					href: "/user",
+					text: "people",
+					href: "/people",
 				}))
 			)
 			.append($("<li>")

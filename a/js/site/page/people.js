@@ -3,7 +3,7 @@ function($,        main,        mkgen,                cses)
 {
 	"use strict";
 	
-	return mkgen("User — CSES", function($cont){
+	return mkgen("People — CSES", function($cont){
 		var uid = document.location.pathname.split("/")[2];
 		console.log(uid);
 		
@@ -17,7 +17,10 @@ function($,        main,        mkgen,                cses)
 		var p = new cses.Person(uid);
 		
 		var title = $("<h1>").appendTo($cont);
-		p.namefullchanged.add(function(n){ title.text(n) });
+		p.namefullchanged.add(function(n){
+			document.title = n+" — CSES";
+			title.text(n);
+		});
 		
 		p.load();
 	});
