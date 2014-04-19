@@ -99,8 +99,8 @@ function($,        url)
 					console.log(e, e.requireModules, e.requireType);
 					if ( e.requireType == "scripterror" ) {
 						var pagepath = "site/page/";
-						var pageload = e.requireModules.any(function(m){
-							return m.startsWith(pagepath);
+						var pageload = e.requireModules.some(function(m){
+							return m.substr(0, pagepath.length) == pagepath;
 						});
 						if (!pageload) return;
 						
