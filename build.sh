@@ -1,6 +1,6 @@
 #! /bin/bash
 
-tdir='build/'
+tdir='generated/'
 ver=$(printf '%X' $(date -u '+%s'))
 rm -rvf "$tdir"
 
