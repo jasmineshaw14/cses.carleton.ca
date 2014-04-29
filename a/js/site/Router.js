@@ -27,8 +27,6 @@ function($,        url)
 		{
 			if ( e.which != 1 ) return; // Only left click.
 			
-			e.preventDefault();
-			
 			var rel = Router.relativeURL(this.href);
 			console.log(rel);
 			
