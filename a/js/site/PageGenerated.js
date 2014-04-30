@@ -23,7 +23,7 @@ function(Page)
 		}
 		Object.preventExtensions(PageGenerated);
 		PageGenerated.prototype = Object.create(Page.prototype, {
-			constructor: {value: Page},
+			constructor: {value: PageGenerated},
 			
 			load: {
 				value: function PageGenerated_load(){
