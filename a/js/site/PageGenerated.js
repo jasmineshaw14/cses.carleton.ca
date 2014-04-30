@@ -9,7 +9,8 @@ function(Page)
 	 * content by calling the provided functions.
 	 * 
 	 * @param titlegen Either the title, or a function that returns a title when
-	 *                 called.
+	 *                 called.  This argument may be omitted or set to `false`
+	 *                 to not set the title.
 	 * @param contentgen A function that will be called with a single argument
 	 *                   of a jQuery wrapped element into which to render the
 	 *                   page.  The function must not reuse jQuery elements as
@@ -18,6 +19,11 @@ function(Page)
 	 * @return A class.
 	 */
 	return function makegen(titlegen, contentgen) {
+		if (arguments.length == 2) {
+			contentgen = titlegen;
+			titlegen = false;
+		}
+		
 		function PageGenerated() {
 			Page.apply(this, arguments); // Call super.
 		}
@@ -27,7 +33,8 @@ function(Page)
 			
 			load: {
 				value: function PageGenerated_load(){
-					document.title = (typeof titlegen == "function")?titlegen():titlegen;
+					if (titlegen !== false)
+						document.title = (typeof titlegen == "function")?titlegen():titlegen;
 					contentgen(this.$cont);
 				},
 			},
