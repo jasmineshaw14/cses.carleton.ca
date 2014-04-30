@@ -102,6 +102,38 @@
 	});
 	Object.preventExtensions(Person.prototype);
 	
+	var PostModel = Paragon.create({
+		id: 0,
+		slug: "",
+		title: "",
+		content: {value: $("<div>")},
+	});
+	
+	function Post(id) {
+		PostModel.call(this);
+		
+		this.id = id;
+	}
+	Object.preventExtensions(Post);
+	Post.prototype = Object.create(PostModel.prototype, {
+		constructor: {value: Post},
+		
+		load: {
+			value: function post_load(){
+				var self = this;
+				return cses.request("GET", "/post/"+this.id).then(function(r){
+					self.id = r.id;
+					self.slug = r.slug;
+					self.title = r.title;
+					console.log(r.content);
+					self.content = $($.parseHTML(r.content));
+					console.log(self.content);
+				});
+			},
+		},
+	});
+	Object.preventExtensions(Post.prototype);
+	
 	Object.defineProperties(cses, {
 		/** Make a raw request to the API.
 		 * 
@@ -284,6 +316,9 @@
 		/** The Person constructor.
 		 */
 		Person: {value: Person},
+		/** The Post constructor.
+		 */
+		Post: {value: Post},
 	});
 	Object.preventExtensions(cses);
 	
