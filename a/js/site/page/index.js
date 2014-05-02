@@ -4,17 +4,39 @@ function($,        cses,   main,        mkgen,                templates)
 	"use strict";
 	
 	return mkgen(function($cont){
-		console.log("HRE");
 		var s = document.location.pathname.substr(1);
-		if (!s) s = "index";
-		
-		var p = new cses.Post(s);
-		p.load().then(function(){
-			var template = templates[p.type] || templates.article;
-			
-			template($cont, p);
-		}, function(){
-			main.router.load("404");
-		});
+		if (!s) { // Index page.
+			$cont.append(
+				$("<h1>Welcome to the CSES site</h1>"),
+				$("<p>There is nothing here yet</p>"),
+				$("<ul>").append(
+					$("<li>").append($("<a>", {
+						href: "/hello-world",
+						text: "A page",
+					})),
+					$("<li>").append($("<a>", {
+						href: "/login",
+						text: "Login",
+					})),
+					$("<li>").append($("<a>", {
+						href: "/people",
+						text: "People",
+					})),
+					$("<li>").append($("<a>", {
+						href: "/no-page",
+						text: "Dead link",
+					}))
+				)
+			);
+		} else { // Fetch from database.
+			var p = new cses.Post(s);
+			p.load().then(function(){
+				var template = templates[p.type] || templates.article;
+				
+				template($cont, p);
+			}, function(){
+				main.router.load("404");
+			});
+		}
 	});
 });
