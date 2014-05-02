@@ -12,7 +12,7 @@ function(self,      $,        store,    main,        cses){
 		loginRequest: {
 			value: function session_login(returnto) {
 				store.set("page-login-next", returnto);
-				main.router.go("/login");
+				main.router.replace("/login");
 			},
 		},
 		/** Restore the last session.
