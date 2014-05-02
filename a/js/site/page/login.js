@@ -20,7 +20,7 @@ function($,        main,        mkgen,                session,        cses,    s
 			e.preventDefault(); // Don't do browser-default submit.
 			
 			session.login(user.val(), pass.val()).then(function(r){
-				main.router.go(store.get("page-login-next") || "/");
+				main.router.replace(store.get("page-login-next") || "/");
 				store.remove("page-login-next");
 			}, function(r){
 				//@TODO: Display error to user.
