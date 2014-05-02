@@ -18,6 +18,7 @@
 		"site/PageStatic",
 		"site/PageGenerated",
 		"site/page/index",
+		"site/templates",
 		
 		"jquery",
 		"jssignals1",

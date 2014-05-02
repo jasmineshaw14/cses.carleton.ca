@@ -19,7 +19,7 @@ function(Page)
 	 * @return A class.
 	 */
 	return function makegen(titlegen, contentgen) {
-		if (arguments.length == 2) {
+		if (!contentgen) {
 			contentgen = titlegen;
 			titlegen = false;
 		}

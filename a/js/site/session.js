@@ -23,7 +23,7 @@ function(self,      $,        store,    main,        cses){
 			value: function session_restore(){
 				var t = store.get("authtoken");
 				if (t)
-					cses.authorize(t).done();
+					cses.authorize(t).catch(function(){ store.remove("authtoken") });
 			},
 		},
 		/** Login with the provided username and password.
@@ -33,6 +33,8 @@ function(self,      $,        store,    main,        cses){
 				return cses.authorize(user, pass).then(function(r){
 					store.set("authtoken", r.token);
 					console.log("Login Successful", r);
+				}, function(){
+					store.remove("authtoken");
 				});
 			},
 		},

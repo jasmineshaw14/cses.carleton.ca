@@ -103,8 +103,8 @@ function($,        url)
 						if (!pageload) return;
 						
 						console.log("Error loading page!", pageload);
-						if (e.requireModules[0] != "site/page/404")
-							self.load("404");
+						if (e.requireModules[0] != "site/page/index")
+							self.load("index");
 					}
 					else throw e;
 				});

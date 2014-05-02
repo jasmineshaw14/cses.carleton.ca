@@ -103,8 +103,8 @@
 	Object.preventExtensions(Person.prototype);
 	
 	var PostModel = Paragon.create({
-		id: 0,
-		slug: "",
+		id: "",
+		type: "article",
 		title: "",
 		content: {value: $("<div>")},
 	});
@@ -126,7 +126,7 @@
 					self.slug = r.slug;
 					self.title = r.title;
 					console.log(r.content);
-					self.content = $($.parseHTML(r.content));
+					self.content = $("<div>", {html: r.content});
 					console.log(self.content);
 				});
 			},
@@ -190,7 +190,7 @@
 							r.reject({e:503, msg: "Could not connect to API."});
 						}
 						//console.log(xhr.responseText, xhr);
-						r.resolve(xhr.responseText);
+						r.reject(xhr.responseText);
 					});
 					
 					return r.promise;

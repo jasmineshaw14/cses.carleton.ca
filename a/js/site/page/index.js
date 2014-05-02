@@ -1,26 +1,18 @@
-define(["jquery", "site/PageStatic"],
-function($, mkstatic)
+define(["jquery", "cses", "site/PageGenerated", "site/templates"],
+function($, cses, mkgen, templates)
 {
 	"use strict";
 	
-	var content = $("<div>")
-		.append($("<p>", {
-			text: "Welcome to the new CSES website.  There is nothing here yet.",
-		}))
-		.append($("<ul>")
-			.append($("<li>")
-				.append($("<a>", {
-					text: "people",
-					href: "/people",
-				}))
-			)
-			.append($("<li>")
-				.append($("<a>", {
-					text: "login",
-					href: "/login",
-				}))
-			)
-		);
-	
-	return mkstatic("Home — CSES", content);
+	return mkgen(function($cont){
+		console.log("HRE");
+		var s = document.location.pathname.substr(1);
+		if (!s) s = "index";
+		
+		var p = new cses.Post(s);
+		p.load().then(function(){
+			var template = templates[p.type] || templates.article;
+			
+			template($cont, p);
+		});
+	});
 });
