@@ -1,5 +1,5 @@
-define(["jquery", "cses", "site/PageGenerated", "site/templates"],
-function($, cses, mkgen, templates)
+define(["jquery", "cses", "site/main", "site/PageGenerated", "site/templates"],
+function($,        cses,   main,        mkgen,                templates)
 {
 	"use strict";
 	
@@ -13,6 +13,8 @@ function($, cses, mkgen, templates)
 			var template = templates[p.type] || templates.article;
 			
 			template($cont, p);
+		}, function(){
+			main.router.load("404");
 		});
 	});
 });
