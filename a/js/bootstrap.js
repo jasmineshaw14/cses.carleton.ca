@@ -11,7 +11,7 @@ define(function(){
 			"https://cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals.min",
 		],
 		q1: [
-			"https://cdnjs.cloudflare.com/ajax/libs/q.js/1.0.0/q.min",
+			"https://cdnjs.cloudflare.com/ajax/libs/q.js/1.0.1/q.min",
 			"https://googledrive.com/host/0B5Q4xFi89w8sSHBHaUtMeXM5c28", // A slow worst-case.
 		],
 		store2: [
@@ -42,7 +42,7 @@ define(function(){
 			"https://cdn.jsdelivr.net/js-signals/1.0.0/signals",
 			"https://cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals");
 		paths.q1.unshift(
-			"https://cdnjs.cloudflare.com/ajax/libs/q.js/1.0.0/q");
+			"https://cdnjs.cloudflare.com/ajax/libs/q.js/1.0.1/q");
 		//paths.store2.unshift( Doesn't define itself.
 		//	"https://cdn.jsdelivr.net/store/2.1.2/store2");
 		// underscore has source map.
