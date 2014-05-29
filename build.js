@@ -8,24 +8,24 @@
 		jquery: "empty:",
 		jssignals1: "empty:",
 		q1: "empty:",
-		requirejs: "empty:",
 		store2: "empty:",
 		underscore: "empty:",
+		// requirejs: "../../require",
 	},
 	deps: [ // Preload modules we know we will need.
-		"cses",
-		"site/Page",
-		"site/PageStatic",
-		"site/PageGenerated",
-		"site/page/index",
-		"site/templates",
-		
 		"jquery",
 		"jssignals1",
 		"q1",
 		"store2",
 		"underscore",
 		"url1",
+		
+		"cses",
+		"site/Page",
+		"site/PageStatic",
+		"site/PageGenerated",
+		"site/page/index",
+		"site/templates",
 	],
 	
 	//keepBuildDir: true,
@@ -33,7 +33,25 @@
 		{
 			name: "bootstrap",
 			//include: ["almond"],
-			include: ["requirejs"],
+			// include: ["requirejs"],
+			
+			override: {
+				wrap: {
+					start:
+						// Load fallback require.js if needed.
+						'+function(i){"use strict";' +
+							'if(window.require)i();' +
+							'else{' +
+								'var s=document.createElement("script");' +
+								's.src="https://cdnjs.cloudflare.com/ajax/' +
+									'libs/require.js/2.1.11/require.min.js";' +
+								's.onload=i;' +
+								'document.head.appendChild(s);' +
+							'}' +
+						'}(function(){',
+					end: '})',
+				},
+			},
 		},
 	],
 	useStrict: true,

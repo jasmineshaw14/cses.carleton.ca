@@ -19,6 +19,7 @@ echo 'Gzipping content...'
 ignore=(
 	'-not' '-name' '*.map'
 	'-not' '-name' '*.src.js'
+	'-not' '-empty'
 )
 find "$tdir" -type f "${ignore[@]}" -print0 | parallel -0v 'gzip -nk --best {}'
 echo 'Pruning uncompressable content...'

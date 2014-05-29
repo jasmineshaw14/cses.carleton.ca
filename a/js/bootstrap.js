@@ -1,4 +1,4 @@
-define(function(){
++function(){
 	"use strict";
 	
 	var paths = {
@@ -49,6 +49,7 @@ define(function(){
 	}
 	
 	require.config({
+		baseUrl: document.scripts[1].src.slice(0, -12),
 		paths: paths,
 		waitSeconds: 15,
 		//enforceDefine: true,
@@ -58,4 +59,4 @@ define(function(){
 	require(["q1"],function(Q){Q.longStackSupport = true});
 	// Start
 	require(["site/main"], function(main){});
-});
+}()
