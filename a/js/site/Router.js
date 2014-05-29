@@ -77,6 +77,16 @@ function($,        url)
 				// Get top-level path component.
 				var comp = what.split("/")[0] || "index";
 				
+				// Short circuit if we know the file doesn't exist.
+				if (!{
+					"404":    1,
+					"index":  1,
+					"login":  1,
+					"logout": 1,
+					"people": 1,
+				}[comp])
+					return this.load("index");
+				
 				// Load the page.
 				require(["site/page/"+comp], function(Page) {
 					if ( typeof Page != "function" ) // Probably can't reach server.
@@ -104,7 +114,7 @@ function($,        url)
 						
 						console.log("Error loading page!", pageload);
 						if (e.requireModules[0] != "site/page/index")
-							self.load("index");
+							self.load("404");
 					}
 					else throw e;
 				});
