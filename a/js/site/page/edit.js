@@ -1,5 +1,5 @@
-define(["jquery", "site/main", "site/PageGenerated", "site/session", "cses", "store2"],
-function($,        main,        mkgen,                session,        cses,    store)
+define(["jquery", "site/PageGenerated", "cses"],
+function($,        mkgen,                cses)
 {
 	"use strict";
 	
@@ -7,6 +7,5 @@ function($,        main,        mkgen,                session,        cses,    s
 		$cont.append($("<h1>", {
 			text: "Login",
 		}));
-		$cont.append(loginform());
 	});
 });

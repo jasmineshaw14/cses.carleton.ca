@@ -1,5 +1,5 @@
-define(["jquery", "site/main", "site/PageGenerated", "site/session"],
-function($,        main,        mkgen,                session)
+define(["jquery", "site/router", "site/PageGenerated", "site/session"],
+function($,        router,        mkgen,                session)
 {
 	"use strict";
 	
@@ -9,7 +9,7 @@ function($,        main,        mkgen,                session)
 			value: "Logout",
 		}).on("click", function(){
 			session.logout();
-			main.router.go("/");
+			router.go("/");
 		}));
 	});
 });

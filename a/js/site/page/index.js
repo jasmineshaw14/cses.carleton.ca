@@ -1,5 +1,5 @@
-define(["jquery", "cses", "site/main", "site/PageGenerated", "site/templates"],
-function($,        cses,   main,        mkgen,                templates)
+define(["jquery", "cses", "site/router", "site/PageGenerated", "site/templates"],
+function($,        cses,   router,        mkgen,                templates)
 {
 	"use strict";
 	
@@ -33,7 +33,7 @@ function($,        cses,   main,        mkgen,                templates)
 			// Remove trailing slash.
 			if (s.slice(-1) == "/") {
 				s = s.replace(/\/+$/, "");
-				main.router.updateURL("/"+s);
+				router.updateURL("/"+s);
 			}
 			
 			var p = new cses.Post(s);
@@ -43,7 +43,7 @@ function($,        cses,   main,        mkgen,                templates)
 				
 				template($cont, p);
 			}, function(){
-				main.router.load("404");
+				router.load("404");
 			});
 		}
 	});

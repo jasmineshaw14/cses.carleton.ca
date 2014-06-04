@@ -1,5 +1,5 @@
-define(["exports", "jquery", "store2", "site/main", "cses"],
-function(self,      $,        store,    main,        cses){
+define(["exports", "jquery", "store2", "site/router", "cses"],
+function(self,      $,        store,    router,        cses){
 	"use strict";
 	
 	/** Session manager.
@@ -12,7 +12,7 @@ function(self,      $,        store,    main,        cses){
 		loginRequest: {
 			value: function session_login(returnto) {
 				store.set("page-login-next", returnto);
-				main.router.replace("/login");
+				router.replace("/login");
 			},
 		},
 		/** Restore the last session.

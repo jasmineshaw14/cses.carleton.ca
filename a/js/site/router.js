@@ -1,5 +1,5 @@
-define(["jquery", "url1"],
-function($,        url)
+define(["exports", "jquery", "url1"],
+function(self, $,        url)
 {
 	"use strict";
 	
@@ -14,32 +14,30 @@ function($,        url)
 	 * @param cont The container into which to load pages.  This will be passed
 	 *             to jQuery to get an element.
 	 */
-	function Router(cont) {
-		var self = this;
+	
+	window.addEventListener("popstate", function(){
+		self._onpopstate();
+	});
+	$(document).delegate("a", "click", function (e)
+	{
+		if ( e.which != 1 ) return; // Only left click.
 		
-		this.$container = $(cont);
-		this.curpage    = undefined;
+		var rel = self.relativeURL(this.href);
+		console.log(rel);
 		
-		window.addEventListener("popstate", function(){
-			self._onpopstate();
-		});
-		$(document).delegate("a", "click", function (e)
+		if (rel) // Is in our site.
 		{
-			if ( e.which != 1 ) return; // Only left click.
-			
-			var rel = Router.relativeURL(this.href);
-			console.log(rel);
-			
-			if (rel) // Is in our site.
-			{
-				e.preventDefault();
-				self.go(rel);
-			}
-		});
+			e.preventDefault();
+			self.go(rel);
+		}
+	});
+	
+	setTimeout(function(){ self.load(window.location.pathname.substr(1)) }, 0);
+	
+	Object.defineProperties(self, {
+		$container: {value: $("<div>").appendTo(document.body)},
+		curpage:  {value: undefined, writable: true},
 		
-		setTimeout(function(){ self.load(window.location.pathname.substr(1)) }, 0);
-	}
-	Object.defineProperties(Router, {
 		/** Get relative portion of URL.
 		 * 
 		 * @param u The absolute URL.
@@ -47,7 +45,7 @@ function($,        url)
 		 *         a string containing the relative portion of the URL.
 		 */
 		relativeURL: {
-			value: function Router_relativeURL ( u )
+			value: function router_relativeURL ( u )
 			{
 				var p = url.parse(u);
 				
@@ -59,9 +57,7 @@ function($,        url)
 				});
 			}
 		},
-	});
-	Object.preventExtensions(Router);
-	Object.defineProperties(Router.prototype, {
+		
 		/** Load a page.
 		 * 
 		 * Loads the page into the container.  This is a low level method that
@@ -72,7 +68,6 @@ function($,        url)
 		load: {
 			value: function router_load(what) {
 				console.log("Loading /"+what);
-				var self = this;
 				
 				// Get top-level path component.
 				var comp = what.split("/")[0] || "index";
@@ -86,7 +81,7 @@ function($,        url)
 					"logout": 1,
 					"people": 1,
 				}[comp])
-					return this.load("index");
+					return self.load("index");
 				
 				// Load the page.
 				require(["site/page/"+comp], function(Page) {
@@ -135,7 +130,7 @@ function($,        url)
 				window.history.pushState(null, "", where);
 				
 				// Make browser resolve relative urls for us.
-				this.load(Router.relativeURL(window.location.href).substr(1));
+				self.load(self.relativeURL(window.location.href).substr(1));
 			},
 			enumerable: true,
 		},
@@ -152,7 +147,7 @@ function($,        url)
 				window.history.replaceState(null, "", where);
 				
 				// Make browser resolve relative urls for us.
-				this.load(Router.relativeURL(window.location.href).substr(1));
+				self.load(self.relativeURL(window.location.href).substr(1));
 			},
 			enumerable: true,
 		},
@@ -170,11 +165,12 @@ function($,        url)
 			enumerable: true,
 		},
 		_onpopstate: {
-			value: function Router__onpopstate(){
-				this.load(window.location.pathname.substr(1));
+			value: function router__onpopstate(){
+				self.load(window.location.pathname.substr(1));
 			},
 		},
 	});
+	Object.preventExtensions(self);
 	
-	return Router;
+	return self;
 });

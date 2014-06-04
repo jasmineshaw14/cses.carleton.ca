@@ -1,13 +1,9 @@
-define(["exports", "cses", "store2", "site/Router", "site/session", "jquery"],
-function(r,         cses,    store,    Router,        session,        $){
+define(["exports", "cses", "store2", "site/router", "site/session", "jquery"],
+function(r,         cses,    store,   router,        session,        $){
 	session.restore();
 	
-	var content = $("<div>").appendTo("body");
-	
-	Object.defineProperties(r, {
-		content: {value: content},
-		router: {value: new Router(content)},
-	});
+	// Object.defineProperties(r, {
+	// });
 	Object.preventExtensions(r);
 	
 	return r;

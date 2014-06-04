@@ -1,5 +1,5 @@
-define(["jquery", "site/main", "site/PageGenerated", "site/session", "cses", "store2"],
-function($,        main,        mkgen,                session,        cses,    store)
+define(["jquery", "site/router", "site/PageGenerated", "site/session", "cses", "store2"],
+function($,        router,        mkgen,                session,        cses,    store)
 {
 	"use strict";
 	
@@ -20,7 +20,7 @@ function($,        main,        mkgen,                session,        cses,    s
 			e.preventDefault(); // Don't do browser-default submit.
 			
 			session.login(user.val(), pass.val()).then(function(r){
-				main.router.replace(store.get("page-login-next") || "/");
+				router.replace(store.get("page-login-next") || "/");
 				store.remove("page-login-next");
 			}, function(r){
 				//@TODO: Display error to user.
