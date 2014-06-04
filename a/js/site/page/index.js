@@ -31,6 +31,7 @@ function($,        cses,   main,        mkgen,                templates)
 		} else { // Fetch from database.
 			var p = new cses.Post(s);
 			p.load().then(function(){
+				console.log(p.type);
 				var template = templates[p.type] || templates.article;
 				
 				template($cont, p);

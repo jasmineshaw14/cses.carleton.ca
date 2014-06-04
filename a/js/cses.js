@@ -116,6 +116,19 @@
 		
 		this.id = id;
 	}
+	Object.defineProperties(Post, {
+		find: {
+			value: function Post_find(o){
+				return cses.request("GET", "/post", {
+					get: {
+						dir: o.dir,
+					}
+				}).then(function(r){
+					return r.posts;
+				});
+			},
+		},
+	});
 	Object.preventExtensions(Post);
 	Post.prototype = Object.create(PostModel.prototype, {
 		constructor: {value: Post},
@@ -124,12 +137,11 @@
 			value: function post_load(){
 				var self = this;
 				return cses.request("GET", "/post/"+this.id).then(function(r){
-					self.id = r.id;
-					self.slug = r.slug;
-					self.title = r.title;
-					console.log(r.content);
+					self.id      = r.id;
+					self.slug    = r.slug;
+					self.title   = r.title;
+					self.type    = r.type
 					self.content = $("<div>", {html: r.content});
-					console.log(self.content);
 				});
 			},
 		},
