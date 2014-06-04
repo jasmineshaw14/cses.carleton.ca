@@ -29,10 +29,17 @@ function($,        cses,   main,        mkgen,                templates)
 				)
 			);
 		} else { // Fetch from database.
+			
+			// Remove trailing slash.
+			if (s.slice(-1) == "/") {
+				s = s.replace(/\/+$/, "");
+				main.router.updateURL("/"+s);
+			}
+			
 			var p = new cses.Post(s);
 			p.load().then(function(){
 				console.log(p.type);
-				var template = templates[p.type] || templates.article;
+				var template = templates[p.type] || templates.page;
 				
 				template($cont, p);
 			}, function(){

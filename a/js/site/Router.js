@@ -80,6 +80,7 @@ function($,        url)
 				// Short circuit if we know the file doesn't exist.
 				if (!{
 					"404":    1,
+					"edit":   1,
 					"index":  1,
 					"login":  1,
 					"logout": 1,

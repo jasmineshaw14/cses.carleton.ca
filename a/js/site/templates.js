@@ -1,6 +1,6 @@
 define(["jquery", "cses"], function($, cses){
 	var self = Object.create(Object.prototype, {
-		article: {
+		page: {
 			value: function template_article($cont, page){
 				document.title = page.title + " — CSES";
 				$cont.append(page.content.contents());
