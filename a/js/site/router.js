@@ -1,9 +1,9 @@
 define(["exports", "jquery", "url1"],
-function(self, $,        url)
+function(self,      $,        url)
 {
 	"use strict";
 	
-	var oururl = url.parse(document.location.href);
+	var oururl = url.parse(location.href);
 	
 	/** A router for the application.
 	 * 
@@ -15,7 +15,7 @@ function(self, $,        url)
 	 *             to jQuery to get an element.
 	 */
 	
-	window.addEventListener("popstate", function(){
+	addEventListener("popstate", function(){
 		self._onpopstate();
 	});
 	$(document).delegate("a", "click", function (e)
@@ -32,7 +32,7 @@ function(self, $,        url)
 		}
 	});
 	
-	setTimeout(function(){ self.load(window.location.pathname.substr(1)) }, 0);
+	setTimeout(function(){ self.load(location.pathname.substr(1)) }, 0);
 	
 	Object.defineProperties(self, {
 		$container: {value: $("<div>").appendTo(document.body)},
@@ -73,14 +73,16 @@ function(self, $,        url)
 				var comp = what.split("/")[0] || "index";
 				
 				// Short circuit if we know the file doesn't exist.
-				if (!{
-					"404":    1,
-					"edit":   1,
-					"index":  1,
-					"login":  1,
-					"logout": 1,
-					"people": 1,
-				}[comp])
+				if (!comp.match(new RegExp("^"+[
+					"404",
+					"admin(|/.*)",
+					"edit",
+					"index",
+					"login",
+					"logout",
+					"people",
+					"hello-world",
+				].join("|")+"$")))
 					return self.load("index");
 				
 				// Load the page.
@@ -110,7 +112,7 @@ function(self, $,        url)
 						
 						console.log("Error loading page!", pageload);
 						if (e.requireModules[0] != "site/page/index")
-							self.load("404");
+							self.load("index");
 					}
 					else throw e;
 				});
@@ -127,10 +129,10 @@ function(self, $,        url)
 		go: {
 			value: function router_go(where) {
 				console.log("Going", where);
-				window.history.pushState(null, "", where);
+				history.pushState(null, "", where);
 				
 				// Make browser resolve relative urls for us.
-				self.load(self.relativeURL(window.location.href).substr(1));
+				self.load(self.relativeURL(location.href).substr(1));
 			},
 			enumerable: true,
 		},
@@ -144,10 +146,10 @@ function(self, $,        url)
 		replace: {
 			value: function router_replace(where) {
 				console.log("Replacing", where);
-				window.history.replaceState(null, "", where);
+				history.replaceState(null, "", where);
 				
 				// Make browser resolve relative urls for us.
-				self.load(self.relativeURL(window.location.href).substr(1));
+				self.load(self.relativeURL(location.href).substr(1));
 			},
 			enumerable: true,
 		},
@@ -160,13 +162,13 @@ function(self, $,        url)
 		updateURL: {
 			value: function router_updateURL(where) {
 				console.log("Changing URL to", where);
-				window.history.replaceState(null, "", where);
+				history.replaceState(null, "", where);
 			},
 			enumerable: true,
 		},
 		_onpopstate: {
 			value: function router__onpopstate(){
-				self.load(window.location.pathname.substr(1));
+				self.load(location.pathname.substr(1));
 			},
 		},
 	});

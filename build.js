@@ -30,9 +30,7 @@
 	
 	//keepBuildDir: true,
 	modules: [
-		{
-			name: "bootstrap",
-			//include: ["almond"],
+		{ name: "bootstrap",
 			// include: ["requirejs"],
 			
 			override: {
@@ -52,6 +50,8 @@
 					end: '})',
 				},
 			},
+		}, { name: "site/page/admin",
+			exclude: ["bootstrap"],
 		},
 	],
 	useStrict: true,

@@ -32,7 +32,7 @@
 		],
 	};
 	
-	if (window.location.hostname == "localhost") {
+	if (location.hostname == "localhost") {
 		///// Source versions for easy debugging.
 		// backbone has source map.
 		paths.jquery.unshift(

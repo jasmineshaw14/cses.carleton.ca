@@ -4,7 +4,7 @@ function($,        cses,   router,        mkgen,                templates)
 	"use strict";
 	
 	return mkgen(function($cont){
-		var s = document.location.pathname.substr(1);
+		var s = location.pathname.substr(1);
 		if (!s) { // Index page.
 			$cont.append(
 				$("<h1>Welcome to the CSES site</h1>"),

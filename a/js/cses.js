@@ -17,9 +17,9 @@
 	"use strict";
 	var cses = {};
 	var api = URL.parse("https://api.cses.carleton.ca");
-	if (window && window.location.hostname == "localhost")
+	if (typeof location == "object" && location.hostname == "localhost")
 		api = URL.parse("http://localhost:8080");
-	else if (window && window.location.hostname == "cses.kevincox.ca")
+	else if (typeof location == "object" && location.hostname == "cses.kevincox.ca")
 		api = URL.parse("https://api.cses.kevincox.ca");
 	var authtoken_ = Q("");
 	

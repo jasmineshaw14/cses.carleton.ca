@@ -4,7 +4,7 @@ function($,        mkgen,                session,        cses)
 	"use strict";
 	
 	return mkgen("People — CSES", function($cont){
-		var uid = document.location.pathname.split("/")[2];
+		var uid = location.pathname.split("/")[2];
 		console.log(uid);
 		
 		if (!uid) {
