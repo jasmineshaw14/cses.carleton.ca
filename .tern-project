@@ -1,0 +1,11 @@
+{
+	"libs": ["browser","jquery","emca5"],
+	"loadEagerly": [
+	],
+	"plugins": {
+		"requirejs": {
+			"baseURL": "a/js/"
+		},
+		"doc_comment": null
+	}
+}
