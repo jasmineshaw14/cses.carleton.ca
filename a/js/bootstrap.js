@@ -49,7 +49,7 @@
 	}
 	
 	require.config({
-		baseUrl: document.scripts[1].src.slice(0, -12),
+		baseUrl: document.scripts[1].src.slice(0, -"bootstrap.js".length),
 		paths: paths,
 		waitSeconds: 15,
 		//enforceDefine: true,
