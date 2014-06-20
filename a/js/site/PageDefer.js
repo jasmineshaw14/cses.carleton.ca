@@ -3,7 +3,6 @@ function(Page,        Q,    router)
 {
 	"use strict";
 	
-	console.log("Called", Page, Q, router);
 	/** A factory for generating deferred pages.
 	 * 
 	 * @param module The module that will provide the page.
@@ -45,7 +44,6 @@ function(Page,        Q,    router)
 			load: {
 				value: function PageStatic_load(){
 					return this._page.done(function(p){
-						console.log("aionrvr", p);
 						return p.load.apply(p, arguments);
 					});
 				},

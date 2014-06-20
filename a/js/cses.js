@@ -148,6 +148,53 @@
 	});
 	Object.preventExtensions(Post.prototype);
 	
+	function uploadFile(f) {
+		return cses.authtoken.then(function(auth){
+			var r = Q.defer();
+			var req = new XMLHttpRequest()
+			
+			api.path = "/blob";
+			api.get  = {};
+			var url = URL.build(api);
+			
+			req.open("PUT", url);
+			req.setRequestHeader("Authorization", "Bearer "+auth);
+			req.setRequestHeader("Content-Type", f.type);
+			
+			req.onreadystatechange = function(e){
+				if (req.readyState == 4) {
+					if (req.status >= 200 && req.status < 300)
+						r.resolve(req.responseText);
+					else
+						r.reject(req.responseText);
+				}
+			};
+			req.upload.onprogress = function(e){
+				r.notify({
+					complete: e.loaded,
+					total:    e.total,
+					percent:  e.loaded/e.total,
+				});
+			}
+			
+			req.send(f);
+			
+			return r.promise.then(function(rtext){
+				var j = JSON.parse(rtext);
+				j.http_status     = req.status
+				j.http_statustext = req.statusText;
+				j.url = url+"/"+j.id;
+				return j;
+			}, function(etext){
+				var j = JSON.parse(etext);
+				j.http_status     = req.status
+				j.http_statustext = req.statusText;
+				console.log(j);
+				throw j;
+			});
+		});
+	}
+	
 	Object.defineProperties(cses, {
 		/** Make a raw request to the API.
 		 * 
@@ -333,6 +380,13 @@
 		/** The Post constructor.
 		 */
 		Post: {value: Post},
+		
+		/** Upload a file.
+		 * 
+		 * @param File
+		 * @return A promise for response.
+		 */
+		uploadFile: {value: uploadFile},
 	});
 	Object.preventExtensions(cses);
 	

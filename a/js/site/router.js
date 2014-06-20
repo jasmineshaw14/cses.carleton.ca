@@ -49,7 +49,9 @@ function(self,      $,        url)
 			{
 				var p = url.parse(u);
 				
-				if ( p.host != oururl.host || p.scheme != oururl.scheme ) return false;
+				if (p.host   != oururl.host
+				 || p.scheme != oururl.scheme
+				 || p.port   != oururl.port  ) return false;
 				return url.build({
 					path: p.path,
 					query: p.query,
@@ -76,6 +78,7 @@ function(self,      $,        url)
 				if (!comp.match(new RegExp("^"+[
 					"404",
 					"admin(|/.*)",
+					"credits",
 					"edit",
 					"index",
 					"login",
