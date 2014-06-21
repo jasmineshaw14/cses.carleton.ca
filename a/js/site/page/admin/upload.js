@@ -22,6 +22,11 @@ function($,        mkgen,                session,        cses,   scriptup)
 	}
 	
 	return mkgen("Upload — CSES", function($cont){
+		if (!cses.authuser) { // Ensured logged in.
+			session.loginRequest("/admin/upload");
+			return;
+		}
+		
 		scriptup($cont, function(su){
 			su("h1", {text: "Upload"});
 			su("input", {
