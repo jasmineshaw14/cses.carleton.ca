@@ -183,13 +183,12 @@
 				var j = JSON.parse(rtext);
 				j.http_status     = req.status
 				j.http_statustext = req.statusText;
-				j.url = url+"/"+j.id;
+				j.url = url+"/"+j.id+"/"+f.name;
 				return j;
 			}, function(etext){
 				var j = JSON.parse(etext);
 				j.http_status     = req.status
 				j.http_statustext = req.statusText;
-				console.log(j);
 				throw j;
 			});
 		});
