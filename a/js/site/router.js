@@ -84,7 +84,7 @@ function(self,      $,        url)
 					"login",
 					"logout",
 					"people",
-					"hello-world",
+					"textbooktrade",
 				].join("|")+"$")))
 					return self.load("index");
 				

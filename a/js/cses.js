@@ -27,7 +27,7 @@
 	if (typeof WM != "function") {
 		// Oh noes!  Define our fully compliant WeakMap shim.
 		WM = function FakeWeakMap(){};
-		Object.defineProperties(WM, {
+		Object.defineProperties(WM.prototype, {
 			get: {value:function WM_get(k, v){return k["_FakeWeakMapPriv"]}},
 			set: {value:function WM_set(k, v){
 				Object.defineProperty(k, "_FakeWeakMapPriv", {writable:true});
@@ -148,6 +148,56 @@
 	});
 	Object.preventExtensions(Post.prototype);
 	
+	var TBTBookModel = Paragon.create({
+		id: "",
+		title: "",
+		seller: undefined,
+		courses: {value: []},
+	});
+	
+	function TBTBook(id) {
+		TBTBookModel.call(this);
+		
+		this.id = id;
+	}
+	Object.defineProperties(TBTBook, {
+		find: {
+			value: function TBTBook_find(q) {
+				q = q || {};
+				return cses.request("GET", "/tbt/book", {
+					get: {
+						course: q.course,
+					}
+				}).then(function(r){
+					return r.books.map(function(rb){
+						var b = new TBTBook(rb.id);
+						b.title = rb.title;
+						b.seller = new Person(rb.seller.id);
+						b.seller.name = rb.seller.name;
+						return b;
+					});
+				});
+			}
+		}
+	});
+	Object.preventExtensions(TBTBook);
+	TBTBook.prototype = Object.create(TBTBookModel.prototype, {
+		constructor: {value: TBTBook},
+		
+		load: {
+			value: function tbtbook_load() {
+				var self = this;
+				return cses.request("GET", "/tbt/book/"+this.id).then(function(r){
+					self.id = r.id;
+					self.title = r.title;
+					self.seller = new Person(r.seller);
+					self.courses = r.courses;
+				});
+			},
+		},
+	});
+	Object.preventExtensions(TBTBook.prototype);
+	
 	function uploadFile(f) {
 		return cses.authtoken.then(function(auth){
 			var r = Q.defer();
@@ -250,7 +300,7 @@
 							r.reject({e:503, msg: "Could not connect to API."});
 						}
 						//console.log(xhr.responseText, xhr);
-						r.reject(xhr.responseText);
+						r.reject(xhr.responseText || error);
 					});
 					
 					return r.promise;
@@ -375,17 +425,21 @@
 		
 		/** The Person constructor.
 		 */
-		Person: {value: Person},
+		Person: {value: Person, enumerable: true},
 		/** The Post constructor.
 		 */
-		Post: {value: Post},
+		Post: {value: Post, enumerable: true},
 		
 		/** Upload a file.
 		 * 
 		 * @param File
 		 * @return A promise for response.
 		 */
-		uploadFile: {value: uploadFile},
+		uploadFile: {value: uploadFile, enumerable: true},
+		
+		/** A book in the textbook trade.
+		 */
+		TBTBook: {value: TBTBook, enumerable: true},
 	});
 	Object.preventExtensions(cses);
 	

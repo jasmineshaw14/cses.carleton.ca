@@ -1,33 +1,27 @@
-define(["jquery", "cses", "site/router", "site/PageGenerated", "site/templates"],
-function($,        cses,   router,        mkgen,                templates)
+define(["jquery", "cses", "site/router", "site/PageGenerated", "site/templates", "scriptup"],
+function($,        cses,   router,        mkgen,                templates,        scriptup)
 {
 	"use strict";
 	
 	return mkgen(function($cont){
 		var s = location.pathname.substr(1);
 		if (!s) { // Index page.
-			$cont.append(
-				$("<h1>Welcome to the CSES site</h1>"),
-				$("<p>There is nothing here yet</p>"),
-				$("<ul>").append(
-					$("<li>").append($("<a>", {
-						href: "/hello-world",
-						text: "A page",
-					})),
-					$("<li>").append($("<a>", {
-						href: "/login",
-						text: "Login",
-					})),
-					$("<li>").append($("<a>", {
-						href: "/people",
-						text: "People",
-					})),
-					$("<li>").append($("<a>", {
-						href: "/no-page",
-						text: "Dead link",
-					}))
-				)
-			);
+			scriptup($cont, function(su){
+				su("h1", {text: "Welcome to the CSES site."});
+				su("p", {text: "There is nothing here yet."});
+				su("ul", function(su){
+					[
+						{href: "/hello-world", text: "A page"},
+						{href: "/login",text: "Login"},
+						{href: "/logout",text: "Logout"},
+						{href: "/people", text: "People"},
+						{href: "/no-page", text: "Dead link"},
+						{href: "/textbooktrade", text: "Textbook Trade"}
+					].forEach(function(i){
+						su("li", function(su){ su("a", i) });
+					});
+				});
+			});
 		} else { // Fetch from database.
 			
 			// Remove trailing slash.

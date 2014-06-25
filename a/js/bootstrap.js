@@ -27,7 +27,7 @@
 			"/a/js/url1",
 		],
 		Paragon1: [
-			"https://kevincox-cdn.appspot.com/Paragon-1.0.1.min",
+			"https://kevincox-cdn.appspot.com/Paragon-1.1.0.min",
 			"/a/js/Paragon1",
 		],
 	};

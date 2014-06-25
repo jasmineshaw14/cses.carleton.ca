@@ -49,7 +49,7 @@
 		else
 			r = $(tag);
 		
-		if (cont) cont(scriptup.bind(r));
+		if (cont) cont.call(r, scriptup.bind(r));
 		
 		if (this instanceof $) this.append(r);
 		return r;
