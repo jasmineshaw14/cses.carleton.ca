@@ -164,9 +164,12 @@
 		find: {
 			value: function TBTBook_find(q) {
 				q = q || {};
+				console.log(!!q.sold);
 				return cses.request("GET", "/tbt/book", {
 					get: {
-						course: q.course,
+						course: q.course || undefined,
+						title:  q.title  || undefined,
+						sold:   !!q.sold || undefined,
 					}
 				}).then(function(r){
 					return r.books.map(function(rb){

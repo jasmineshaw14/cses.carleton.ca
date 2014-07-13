@@ -1,5 +1,5 @@
-define(["jquery", "site/PageGenerated", "site/router", "cses", "scriptup"],
-function($,        mkgen,                router,        cses,   scriptup)
+define(["jquery", "site/PageGenerated", "site/router", "cses", "scriptup", "underscore"],
+function($,        mkgen,                router,        cses,   scriptup,   _)
 {
 	"use strict";
 	
@@ -12,10 +12,11 @@ function($,        mkgen,                router,        cses,   scriptup)
 			if (!path.length) {
 				su("h1", {text: "Text Book Trade"});
 				
-				var list = su("ul");
 				function populateBooks(){
 					cses.TBTBook.find({
-					
+						course: course.val(),
+						title: title.val(),
+						sold: sold.is(":checked"),
 					}).done(function(r){
 						list.empty();
 						scriptup(list, function(su){
@@ -32,6 +33,33 @@ function($,        mkgen,                router,        cses,   scriptup)
 						});
 					})
 				}
+				var populateBooksThrottled = _.debounce(populateBooks, 500);
+				
+				var course, title, sold;
+				
+				su("label", {text: "Filter by course: "}, function(su){
+					course = su("input", {
+						type: "text",
+						placeholder: "Course code",
+						spellcheck: false,
+						on: {keyup: populateBooksThrottled},
+					});
+				}); su("br");
+				su("label", {text: "Filter by Title: "}, function(su){
+					title = su("input", {
+						type: "text",
+						placeholder: "Title",
+						on: {keyup: populateBooksThrottled},
+					});
+				}); su("br");
+				su("label", {text: "Show sold.",}, function(su){
+					sold = su("input", {
+						type: "checkbox",
+						on: {change: populateBooks},
+					});
+				}); su("br");
+				
+				var list = su("ul");
 				populateBooks();
 			} else if (path[0] == "book") {
 				var book = new cses.TBTBook(path[1]);
