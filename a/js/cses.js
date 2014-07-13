@@ -169,7 +169,7 @@
 					get: {
 						course: q.course || undefined,
 						title:  q.title  || undefined,
-						sold:   !!q.sold || undefined,
+						sold:   !!q.sold,
 					}
 				}).then(function(r){
 					return r.books.map(function(rb){
