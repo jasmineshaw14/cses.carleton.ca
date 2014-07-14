@@ -65,11 +65,13 @@ function($,        mkgen,                router,        cses,   scriptup,   _)
 				var book = new cses.TBTBook(path[1]);
 				book.load().done(function(){
 					su("dl", function(su){
-						su("dt", {text: "Title"});
-						su("dd", {text: book.title});
-						su("dt", {text: "Courses"});
-						su("dd", {text: book.courses.join(", ")});
-						su("dt", {text: "Seller"});
+						su("dt", "Title");
+						su("dd", book.title);
+						su("dt", "Price");
+						su("dd", "$ "+book.price);
+						su("dt", "Courses");
+						su("dd", book.courses.join(", "));
+						su("dt", "Seller");
 						su("dd", function(su){
 							var self = this;
 							book.seller.load().done(function(){
@@ -79,7 +81,7 @@ function($,        mkgen,                router,        cses,   scriptup,   _)
 					});
 				});
 			} else {
-				router.load("404");
+				router.load("/404");
 			}
 		});
 	});

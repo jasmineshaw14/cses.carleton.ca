@@ -191,10 +191,24 @@
 			value: function tbtbook_load() {
 				var self = this;
 				return cses.request("GET", "/tbt/book/"+this.id).then(function(r){
-					self.id = r.id;
-					self.title = r.title;
-					self.seller = new Person(r.seller);
+					self.id      = r.id;
+					self.title   = r.title;
+					self.price   = r.price
+					self.seller  = new Person(r.seller);
 					self.courses = r.courses;
+				});
+			},
+		},
+		
+		save: {
+			value: function tbtbook_save() {
+				var url = this.id? "/"+this.id : "/tbt/book";
+				return cses.request("PUT", url, {
+					post: {
+						title: this.title,
+						courses: this.courses,
+						price: this.price,
+					},
 				});
 			},
 		},

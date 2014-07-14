@@ -39,17 +39,19 @@
 	function a2a(args) { return [].splice.call(args) }
 	
 	return function scriptup(tag, props, cont) {
-		if (typeof props == "function") {
+		if (typeof props != "object") {
 			cont = props;
 			props = undefined;
 		}
+		
 		var r;
 		if (typeof tag == "string" && tag.match(/^[-A-Za-z0-9]+$/))
 			r = $("<"+tag+">", props);
 		else
 			r = $(tag);
 		
-		if (cont) cont.call(r, scriptup.bind(r));
+		if (typeof cont == "function") cont.call(r, scriptup.bind(r));
+		else                           r.text(cont);
 		
 		if (this instanceof $) this.append(r);
 		return r;

@@ -11,8 +11,12 @@ function(self,      $,        store,    router,        cses){
 		 */
 		loginRequest: {
 			value: function session_login(returnto) {
-				store.set("page-login-next", returnto);
-				router.replace("/login");
+				cses.authtoken.then(function(t){
+					if (t) return;
+					store.set("page-login-next", returnto);
+					router.replace("/login");
+				});
+				return cses.authtoken;
 			},
 		},
 		/** Restore the last session.
