@@ -10,6 +10,14 @@
 			"https://cdn.jsdelivr.net/js-signals/1.0.0/signals.min",
 			"https://cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals.min",
 		],
+		Paragon1: [
+			"https://kevincox-cdn.appspot.com/Paragon-1.1.1.min",
+			"/a/js/Paragon1",
+		],
+		polymer_platform: [
+			"https://cdn.jsdelivr.net/polymer.platform/0.3.4/platform.js",
+			"https://cdnjs.cloudflare.com/ajax/libs/polymer/0.3.4/platform",
+		],
 		q1: [
 			"https://cdnjs.cloudflare.com/ajax/libs/q.js/1.0.1/q.min",
 			"https://googledrive.com/host/0B5Q4xFi89w8sSHBHaUtMeXM5c28", // A slow worst-case.
@@ -18,6 +26,10 @@
 			//"https://cdn.jsdelivr.net/store/2.1.2/store2.min", Too old, doesn't define itself.
 			"https://cdnjs.cloudflare.com/ajax/libs/store.js/1.3.14/store.min",
 		],
+		typeahead010: [
+			"https://cdn.jsdelivr.net/typeahead.js/0.10.2/typeahead.bundle.min",
+			"https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.4/dist/typeahead.bundle.min",
+		],
 		underscore: [ // Underscore won't let us name it.
 			"https://cdn.jsdelivr.net/underscorejs/1.6.0/underscore-min",
 			"ttps://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min",
@@ -25,10 +37,6 @@
 		url1: [
 			"https://kevincox-cdn.appspot.com/url-1.0.3.min",
 			"/a/js/url1",
-		],
-		Paragon1: [
-			"https://kevincox-cdn.appspot.com/Paragon-1.1.0.min",
-			"/a/js/Paragon1",
 		],
 	};
 	

@@ -1,6 +1,11 @@
-define(["jquery", "site/PageGenerated", "site/session", "site/router", "cses", "scriptup"],
-function($,        mkgen,                session,        router,        cses,   scriptup)
-{
+define([
+	"jquery", "site/PageGenerated", "site/session", "site/router", "cses",
+	"scriptup", "site/ui/PersonCompleter", "site/ui/PersonAdd",
+	"site/ui/lightbox",
+], function(
+	$, mkgen, session, router, cses, scriptup, PersonCompleter,
+	PersonAdd, LightBox
+) {
 	"use strict";
 	
 	return mkgen("Textbook Trade Admin — CSES", function($cont){
@@ -25,20 +30,25 @@ function($,        mkgen,                session,        router,        cses,   
 				su("p", "Comming Soon!");
 			} else if (path[0] == "add") {
 				su("h1", "Textbook Trade Add");
-				var title, courses, price;
+				var error;
+				var title, courses, price, seller;
 				su("form", {
 					on: {submit: function(e){
 						e.preventDefault();
 						
 						var b = new cses.TBTBook();
-						b.title = title.val();
+						b.title = title.val() || undefined;
 						b.courses = courses.val()
 						                   .replace(/[^\w]/, '')
 						                   .split(",")
 						                   .filter(function(s){return s});
-						b.price = price.val();
+						b.price = price.val() || undefined;
+						b.seller = seller.value;
 						b.save().then(function(r){
 							router.go("/textbooktrade/book/"+r.id);
+						}, function(e){
+							console.log(e, e.msg);
+							error.text(e.msg);
 						});
 					}},
 				}, function(su) {
@@ -53,8 +63,33 @@ function($,        mkgen,                session,        router,        cses,   
 					su("label", {text: "Price"}, function(su){
 						price = su("input", {type: "number", min:0, step:0.01});
 					}); su("br");
+					su("label", {text: "Seller"}, function(su){
+						su("input", {type: "text"}, function(su){
+							seller = new PersonCompleter(this);
+						});
+					});
+					su("button", {
+						type: "button",
+						text: "New Person",
+						on: {
+							click: function(e) {
+								e.preventDefault();
+								var lb = new LightBox();
+								var pa = PersonAdd();
+								pa.on("cses:personadd:added", function(e, p){
+									lb.open = false;
+									seller.value = p;
+								});
+								lb.$root.append(pa);
+								lb.styleFloating = true;
+								lb.open = true;
+							},
+						},
+					});
+					su("br");
 					su("button", {type: "submit", text: "Submit"});
 				});
+				error = su("div");
 			} else {
 				router.load("/404");
 			}

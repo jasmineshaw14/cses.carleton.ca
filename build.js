@@ -9,6 +9,7 @@
 		jssignals1: "empty:",
 		q1: "empty:",
 		store2: "empty:",
+		typeahead010: "empty:",
 		underscore: "empty:",
 		// requirejs: "../../require",
 	},

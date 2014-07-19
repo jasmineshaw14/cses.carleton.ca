@@ -41,6 +41,8 @@
 		perm: 0,
 		name: "",
 		namefull: "",
+		number: undefined,
+		emails: undefined,
 	});
 	/** A Person.
 	 * 
@@ -61,7 +63,28 @@
 		this.perm = [];
 		this.name = "";
 		this.namefull = "";
+		this.emails = [];
 	}
+	Object.defineProperties(Person, {
+		find: {
+			value: function Person_find(q){
+				return cses.request("GET", "/person", {
+					get: {
+						name: q.name,
+						number: q.number,
+					},
+				}).then(function(r){
+					return r.people.map(function(p){
+						var r = new Person(p.id);
+						r.name = p.name;
+						r.namefull = p.namefull;
+						r.number = p.number;
+						return r;
+					});
+				});
+			},
+		},
+	});
 	Object.preventExtensions(Person);
 	Person.prototype = Object.create(PersonModel.prototype, {
 		constructor: {value: Person},
@@ -81,6 +104,8 @@
 					self.perm     = r.perm;
 					self.name     = r.name;
 					self.namefull = r.namefull;
+					self.number   = r.number;
+					self.emails   = r.emails;
 				});
 			},
 		},
@@ -93,11 +118,18 @@
 		 */
 		save: {
 			value: function Person_save(){
-				return cses.request("PUT", "/person/"+this.id, {
+				var self = this;
+				var url = this.id? "/person/"+this.id : "/person";
+				return cses.request("PUT", url, {
 					post: {
 						name: this.name || undefined,
 						namefull: this.namefull || undefined,
+						number: this.number || undefined,
+						emails: this.id? undefined :(this.emails || undefined),
 					},
+				}).then(function(r){
+					self.id = r.id;
+					return self;
 				});
 			},
 		},
@@ -149,9 +181,11 @@
 	Object.preventExtensions(Post.prototype);
 	
 	var TBTBookModel = Paragon.create({
-		id: "",
+		id: undefined,
 		title: "",
+		price: undefined,
 		seller: undefined,
+		buyer:  undefined,
 		courses: {value: []},
 	});
 	
@@ -177,6 +211,7 @@
 						b.title = rb.title;
 						b.seller = new Person(rb.seller.id);
 						b.seller.name = rb.seller.name;
+						b.buyer = rb.buyer && new Person(rb.buyer);
 						return b;
 					});
 				});
@@ -192,9 +227,9 @@
 				var self = this;
 				return cses.request("GET", "/tbt/book/"+this.id).then(function(r){
 					self.id      = r.id;
-					self.title   = r.title;
 					self.price   = r.price
 					self.seller  = new Person(r.seller);
+					self.buyer   = r.buyer && new Person(r.buyer);
 					self.courses = r.courses;
 				});
 			},
@@ -208,6 +243,8 @@
 						title: this.title,
 						courses: this.courses,
 						price: this.price,
+						seller: this.seller && this.seller.id,
+						buyer: this.buyer && this.buyer.id,
 					},
 				});
 			},
@@ -314,10 +351,11 @@
 					}, function(xhr, status, error) {
 						if ( error === "" ) { // jQuery sucks.
 							console.log("Error, couldn't connect to API!");
-							r.reject({e:503, msg: "Could not connect to API."});
+							r.reject('{"e":503, "msg": "Could not connect to API."}');
+						} else {
+							//console.log(xhr.responseText, xhr);
+							r.reject(JSON.parse(xhr.responseText) || error);
 						}
-						//console.log(xhr.responseText, xhr);
-						r.reject(xhr.responseText || error);
 					});
 					
 					return r.promise;

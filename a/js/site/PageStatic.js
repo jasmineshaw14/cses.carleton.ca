@@ -26,6 +26,7 @@ function(Page)
 			unload: {
 				value: function PageStatic_unload(){
 					$content.detach();
+					Page.prototype.unload.call(this);
 				},
 			},
 		});

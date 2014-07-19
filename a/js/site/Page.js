@@ -6,7 +6,7 @@ define(["jquery"], function($){
 	 * @param $cont A jQuery element which to render the page into.
 	 */
 	function Page($cont) {
-		this.$cont = $cont;
+		this.$cont = $("<div>").appendTo($cont);
 	}
 	Object.defineProperties(Page.prototype, {
 		/** Load the page into the element.
@@ -26,7 +26,7 @@ define(["jquery"], function($){
 		 */
 		unload: {
 			value: function Page_unload() {
-				this.$cont.empty();
+				this.$cont.remove();
 			}
 		},
 	});

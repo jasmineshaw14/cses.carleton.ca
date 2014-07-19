@@ -1,5 +1,6 @@
-define(["jquery", "site/PageGenerated", "site/router", "cses", "scriptup", "underscore"],
-function($,        mkgen,                router,        cses,   scriptup,   _)
+define(["jquery", "site/PageGenerated", "site/router", "cses", "scriptup",
+	"underscore",
+], function($, mkgen, router, cses, scriptup, _)
 {
 	"use strict";
 	
@@ -77,6 +78,15 @@ function($,        mkgen,                router,        cses,   scriptup,   _)
 							book.seller.load().done(function(){
 								self.text(book.seller.namefull);
 							});
+						});
+						su("dt", "Bought By");
+						su("dd", function(su){
+							if (book.buyer) {
+								var self = this;
+								book.buyer.load().done(function(){
+									self.text(book.buyer.namefull);
+								});
+							} else this.text("None");
 						});
 					});
 				});

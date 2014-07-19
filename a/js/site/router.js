@@ -4,6 +4,7 @@ function(self,      $,        url)
 	"use strict";
 	
 	var oururl = url.parse(location.href);
+	var loadid = 0; // The "id" of the last load.
 	
 	/** A router for the application.
 	 * 
@@ -23,7 +24,6 @@ function(self,      $,        url)
 		if ( e.which != 1 ) return; // Only left click.
 		
 		var rel = self.relativeURL(this.href);
-		console.log(rel);
 		
 		if (rel) // Is in our site.
 		{
@@ -88,8 +88,12 @@ function(self,      $,        url)
 				].join("|")+"$")))
 					return self.load("index");
 				
+				var ourloadid = ++loadid;
+				
 				// Load the page.
 				require(["site/page/"+comp], function(Page) {
+					if (loadid != ourloadid) return; // Another load has started.
+					
 					if ( typeof Page != "function" ) // Probably can't reach server.
 					{
 						console.log("Error loading page!", "site/page/"+comp);
