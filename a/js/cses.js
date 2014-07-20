@@ -493,6 +493,8 @@
 			},
 		},
 		
+		blobprefix: {value: ((api.path="/blob/"), URL.build(api))},
+		
 		/** The Person constructor.
 		 */
 		Person: {value: Person, enumerable: true},

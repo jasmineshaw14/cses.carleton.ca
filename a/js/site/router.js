@@ -32,10 +32,10 @@ function(self,      $,        url)
 		}
 	});
 	
-	setTimeout(function(){ self.load(location.pathname.substr(1)) }, 0);
+	setTimeout(function(){ console.log($("#content"));self.load(location.pathname.substr(1)) }, 0);
 	
 	Object.defineProperties(self, {
-		$container: {value: $("<div>").appendTo(document.body)},
+		$container: {value: $("#content")},
 		curpage:  {value: undefined, writable: true},
 		
 		/** Get relative portion of URL.
@@ -180,6 +180,7 @@ function(self,      $,        url)
 		},
 	});
 	Object.preventExtensions(self);
+	console.log(self.$container);
 	
 	return self;
 });

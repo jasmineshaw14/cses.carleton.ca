@@ -66,5 +66,7 @@
 	// Turn on for better error messages.
 	require(["q1"],function(Q){Q.longStackSupport = true});
 	// Start
+	require(["site/ui/header"], function(header){});
+	require(["site/ui/footer"], function(footer){});
 	require(["site/main"], function(main){});
 }()
