@@ -48,7 +48,7 @@ function($, scriptup, cses)
 					},
 				}, function(su){
 					su("img", {
-						src: cses.blobprefix+"85513FFCBAB9503C17C0D3F5C65ED76796300188",
+						src: cses.blobprefix+"74942A93AF264C186677F5FAC01C80B672705948",
 						alt: "CSES Logo",
 						css: {
 							width: "5em",
