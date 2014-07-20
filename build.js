@@ -58,7 +58,7 @@
 	useStrict: true,
 	findNestedDependencies: true,
 	optimize: "uglify2",
-	optimizeCss: "none",
+	optimizeCss: "standard",
 	generateSourceMaps: true,
 	preserveLicenseComments: false,
 })

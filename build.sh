@@ -11,7 +11,7 @@ r.js -o 'build.js' "dir=$tdir/a/$ver/"
 rm "$tdir/a/$ver/build.txt" # Remove r.js's file.
 
 echo 'Generating index.html...'
-sed -e "s_/a/js/_/a/$ver/js/_g" \
+sed -e "s_/a/_/a/$ver/_g" \
     -e "s_http://localhost:8080_${api}_g" 'index.html' \
     | tr -d $'\n' > "$tdir/index.html"
 
