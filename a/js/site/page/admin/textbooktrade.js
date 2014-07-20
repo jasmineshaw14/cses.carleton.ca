@@ -1,10 +1,10 @@
 define([
 	"jquery", "site/PageGenerated", "site/session", "site/router", "cses",
-	"scriptup", "site/ui/PersonCompleter", "site/ui/PersonAdd",
+	"scriptup", "site/ui/PersonSelect",
 	"site/ui/lightbox",
 ], function(
-	$, mkgen, session, router, cses, scriptup, PersonCompleter,
-	PersonAdd, LightBox
+	$, mkgen, session, router, cses, scriptup, PersonSelect,
+	LightBox
 ) {
 	"use strict";
 	
@@ -64,29 +64,9 @@ define([
 						price = su("input", {type: "number", min:0, step:0.01});
 					}); su("br");
 					su("label", {text: "Seller"}, function(su){
-						su("input", {type: "text"}, function(su){
-							seller = new PersonCompleter(this);
-						});
-					});
-					su("button", {
-						type: "button",
-						text: "New Person",
-						on: {
-							click: function(e) {
-								e.preventDefault();
-								var lb = new LightBox();
-								var pa = PersonAdd();
-								pa.on("cses:personadd:added", function(e, p){
-									lb.open = false;
-									seller.value = p;
-								});
-								lb.$root.append(pa);
-								lb.styleFloating = true;
-								lb.open = true;
-							},
-						},
-					});
-					su("br");
+						seller = new PersonSelect();
+						this.append(seller.$root);
+					}); su("br");
 					su("button", {type: "submit", text: "Submit"});
 				});
 				error = su("div");

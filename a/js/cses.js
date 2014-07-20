@@ -38,7 +38,7 @@
 	
 	var PersonModel = Paragon.create({
 		id: 0,
-		perm: 0,
+		perms: 0,
 		name: "",
 		namefull: "",
 		number: undefined,
@@ -51,7 +51,7 @@
 	 * @property {String} id A hex string uniquely identifying the user.
 	 * @property {String} name Their informal name, this is what you should call them.
 	 * @property {String} namefull Their legal name.
-	 * @property {String} perm An array of permissions they have.
+	 * @property {String} perms An array of permissions they have.
 	 *
 	 * @class Person
 	 * @param id {String} The user id.
@@ -60,7 +60,7 @@
 		PersonModel.call(this);
 		
 		this.id = id; //|| cses.authuser.id;
-		this.perm = [];
+		this.perms = [];
 		this.name = "";
 		this.namefull = "";
 		this.emails = [];
@@ -101,7 +101,7 @@
 				
 				return cses.request("GET", "/person/"+this.id).then(function(r){
 					self.id       = r.id;
-					self.perm     = r.perm;
+					self.perms    = r.perms;
 					self.name     = r.name;
 					self.namefull = r.namefull;
 					self.number   = r.number;
@@ -227,9 +227,11 @@
 				var self = this;
 				return cses.request("GET", "/tbt/book/"+this.id).then(function(r){
 					self.id      = r.id;
-					self.price   = r.price
+					self.title   = r.title;
+					self.price   = r.price;
+					self.courses = r.courses;
 					self.seller  = new Person(r.seller);
-					self.buyer   = r.buyer && new Person(r.buyer);
+					self.buyer   = r.buyer && new Person(r.buyer) || undefined;
 					self.courses = r.courses;
 				});
 			},
@@ -240,12 +242,25 @@
 				var url = this.id? "/"+this.id : "/tbt/book";
 				return cses.request("PUT", url, {
 					post: {
-						title: this.title,
+						title:   this.title,
 						courses: this.courses,
-						price: this.price,
-						seller: this.seller && this.seller.id,
-						buyer: this.buyer && this.buyer.id,
+						price:   this.price,
+						seller:  this.seller && this.seller.id,
+						buyer:   this.buyer && this.buyer.id,
 					},
+				});
+			},
+		},
+		
+		sell: {
+			value: function tbtbook_sell(to) {
+				var self = this;
+				return cses.request("PUT", "/tbt/book/"+this.id, {
+					post: {
+						buyer: to.id,
+					}
+				}).then(function(){
+					self.buyer = to;
 				});
 			},
 		},
@@ -385,7 +400,7 @@
 					if (typeof tok != "string") tok = "";
 					
 					if (!tok) {
-						cses.authperm  = [];
+						cses.authperms = [];
 						cses.authuser  = undefined;
 					}
 					return tok;
@@ -409,7 +424,7 @@
 		 * This will always be an array but it will be empty when
 		 * `cses.authtoken` is an empty string.
 		 */
-		authperm: {value: [], writable: true},
+		authperms: {value: [], writable: true},
 		
 		/** Login to the API.
 		 * 
@@ -433,7 +448,7 @@
 					return cses.request("GET", "/auth", {
 						auth: user,
 					}).then(function(r){
-						cses.authperm = r.perm;
+						cses.authperms = r.perms;
 						cses.authuser = new Person(r.user);
 						def.resolve(user);
 						return r;
@@ -451,7 +466,7 @@
 						pass: pass,
 					},
 				}).then(function(r){
-					cses.authperm = r.perm;
+					cses.authperms = r.perms;
 					cses.authuser = new Person(r.user);
 					def.resolve(r.token);
 					return r;
