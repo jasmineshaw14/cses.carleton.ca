@@ -372,7 +372,7 @@
 					}, function(xhr, status, error) {
 						if ( error === "" ) { // jQuery sucks.
 							console.log("Error, couldn't connect to API!");
-							r.reject('{"e":503, "msg": "Could not connect to API."}');
+							r.reject({e:503, msg: "Could not connect to API."});
 						} else {
 							//console.log(xhr.responseText, xhr);
 							r.reject(JSON.parse(xhr.responseText) || error);

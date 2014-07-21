@@ -27,8 +27,8 @@ function(self,      $,        url)
 		
 		if (rel) // Is in our site.
 		{
-			e.preventDefault();
 			self.go(rel);
+			e.preventDefault();
 		}
 	});
 	
