@@ -17,10 +17,16 @@
 	"use strict";
 	var cses = {};
 	var api = URL.parse("https://api.cses.carleton.ca");
-	if (typeof location == "object" && location.hostname == "localhost")
-		api = URL.parse("http://localhost:8080");
-	else if (typeof location == "object" && location.hostname == "cses.kevincox.ca")
-		api = URL.parse("https://api.cses.kevincox.ca");
+	if (typeof location) {
+		if (location.hostname == "cses.carleton.ca")
+			; // Use default.
+		else if (location.hostname == "cses.kevincox.ca")
+			api = URL.parse("https://api.cses.kevincox.ca");
+		else {
+			api = URL.parse(location.href);
+			api.port = 8080;
+		}
+	}
 	var authtoken_ = Q("");
 	
 	var WM = window.WeakMap;

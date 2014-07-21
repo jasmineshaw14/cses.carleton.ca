@@ -32,7 +32,7 @@ function(self,      $,        url)
 		}
 	});
 	
-	setTimeout(function(){ console.log($("#content"));self.load(location.pathname.substr(1)) }, 0);
+	setTimeout(function(){ self.load(location.pathname.substr(1)) }, 0);
 	
 	Object.defineProperties(self, {
 		$container: {value: $("#content")},
@@ -180,7 +180,6 @@ function(self,      $,        url)
 		},
 	});
 	Object.preventExtensions(self);
-	console.log(self.$container);
 	
 	return self;
 });

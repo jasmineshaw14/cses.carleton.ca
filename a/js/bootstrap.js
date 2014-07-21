@@ -35,7 +35,7 @@
 			"ttps://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min",
 		],
 		url1: [
-			"https://kevincox-cdn.appspot.com/url-1.0.3.min",
+			"https://kevincox-cdn.appspot.com/url-1.0.4.min",
 			"/a/js/url1",
 		],
 	};

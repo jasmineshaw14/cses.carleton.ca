@@ -2,6 +2,11 @@ html {
 	font-family: sans-serif;
 }
 
+a, img {
+	border: none;
+	outline: none;
+}
+
 #header a, #footer a {
 	color: black;
 	text-decoration: none;

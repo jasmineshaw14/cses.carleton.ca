@@ -1,5 +1,5 @@
-define(["jquery", "scriptup", "cses"],
-function($, scriptup, cses)
+define(["jquery", "scriptup", "site/assets"],
+function($, scriptup, assets)
 {
 	"use strict";
 	
@@ -28,7 +28,7 @@ function($, scriptup, cses)
 					href: "/",
 				}, function(su){
 					su("img", {
-						src: cses.blobprefix+"74942A93AF264C186677F5FAC01C80B672705948",
+						src: assets.logoBordered,
 						alt: "CSES Logo",
 						css: {
 							display: "inline-block",
@@ -98,7 +98,7 @@ function($, scriptup, cses)
 				});
 				su("a", {href: "/"}, function(su){
 					su("img", {
-						src: cses.blobprefix+"74942A93AF264C186677F5FAC01C80B672705948",
+						src: assets.logoBordered,
 						alt: "CSES Logo",
 						css: {
 							width: "8em",

@@ -13,7 +13,7 @@ define(["jquery", "site/PageGenerated", "site/router", "cses", "scriptup",
 			if (!path.length) {
 				su("h1", {text: "Text Book Trade"});
 				
-				function populateBooks(){
+				var populateBooks = function populateBooks(){
 					cses.TBTBook.find({
 						course: course.val(),
 						title: title.val(),
