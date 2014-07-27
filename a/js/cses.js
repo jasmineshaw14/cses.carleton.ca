@@ -244,15 +244,16 @@
 		},
 		
 		save: {
-			value: function tbtbook_save() {
+			value: function tbtbook_save(authorizer) {
 				var url = this.id? "/"+this.id : "/tbt/book";
 				return cses.request("PUT", url, {
 					post: {
-						title:   this.title,
-						courses: this.courses,
-						price:   this.price,
-						seller:  this.seller && this.seller.id,
-						buyer:   this.buyer && this.buyer.id,
+						title:      this.title,
+						courses:    this.courses,
+						price:      this.price,
+						seller:     this.seller && this.seller.id,
+						buyer:      this.buyer && this.buyer.id,
+						authorizer: authorizer.id,
 					},
 				});
 			},

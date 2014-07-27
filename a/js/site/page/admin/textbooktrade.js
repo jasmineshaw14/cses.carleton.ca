@@ -1,9 +1,9 @@
 define([
 	"jquery", "site/PageGenerated", "site/session", "site/router", "cses",
-	"scriptup", "site/ui/PersonSelect",
+	"scriptup", "site/ui/PersonSelect", "site/ui/PersonCompleter",
 	"site/ui/lightbox",
 ], function(
-	$, mkgen, session, router, cses, scriptup, PersonSelect,
+	$, mkgen, session, router, cses, scriptup, PersonSelect, PersonCompleter,
 	LightBox
 ) {
 	"use strict";
@@ -31,7 +31,7 @@ define([
 			} else if (path[0] == "add") {
 				su("h1", "Textbook Trade Add");
 				var error;
-				var title, courses, price, seller;
+				var title, courses, price, seller, authorized;
 				su("form", {
 					on: {submit: function(e){
 						e.preventDefault();
@@ -44,7 +44,7 @@ define([
 						                   .filter(function(s){return s});
 						b.price = price.val() || undefined;
 						b.seller = seller.value;
-						b.save().then(function(r){
+						b.save(authorized.value).then(function(r){
 							router.go("/textbooktrade/book/"+r.id);
 						}, function(e){
 							console.log(e, e.msg);
@@ -66,6 +66,11 @@ define([
 					su("label", {text: "Seller"}, function(su){
 						seller = new PersonSelect();
 						this.append(seller.$root);
+					}); su("br");
+					su("label", {text: "Authorized By"}, function(su){
+						su("input", {type: "text"}, function(su){
+							authorized = new PersonCompleter(this);
+						});
 					}); su("br");
 					su("button", {type: "submit", text: "Submit"});
 				});

@@ -8,7 +8,7 @@ define([
 	"use strict";
 	
 	function PersonSelect() {
-		this.$root = $("<div>");
+		this.$root = $("<span>");
 		this.comp  = new PersonCompleter($("<input>", {type: "text", appendTo: this.$root}));
 		$("<button>", {
 			type: "button",
