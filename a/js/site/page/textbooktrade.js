@@ -4,6 +4,33 @@ define(["jquery", "site/PageGenerated", "site/router", "cses", "scriptup",
 {
 	"use strict";
 	
+	function genadmin(su, b) {
+		su("h2", "TBT Admin");
+		
+		su("a", {href: "/textbooktrade/book/"+b.id+"/history", text: "View History"});
+		
+		var buyer, error;
+		su("h3", "Sell Book");
+		su("form", {
+			on: {
+				submit: function(e){
+					e.preventDefault();
+					
+					book.sell(buyer.value).except(function(r){
+						error.text(r.msg);
+					});
+				},
+			},
+		}, function(su){
+			su("label", "Buyer", function(su){
+				buyer = new PersonSelect();
+				this.append(buyer.$root);
+			});
+			su("button", {type: "submit", text: "Sell"});
+			error = su("p");
+		});
+	}
+	
 	return mkgen(function($cont){
 		document.title = "Text Book Trade — CSES";
 		
@@ -65,68 +92,79 @@ define(["jquery", "site/PageGenerated", "site/router", "cses", "scriptup",
 			} else if (path[0] == "book") {
 				var book = new cses.TBTBook(path[1]);
 				book.load();
-				su("dl", function(su){
-					su("dt", "Title");
-					su("dd", function(){
-						book.titlechanged.add(function(t){this.text(t)}, this);
-					});
-					su("dt", "Price");
-					su("dd", function(){
-						book.pricechanged.add(function(p){this.text("$ "+p)}, this);
-					});
-					su("dt", "Courses");
-					su("dd", function(){
-						book.courseschanged.add(function(c){
-							this.text(c.join(", "))
-						}, this);
-					});
-					su("dt", "Seller");
-					su("dd", function(su){
-						var self = this;
-						book.sellerchanged.add(function(s){
-							s.namefullchanged.add(function(nf){
-								self.text(nf);
-							});
-							s.load();
+				if (path.length == 2) {
+					su("dl", function(su){
+						su("dt", "Title");
+						su("dd", function(){
+							book.titlechanged.add(function(t){this.text(t)}, this);
 						});
-					});
-					su("dt", "Bought By");
-					su("dd", function(su){
-						var self = this;
-						book.buyerchanged.add(function(b){
-							if (b) {
-								b.namefullchanged.add(function(nf){
+						su("dt", "Price");
+						su("dd", function(){
+							book.pricechanged.add(function(p){this.text("$ "+p)}, this);
+						});
+						su("dt", "Courses");
+						su("dd", function(){
+							book.courseschanged.add(function(c){
+								this.text(c.join(", "))
+							}, this);
+						});
+						su("dt", "Seller");
+						su("dd", function(su){
+							var self = this;
+							book.sellerchanged.add(function(s){
+								s.namefullchanged.add(function(nf){
 									self.text(nf);
 								});
-								b.load();
-							} else self.text("None");
+								s.load();
+							});
+						});
+						su("dt", "Bought By");
+						su("dd", function(su){
+							var self = this;
+							book.buyerchanged.add(function(b){
+								if (b) {
+									b.namefullchanged.add(function(nf){
+										self.text(nf);
+									});
+									b.load();
+								} else self.text("None");
+							});
 						});
 					});
-				});
-				cses.authtoken.done(function(){
-					if (cses.authperms.indexOf("tbt") >= 0) {
-						var buyer, error;
-						su("h2", "Sell Book");
-						su("form", {
-							on: {
-								submit: function(e){
-									e.preventDefault();
-									
-									book.sell(buyer.value).except(function(r){
-										error.text(r.msg);
+					cses.authtoken.done(function(){
+						if (cses.authperms.indexOf("tbt") >= 0) {
+							genadmin(su, book);
+						}
+					});
+				} else if (path[2] == "history") {
+					su("h1", "History");
+					su("ul", function(su){
+						book.changeschanged.add(function(cs){
+							cs.forEach(function(c){
+								su("li", {
+									css: {
+										whiteSpace: "pre",
+									}
+								}, function(su){
+									su("a", {
+										href: "/people/"+c.by.id,
+										text: c.by.id,
+									}, function(su){
+										c.by.namefullchanged.add(function(n){
+											this.text(n);
+										}, this);
+										c.by.load();
 									});
-								},
-							},
-						}, function(su){
-							su("label", "Buyer", function(su){
-								buyer = new PersonSelect();
-								this.append(buyer.$root);
+									this.append(" ");
+									su("span", c.desc);
+								});
 							});
-							su("button", {type: "submit", text: "Sell"});
-							error = su("p");
 						});
-					}
-				});
+					});
+					book.loadChanges();
+				} else {
+					router.load("/404");
+				}
 			} else {
 				router.load("/404");
 			}

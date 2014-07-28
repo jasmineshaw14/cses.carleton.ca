@@ -193,6 +193,7 @@
 		seller: undefined,
 		buyer:  undefined,
 		courses: {value: []},
+		changes: {value: []},
 	});
 	
 	function TBTBook(id) {
@@ -239,6 +240,22 @@
 					self.seller  = new Person(r.seller);
 					self.buyer   = r.buyer && new Person(r.buyer) || undefined;
 					self.courses = r.courses;
+				});
+			},
+		},
+		
+		loadChanges: {
+			value: function tbtbook_loadChanges() {
+				var self = this;
+				return cses.request("GET", "/tbt/book/"+this.id+"/changes")
+				           .then(function(r){
+					self.changes = r.changes.map(function(c){
+						return {
+							by: new Person(c.by),
+							time: new Date(c.time*1000),
+							desc: c.desc,
+						};
+					});
 				});
 			},
 		},
