@@ -222,8 +222,14 @@
 						return b;
 					});
 				});
-			}
-		}
+			},
+		},
+		
+		stats: {
+			value: function TBTBook_stats() {
+				return cses.request("GET", "/tbt/book/stats");
+			},
+		},
 	});
 	Object.preventExtensions(TBTBook);
 	TBTBook.prototype = Object.create(TBTBookModel.prototype, {

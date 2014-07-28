@@ -27,7 +27,18 @@ define([
 				});
 			} else if (path[0] == "summary") {
 				su("h1", "Textbook Trade Summary");
-				su("p", "Comming Soon!");
+				cses.TBTBook.stats().then(function(s){
+					su("dl", function(su){
+						su("dt", "Total Value");
+						su("dd", "$"+s.price);
+						su("dt", "Total Books");
+						su("dd", ""+s.books);
+						su("dt", "Sold Value");
+						su("dd", "$"+s.pricesold);
+						su("dt", "Sold Books");
+						su("dd", ""+s.bookssold);
+					});
+				});
 			} else if (path[0] == "add") {
 				su("h1", "Textbook Trade Add");
 				var error;
