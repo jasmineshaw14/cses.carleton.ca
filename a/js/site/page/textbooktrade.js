@@ -1,6 +1,6 @@
 define(["jquery", "site/PageGenerated", "site/router", "cses", "scriptup",
-	"underscore", "site/ui/PersonSelect",
-], function($, mkgen, router, cses, scriptup, _, PersonSelect)
+	"underscore", "site/ui/PersonSelect", "url1",
+], function($, mkgen, router, cses, scriptup, _, PersonSelect, URL)
 {
 	"use strict";
 	
@@ -40,11 +40,19 @@ define(["jquery", "site/PageGenerated", "site/router", "cses", "scriptup",
 			if (!path.length) {
 				su("h1", {text: "Text Book Trade"});
 				
+				var url = URL.parse(document.location.href);
+				url.get = url.get || {};
+				
 				var populateBooks = function populateBooks(){
+					url.get.course = course.val() || undefined;
+					url.get.title  = title.val()  || undefined;
+					url.get.sold   = sold.prop("checked");
+					router.updateURL(URL.build(url));
+					
 					cses.TBTBook.find({
 						course: course.val(),
 						title: title.val(),
-						sold: sold.is(":checked"),
+						sold: sold.prop("checked"),
 					}).done(function(r){
 						list.empty();
 						scriptup(list, function(su){
@@ -68,6 +76,7 @@ define(["jquery", "site/PageGenerated", "site/router", "cses", "scriptup",
 				su("label", {text: "Filter by course: "}, function(su){
 					course = su("input", {
 						type: "text",
+						val: url.get.course,
 						placeholder: "Course code",
 						spellcheck: false,
 						on: {keyup: populateBooksThrottled},
@@ -76,6 +85,7 @@ define(["jquery", "site/PageGenerated", "site/router", "cses", "scriptup",
 				su("label", {text: "Filter by Title: "}, function(su){
 					title = su("input", {
 						type: "text",
+						val: url.get.title,
 						placeholder: "Title",
 						on: {keyup: populateBooksThrottled},
 					});
@@ -83,6 +93,7 @@ define(["jquery", "site/PageGenerated", "site/router", "cses", "scriptup",
 				su("label", {text: "Show sold.",}, function(su){
 					sold = su("input", {
 						type: "checkbox",
+						checked: url.get.sold,
 						on: {change: populateBooks},
 					});
 				}); su("br");

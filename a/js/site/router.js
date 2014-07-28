@@ -19,8 +19,7 @@ function(self,      $,        url)
 	addEventListener("popstate", function(){
 		self._onpopstate();
 	});
-	$(document).delegate("a", "click", function (e)
-	{
+	$(document).delegate("a", "click", function (e) {
 		if ( e.which != 1 ) return; // Only left click.
 		
 		var rel = self.relativeURL(this.href);
