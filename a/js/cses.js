@@ -277,11 +277,12 @@
 		},
 		
 		sell: {
-			value: function tbtbook_sell(to) {
+			value: function tbtbook_sell(auth, to) {
 				var self = this;
 				return cses.request("PUT", "/tbt/book/"+this.id, {
 					post: {
-						buyer: to.id,
+						authorizer: auth.id,
+						buyer:      to.id,
 					}
 				}).then(function(){
 					self.buyer = to;

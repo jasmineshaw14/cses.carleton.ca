@@ -1,33 +1,49 @@
-define(["jquery", "site/PageGenerated", "site/router", "cses", "scriptup",
-	"underscore", "site/ui/PersonSelect", "url1",
-], function($, mkgen, router, cses, scriptup, _, PersonSelect, URL)
-{
+define([
+	"jquery", "site/PageGenerated", "site/router", "cses", "scriptup",
+	"underscore", "site/ui/PersonSelect", "site/ui/PersonCompleter", "url1",
+], function(
+	$, mkgen, router, cses, scriptup, _, PersonSelect, PersonComplete, URL
+) {
 	"use strict";
 	
-	function genadmin(su, b) {
+	function genadmin(su, book) {
 		su("h2", "TBT Admin");
 		
-		su("a", {href: "/textbooktrade/book/"+b.id+"/history", text: "View History"});
+		su("a", {href: "/textbooktrade/book/"+book.id+"/history", text: "View History"});
 		
-		var buyer, error;
-		su("h3", "Sell Book");
-		su("form", {
-			on: {
-				submit: function(e){
-					e.preventDefault();
-					
-					book.sell(buyer.value).except(function(r){
-						error.text(r.msg);
+		su("div", function(su){
+			book.buyerchanged.add(function(b){
+				if (b) {
+					this.empty();
+					return;
+				}
+				
+				var buyer, auth, error;
+				su("h3", "Sell Book");
+				su("form", {
+					on: {
+						submit: function(e){
+							e.preventDefault();
+							
+							book.sell(auth.value, buyer.value).then(undefined, function(r){
+								error.text(r.msg);
+							});
+						},
+					},
+				}, function(su){
+					su("label", "Buyer", function(su){
+						buyer = new PersonSelect();
+						this.append(buyer.$root);
+					}); su("br");
+					su("label", "Authorized By", function(su){
+						su("input", {type: "text"}, function(su){
+							auth = new PersonComplete(this);
+						});
 					});
-				},
-			},
-		}, function(su){
-			su("label", "Buyer", function(su){
-				buyer = new PersonSelect();
-				this.append(buyer.$root);
-			});
-			su("button", {type: "submit", text: "Sell"});
-			error = su("p");
+					su("button", {type: "submit", text: "Sell"});
+					error = su("p");
+				});
+			}, this);
 		});
 	}
 	
