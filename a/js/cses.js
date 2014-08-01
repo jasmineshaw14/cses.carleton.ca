@@ -29,18 +29,53 @@
 	}
 	var authtoken_ = Q("");
 	
-	var WM = window.WeakMap;
-	if (typeof WM != "function") {
-		// Oh noes!  Define our fully compliant WeakMap shim.
-		WM = function FakeWeakMap(){};
-		Object.defineProperties(WM.prototype, {
-			get: {value:function WM_get(k, v){return k["_FakeWeakMapPriv"]}},
-			set: {value:function WM_set(k, v){
-				Object.defineProperty(k, "_FakeWeakMapPriv", {writable:true});
-				k["_FakeWeakMapPriv"] = v;
-			}},
-		});
+	function Response(url){
+		this.xhr = undefined;
+		this.url = url;
+		this.raw = undefined;
 	}
+	Object.preventExtensions(Response);
+	Object.defineProperties(Response.prototype, {
+		status: {
+			get: function response_status_get(){
+				return this.xhr? this.xhr.status : 0;
+			},
+			enumerable: true,
+		},
+		error: {
+			get: function response_error_get(){
+				if (!this.status)
+					throw new TypeError("Response has not yet completed.");
+				
+				return 200 <= this.status && this.status < 300;
+			},
+			enumerable: true,
+		},
+	});
+	Object.preventExtensions(Response.prototype);
+	
+	function ResponseJSON() {
+		Response.call(this, arguments);
+	}
+	Object.preventExtensions(ResponseJSON);
+	ResponseJSON.prototype = Object.create(Response.prototype, {
+		constructor: {value: ResponseJSON},
+		
+		error: {
+			get: function responseJSON_error_get(){
+				return Response.prototype.error.call(this) && !this.json.e;
+			}
+		},
+		
+		json: {
+			get: function responseJSON_json_get(){
+				if (this._json) return this._json;
+				
+				return this._json = JSON.parse(this.raw);
+			},
+		},
+	});
+	Object.preventExtensions(ResponseJSON.prototype);
 	
 	var PersonModel = Paragon.create({
 		id: 0,
@@ -80,7 +115,7 @@
 						number: q.number,
 					},
 				}).then(function(r){
-					return r.people.map(function(p){
+					return r.json.people.map(function(p){
 						var r = new Person(p.id);
 						r.name = p.name;
 						r.namefull = p.namefull;
@@ -106,12 +141,12 @@
 				var self = this;
 				
 				return cses.request("GET", "/person/"+this.id).then(function(r){
-					self.id       = r.id;
-					self.perms    = r.perms;
-					self.name     = r.name;
-					self.namefull = r.namefull;
-					self.number   = r.number;
-					self.emails   = r.emails;
+					self.id       = r.json.id;
+					self.perms    = r.json.perms;
+					self.name     = r.json.name;
+					self.namefull = r.json.namefull;
+					self.number   = r.json.number;
+					self.emails   = r.json.emails;
 				});
 			},
 		},
@@ -134,7 +169,7 @@
 						emails: this.id? undefined :(this.emails || undefined),
 					},
 				}).then(function(r){
-					self.id = r.id;
+					self.id = r.json.id;
 					return self;
 				});
 			},
@@ -162,7 +197,8 @@
 						dir: o.dir,
 					}
 				}).then(function(r){
-					return r.posts;
+					//TODO: Wrap.
+					return r.json.posts;
 				});
 			},
 		},
@@ -175,11 +211,11 @@
 			value: function post_load(){
 				var self = this;
 				return cses.request("GET", "/post/"+this.id).then(function(r){
-					self.id      = r.id;
-					self.slug    = r.slug;
-					self.title   = r.title;
-					self.type    = r.type
-					self.content = $("<div>", {html: r.content});
+					self.id      = r.json.id;
+					self.slug    = r.json.slug;
+					self.title   = r.json.title;
+					self.type    = r.json.type
+					self.content = $("<div>", {html: r.json.content});
 				});
 			},
 		},
@@ -205,7 +241,6 @@
 		find: {
 			value: function TBTBook_find(q) {
 				q = q || {};
-				console.log(!!q.sold);
 				return cses.request("GET", "/tbt/book", {
 					get: {
 						course: q.course || undefined,
@@ -213,7 +248,7 @@
 						sold:   !!q.sold,
 					}
 				}).then(function(r){
-					return r.books.map(function(rb){
+					return r.json.books.map(function(rb){
 						var b = new TBTBook(rb.id);
 						b.title = rb.title;
 						b.seller = new Person(rb.seller.id);
@@ -227,7 +262,9 @@
 		
 		stats: {
 			value: function TBTBook_stats() {
-				return cses.request("GET", "/tbt/book/stats");
+				return cses.request("GET", "/tbt/book/stats").then(function(res){
+					return res.json;
+				});
 			},
 		},
 	});
@@ -239,13 +276,13 @@
 			value: function tbtbook_load() {
 				var self = this;
 				return cses.request("GET", "/tbt/book/"+this.id).then(function(r){
-					self.id      = r.id;
-					self.title   = r.title;
-					self.price   = r.price;
-					self.courses = r.courses;
-					self.seller  = new Person(r.seller);
-					self.buyer   = r.buyer && new Person(r.buyer) || undefined;
-					self.courses = r.courses;
+					self.id      = r.json.id;
+					self.title   = r.json.title;
+					self.price   = r.json.price;
+					self.courses = r.json.courses;
+					self.seller  = new Person(r.json.seller);
+					self.buyer   = r.json.buyer && new Person(r.json.buyer) || undefined;
+					self.courses = r.json.courses;
 				});
 			},
 		},
@@ -255,7 +292,7 @@
 				var self = this;
 				return cses.request("GET", "/tbt/book/"+this.id+"/changes")
 				           .then(function(r){
-					self.changes = r.changes.map(function(c){
+					self.changes = r.json.changes.map(function(c){
 						return {
 							by: new Person(c.by),
 							time: new Date(c.time*1000),
@@ -297,6 +334,33 @@
 		},
 	});
 	Object.preventExtensions(TBTBook.prototype);
+	
+	function BannerImage(s,w,h){
+		this.src    = s;
+		this.width  = w;
+		this.height = h;
+	}
+	Object.preventExtensions(BannerImage);
+	Object.preventExtensions(BannerImage.prototype);
+	
+	var BannerModel = Paragon.create({
+		images: {value: []},
+		desc:   "",
+	});
+	function Banner() {
+	}
+	Object.defineProperties(Banner, {
+		fetchAll: {
+			value: function Banner_fetchAll(){
+				
+			},
+		},
+	});
+	Object.preventExtensions(Banner);
+	Banner.prototype = Object.create(BannerModel.prototype, {
+		constructor: {value: Banner},
+	});
+	Object.preventExtensions(Banner.prototype);
 	
 	function uploadFile(f) {
 		return cses.authtoken.then(function(auth){
@@ -362,7 +426,7 @@
 		 *       If provided will be serialized and used as the body of the
 		 *       request.
 		 * 
-		 * @return [Promise<Object>] The response.
+		 * @return [Promise<Response>] The response.
 		 */
 		request: {
 			value: function CSES_request(method, path, opt) {
@@ -372,6 +436,8 @@
 				api.path = path;
 				api.get  = opt.get;
 				var burl = URL.build(api);
+				
+				var response = new ResponseJSON();
 				
 				return Q(opt.auth).then(function(auth){
 					var r = Q.defer();
@@ -391,24 +457,20 @@
 						contentType: opt.post ? "application/json" : undefined,
 						data: opt.post ? JSON.stringify(opt.post) : undefined,
 						dataType: "text",
-					}).then(function(data, status, xhr) {
-						//console.log(xhr.responseText, xhr);
-						r.resolve(xhr.responseText);
-					}, function(xhr, status, error) {
-						if ( error === "" ) { // jQuery sucks.
-							console.log("Error, couldn't connect to API!");
-							r.reject({e:503, msg: "Could not connect to API."});
-						} else {
-							//console.log(xhr.responseText, xhr);
-							r.reject(JSON.parse(xhr.responseText) || error);
-						}
+						
+						success: function jqajax_success(data, msg, xhr) {
+							response.xhr = xhr;
+							response.raw = data;
+							r.resolve(response);
+						},
+						error: function jqajax_error(xhr, msg, httpstatustext){
+							response.xhr = xhr;
+							response.raw = xhr.responseText;
+							r.reject(response);
+						},
 					});
 					
 					return r.promise;
-				}).then(function(r) {
-					var j = JSON.parse(r);
-					console.log(burl, j);
-					return j;
 				});
 			},
 			enumerable: true,
@@ -479,8 +541,8 @@
 					return cses.request("GET", "/auth", {
 						auth: user,
 					}).then(function(r){
-						cses.authperms = r.perms;
-						cses.authuser = new Person(r.user);
+						cses.authperms = r.json.perms;
+						cses.authuser = new Person(r.json.user);
 						def.resolve(user);
 						return r;
 					}, function(r){
@@ -497,9 +559,9 @@
 						pass: pass,
 					},
 				}).then(function(r){
-					cses.authperms = r.perms;
-					cses.authuser = new Person(r.user);
-					def.resolve(r.token);
+					cses.authperms = r.json.perms;
+					cses.authuser = new Person(r.json.user);
+					def.resolve(r.json.token);
 					return r;
 				}, function(r){
 					def.resolve(false);
