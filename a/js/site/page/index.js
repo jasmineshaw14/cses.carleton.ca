@@ -7,6 +7,9 @@ function($,        cses,   router,        mkgen,                templates,      
 		var s = location.pathname.substr(1);
 		if (!s) { // Index page.
 			scriptup($cont, function(su){
+				su("div", function(su){
+					
+				});
 				su("h1", {text: "Welcome to the CSES site."});
 				su("p", {text: "There is nothing here yet."});
 				su("ul", function(su){

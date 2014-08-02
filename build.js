@@ -61,4 +61,12 @@
 	optimizeCss: "standard",
 	generateSourceMaps: true,
 	preserveLicenseComments: false,
+	
+	uglify2: {
+		compress: {
+			global_defs: {
+				PRODUCTION: true,
+			},
+		},
+	},
 })

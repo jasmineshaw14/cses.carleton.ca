@@ -1,3 +1,5 @@
+window.DEBUG = true; // Never actually checked if true.
+
 +function(){
 	"use strict";
 	
@@ -40,9 +42,8 @@
 		],
 	};
 	
-	if (location.hostname == "localhost") {
+	if (DEBUG) {
 		///// Source versions for easy debugging.
-		// backbone has source map.
 		paths.jquery.unshift(
 			"https://cdn.jsdelivr.net/jquery/2.1.0/jquery",
 			"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery");
@@ -51,9 +52,6 @@
 			"https://cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals");
 		paths.q1.unshift(
 			"https://cdnjs.cloudflare.com/ajax/libs/q.js/1.0.1/q");
-		//paths.store2.unshift( Doesn't define itself.
-		//	"https://cdn.jsdelivr.net/store/2.1.2/store2");
-		// underscore has source map.
 	}
 	
 	require.config({
@@ -63,10 +61,11 @@
 		//enforceDefine: true,
 	});
 	
-	// Turn on for better error messages.
-	require(["q1"],function(Q){Q.longStackSupport = true});
+	if (DEBUG) {
+		// Turn on for better error messages.
+		require(["q1"],function(Q){Q.longStackSupport = true});
+	}
+	
 	// Start
-	require(["site/ui/header"], function(header){});
-	require(["site/ui/footer"], function(footer){});
-	require(["site/main"], function(main){});
+	require(["site/ui/header", "site/ui/footer", "site/main"]);
 }()

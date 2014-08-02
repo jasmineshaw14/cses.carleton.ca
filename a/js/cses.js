@@ -17,7 +17,7 @@
 	"use strict";
 	var cses = {};
 	var api = URL.parse("https://api.cses.carleton.ca");
-	if (typeof location) {
+	if (typeof location == "object") {
 		if (location.hostname == "cses.carleton.ca")
 			; // Use default.
 		else if (location.hostname == "cses.kevincox.ca")
@@ -388,7 +388,10 @@
 	Object.defineProperties(Banner, {
 		fetchAll: {
 			value: function Banner_fetchAll(){
-				
+				return cses.request("GET", "/banner").then(function(r){
+					console.log(r.json);
+					return r.json;
+				});
 			},
 		},
 	});
