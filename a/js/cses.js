@@ -29,25 +29,55 @@
 	}
 	var authtoken_ = Q("");
 	
-	function Response(url){
-		this.xhr = undefined;
+	/// Super method.
+	function superm(self, sup, prop) {
+		return sup.prototype[prop].apply(self, [].prototype.slice(3));
+	}
+	/// Super get.
+	function superg(self, sup, prop) {
+		return Object.getOwnPropertyDescriptor(sup.prototype, prop).get.call(self);
+	}
+	/// Super set.
+	function supers(self, sup, prop, val) {
+		return Object.getOwnPropertyDescriptor(sup.prototype, prop).set.call(self, val);
+	}
+	
+	function Response(url, xhr){
+		this.xhr = xhr;
 		this.url = url;
-		this.raw = undefined;
 	}
 	Object.preventExtensions(Response);
 	Object.defineProperties(Response.prototype, {
 		status: {
 			get: function response_status_get(){
-				return this.xhr? this.xhr.status : 0;
+				return this.xhr.status;
 			},
 			enumerable: true,
 		},
-		error: {
+		raw: {
+			get: function response_raw_get(){
+				return this.done? this.xhr.responseText : undefined;
+			},
+		},
+		done: {
+			get: function response_done_get(){
+				return this.xhr.readyState == 4;
+			},
+		},
+		msg: {
+			get: function response_msg_get(){
+				if (!this.done) return "In flight";
+				
+				// Trim off code.
+				return this.xhr.statusText.slice(3) || "API not accessable";
+			},
+		},
+		success: {
 			get: function response_error_get(){
-				if (!this.status)
+				if (!this.done)
 					throw new TypeError("Response has not yet completed.");
 				
-				return 200 <= this.status && this.status < 300;
+				return this.status >= 200 && this.status < 300;
 			},
 			enumerable: true,
 		},
@@ -55,15 +85,15 @@
 	Object.preventExtensions(Response.prototype);
 	
 	function ResponseJSON() {
-		Response.call(this, arguments);
+		Response.apply(this, arguments);
 	}
 	Object.preventExtensions(ResponseJSON);
 	ResponseJSON.prototype = Object.create(Response.prototype, {
 		constructor: {value: ResponseJSON},
 		
-		error: {
+		success: {
 			get: function responseJSON_error_get(){
-				return Response.prototype.error.call(this) && !this.json.e;
+				return superg(this, Response, "success") && !this.json.e;
 			}
 		},
 		
@@ -74,6 +104,12 @@
 				return this._json = JSON.parse(this.raw);
 			},
 		},
+		
+		toString: {
+			value: function responseJSON_toString(){
+				return "<ResponseJSON "+this.url+" "+this.status+" ("+this.msg+")>";
+			}
+		}
 	});
 	Object.preventExtensions(ResponseJSON.prototype);
 	
@@ -437,38 +473,32 @@
 				api.get  = opt.get;
 				var burl = URL.build(api);
 				
-				var response = new ResponseJSON();
-				
 				return Q(opt.auth).then(function(auth){
 					var r = Q.defer();
 					
-					var headers = {
-						"Content-Type": "application/json",
-					};
-					if (auth)
-						headers["Authorization"] = "Bearer "+auth;
+					var req = new XMLHttpRequest();
+					req.open(method, burl);
 					
-					$.ajax({
-						method: method,
-						url: burl,
+					if (auth)
+						req.setRequestHeader("Authorization", "Bearer "+auth);
+					
+					if (opt.post) {
+						req.setRequestHeader("Content-Type", "application/json");
+						req.send(JSON.stringify(opt.post));
+					} else
+						req.send();
+					
+					var response = new ResponseJSON(burl, req);
+					
+					req.onreadystatechange = function cses_request_readystate(){
+						if (!response.done) return;
 						
-						headers: headers,
-						
-						contentType: opt.post ? "application/json" : undefined,
-						data: opt.post ? JSON.stringify(opt.post) : undefined,
-						dataType: "text",
-						
-						success: function jqajax_success(data, msg, xhr) {
-							response.xhr = xhr;
-							response.raw = data;
-							r.resolve(response);
-						},
-						error: function jqajax_error(xhr, msg, httpstatustext){
-							response.xhr = xhr;
-							response.raw = xhr.responseText;
+						if (response.success) r.resolve(response);
+						else {
+							console.log("Request Failed", response);
 							r.reject(response);
-						},
-					});
+						}
+					};
 					
 					return r.promise;
 				});
