@@ -35,7 +35,7 @@ function(self,      $,        store,    router,        cses){
 		login: {
 			value: function session_login(user, pass) {
 				return cses.authorize(user, pass).then(function(r){
-					store.set("authtoken", r.token);
+					store.set("authtoken", r.json.token);
 					console.log("Login Successful", r);
 				}, function(){
 					store.remove("authtoken");
