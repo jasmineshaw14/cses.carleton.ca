@@ -48,7 +48,7 @@ function($, scriptup, assets)
 					},
 				}, function(su){
 					su("img", {
-						src: assets.logoBordered,
+						src: assets.logo,
 						alt: "CSES Logo",
 						css: {
 							width: "5em",

@@ -28,7 +28,7 @@ function($, scriptup, assets)
 					href: "/",
 				}, function(su){
 					su("img", {
-						src: assets.logoBordered,
+						src: assets.logo,
 						alt: "CSES Logo",
 						css: {
 							display: "inline-block",
@@ -82,13 +82,16 @@ function($, scriptup, assets)
 			css: {
 				textAlign: "center",
 				fontSize: "1.3rem",
+				marginBottom: "4em",
+				
+				background: "linear-gradient(to bottom, hsl(0,0%,100%), hsl(0,0%,97%))",
+				borderBottom: "0.1em solid hsl(0, 0%, 83%)",
+				// boxShadow: "hsl(0, 0%, 60%) 0 0 3em -0.5em",
 			},
 		}, function(su){
 			su("div", {
 				css: {
 					display: "inline-block",
-					marginBottom: "3em",
-					borderBottom: "1px solid black",
 				},
 			}, function(su){
 				navlinkcont(su, function(su){
@@ -96,14 +99,36 @@ function($, scriptup, assets)
 						navlink(su, links[i]);
 					}
 				});
-				su("a", {href: "/"}, function(su){
+				su("a", {
+					href: "/",
+					css: {
+						position: "relative",
+						display: "inline-block",
+						width: "8em",
+						height: "7.5em",
+						margin: "0",
+						padding: "0",
+						verticalAlign: "bottom",
+					},
+				}, function(su){
 					su("img", {
-						src: assets.logoBordered,
+						src: assets.headerBasket,
+						css: {
+							position: "absolute",
+							width: "15.92em",
+							left: "-3.96em",
+							bottom: "-4.61em"
+						},
+					});
+					su("img", {
+						src: assets.logo,
 						alt: "CSES Logo",
 						css: {
+							position: "absolute",
 							width: "8em",
-							margin: "0 -0.3em -4em",
-						}
+							left: "0",
+							bottom: "-3.8em"
+						},
 					});
 				});
 				navlinkcont(su, function(su){
