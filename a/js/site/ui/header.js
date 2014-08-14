@@ -82,7 +82,7 @@ function($, scriptup, assets)
 			css: {
 				textAlign: "center",
 				fontSize: "1.3rem",
-				marginBottom: "4em",
+				marginBottom: "5em",
 				
 				background: "linear-gradient(to bottom, hsl(0,0%,100%), hsl(0,0%,97%))",
 				borderBottom: "0.1em solid hsl(0, 0%, 83%)",
