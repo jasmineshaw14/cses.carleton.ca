@@ -14,9 +14,10 @@ body {
 }
 body > * {
 	display: table-row;
+	height: 1px;
 }
-body > * > * {
-	display: table-cell;
+#content-cont {
+	height: auto;
 }
 
 a, img {
@@ -37,5 +38,4 @@ a, img {
 #content {
 	max-width: 50em;
 	margin: auto;
-	height: auto;
 }
