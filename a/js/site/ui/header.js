@@ -1,5 +1,5 @@
-define(["jquery", "scriptup", "site/assets"],
-function($, scriptup, assets)
+define(["jquery", "scriptup", "site/assets", "site/theme", "jss"],
+function($, scriptup, assets, theme, jss)
 {
 	"use strict";
 	
@@ -14,11 +14,25 @@ function($, scriptup, assets)
 		{text: "Contact", href: "/contact"},
 	];
 	
+	var linkstyle = new jss.Style({
+		textTransform: "lowercase",
+	});
+	var titlestyle = new jss.Style({
+		textTransform: "uppercase",
+	});
+	
 	function drawHeader480(){
 		return scriptup("h1", "No small header");
 	}
-	function drawHeader850(){
+	
+	var header1000_container = new jss.Style("&>*", {
+		display: "inline-block",
+		margin: "1.3em 1.3em 0 0",
+		verticalAlign: "middle",
+	});
+	function drawHeader1000(){
 		return scriptup("div", {
+			class: header1000_container.classes,
 			css: {
 				textAlign: "center",
 				fontSize: "1.3rem",
@@ -31,20 +45,13 @@ function($, scriptup, assets)
 						src: assets.logo,
 						alt: "CSES Logo",
 						css: {
-							display: "inline-block",
 							maxWidth: "8em",
-							marginBottom: "-1.4em", // For when the links wrap.
 						}
 					});
 				});
 				su("ul", {
 					css: {
-						display: "inline-block",
-						padding: 0,
-						margin: "1.4em 0 0",
-						listStyle: "none",
 						textAlign: "left",
-						verticalAlign: "top",
 					},
 				}, function(su){
 					for (var i = 0; i < links.length; i++) {
@@ -52,49 +59,54 @@ function($, scriptup, assets)
 							su("a", {
 								href: links[i].href,
 								text: links[i].text,
-								"class": "navlink",
+								"class": linkstyle.classes,
 							});
 						});
 					}
 			});
 		});
 	}
+	var headerBig_continer = new jss.StyleSet(
+		new jss.Style("&>*", {
+			display: "inline-block",
+			verticalAlign: "bottom",
+		}),
+		new jss.Style("&>*:first-child", {textAlign: "right"}),
+		new jss.Style("&>*:last-child", {textAlign: "left"})
+	);
 	function drawHeaderBig(){
-		function navlinkcont(su,  c) {
-			su("div", {
-				css: {
-					display: "inline-block",
-				},
-			}, c);
-		}
 		function navlink(su, l) {
 			su("a", {
 				text: l.text,
 				href: l.href,
-				"class": "navlink",
+				"class": linkstyle.classes,
 				css: {
 					display: "inline-block",
-					padding: "0 0.4em",
+					margin: "1em 0.7em",
 				},
 			});
 		}
 		return scriptup("div", {
 			css: {
 				textAlign: "center",
-				fontSize: "1.3rem",
 				marginBottom: "5em",
 				
-				background: "linear-gradient(to bottom, hsl(0,0%,100%), hsl(0,0%,97%))",
+				background: "linear-gradient(to bottom, hsl(0,0%,100%),"+theme.chrome.bg+")",
 				borderBottom: "0.1em solid hsl(0, 0%, 83%)",
 				// boxShadow: "hsl(0, 0%, 60%) 0 0 3em -0.5em",
 			},
 		}, function(su){
 			su("div", {
+				class: headerBig_continer.classes,
 				css: {
 					display: "inline-block",
 				},
 			}, function(su){
-				navlinkcont(su, function(su){
+				su("div", function(su){
+					su("h1", {
+						text: "Carleton Student",
+						class: titlestyle.classes,
+					});
 					for (var i = 0; i < links.length/2; i++) {
 						navlink(su, links[i]);
 					}
@@ -103,12 +115,10 @@ function($, scriptup, assets)
 					href: "/",
 					css: {
 						position: "relative",
-						display: "inline-block",
 						width: "8em",
 						height: "7.5em",
-						margin: "0",
+						margin: "0 2em",
 						padding: "0",
-						verticalAlign: "bottom",
 					},
 				}, function(su){
 					su("img", {
@@ -131,7 +141,11 @@ function($, scriptup, assets)
 						},
 					});
 				});
-				navlinkcont(su, function(su){
+				su("div", function(su){
+					su("h1", {
+						text: "Engineering Society",
+						class: titlestyle.classes,
+					});
 					for (var i = links.length/2; i < links.length; i++) {
 						navlink(su, links[i]);
 					}
@@ -143,7 +157,7 @@ function($, scriptup, assets)
 	var lastsize;
 	var sizes = [
 		// {w: 480, f: drawHeader480},
-		{w: 850, f: drawHeader850},
+		{w: 1000, f: drawHeader1000},
 		{w: Infinity, f: drawHeaderBig},
 	];
 	function drawHeader(){

@@ -1,42 +1,43 @@
-define(["jquery", "scriptup", "site/assets"],
-function($, scriptup, assets)
+define(["jquery", "scriptup", "site/assets", "site/theme", "jss"],
+function($, scriptup, assets, theme, jss)
 {
 	"use strict";
 	
 	var container = $("#footer");
+	var icons = assets.footerIcons;
+	
+	var iconliststyle = new jss.StyleSet(
+		new jss.Style("& li", {
+			textAlign: "left",
+		}),
+		new jss.Style("& li>a>*", {
+			display: "inline-block",
+			verticalAlign: "middle",
+			whiteSpace: "pre",
+		}),
+		new jss.Style("& li>a>img", {
+			width: "1.4em",
+			margin: "0.1em 0.3em",
+		})
+	);
+	
+	var navlinkcont = new jss.StyleSet(
+		new jss.Style({
+			textAlign: "center",
+			background: theme.chrome.bg,
+		}),
+		new jss.Style("&>*", {
+			display: "inline-block",
+			verticalAlign: "middle",
+			margin: "1em 1.3em",
+		})
+	);
 	
 	function drawFooterBig(){
-		function navlinkcont(su,  c) {
-			su("div", {
-				css: {
-					display: "inline-block",
-				},
-			}, c);
-		}
-		function navlink(su, l) {
-			su("a", {
-				text: l.text,
-				href: l.href,
-				"class": "navlink",
-				css: {
-					display: "inline-block",
-					padding: "0 0.4em",
-				},
-			});
-		}
 		return scriptup("div", {
-			css: {
-				textAlign: "center",
-				fontSize: "1.3rem",
-				paddingTop: "1em",
-			},
+			class: navlinkcont.classes,
 		}, function(su){
-			su("div", {
-				css: {
-					display: "inline-block",
-					marginBottom: "3em",
-				},
-			}, function(su){
+			su("div", function(su){
 				su("a", {
 					href: "/",
 					css: {
@@ -58,10 +59,60 @@ function($, scriptup, assets)
 					su("div", {
 						css: {
 							display: "inline-block",
+							margin: "0 1.7em",
 							whiteSpace: "pre",
 							verticalAlign: "middle",
 						},
 						text: "Carleton\nStudent\nEngineering\nSociety",
+					});
+				});
+			});
+			su("ul", {
+				class: iconliststyle.classes,
+			}, function(su){
+				[
+					{
+						href: "tel:+16135203616", text: "613-520-3616",
+						img: icons.phone, alt: "Phone",
+					}, {
+						href: "mailto:questions@cses.carleton.ca", text: "questions@cses.carleton.ca",
+						img: icons.facebook, alt: "Facebook",
+					}, {
+						href: "https://facebook.com/MyCSES", text: "/MyCSES",
+						img: icons.facebook, alt: "Facebook",
+					}, {
+						href: "https://twitter.com/MyCSES", text: "@MyCSES",
+						img: icons.twitter, alt: "Twitter",
+					},
+				].forEach(function(e){
+					su("li", function(su){
+						su("a", {
+							href: e.href,
+						}, function(su){
+							su("img", {src: e.img, alt: e.alt});
+							su("span", e.text);
+						});
+					});
+				});
+			});
+			su("ul", {
+				class: iconliststyle.classes,
+			}, function(su){
+				[
+					{
+						text: "2090 Minto CASE\n1125 Colonel By Drive\nOttawa, ON\nK1S 5B6",
+						img: icons.addr, alt: "Address",
+						href: "https://www.google.ca/maps/place/"+
+							"1125+Colonel+By+Dr,+Carleton+University,+Ottawa,+ON+K1S+5B6",
+					},
+				].forEach(function(e){
+					su("li", function(su){
+						su("a", {
+							href: e.href,
+						}, function(su){
+							su("img", {src: e.img, alt: e.alt});
+							su("address", e.text);
+						});
 					});
 				});
 			});
