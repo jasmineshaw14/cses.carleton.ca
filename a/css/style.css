@@ -1,5 +1,5 @@
 html {
-	font-family: sans-serif;
+	font: 400 1em Lato, sans-serif;
 }
 
 html, body {
@@ -7,6 +7,10 @@ html, body {
 	padding: 0;
 	height: 100%;
 	width: 100%;
+}
+
+* {
+	text-decoration: inherit;
 }
 
 body {
@@ -32,7 +36,6 @@ a, img {
 	list-style: none;
 	
 	color: inherit;
-	text-decoration: inherit;
 	font: inherit;
 }
 
@@ -48,6 +51,12 @@ a, img {
 	max-width: 50em;
 	margin: auto;
 	z-index: 4;
+}
+
+/*** Content ***/
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight:  inherit;
 }
 
 /*** Carousel ***/
