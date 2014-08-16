@@ -7,8 +7,13 @@ function($, scriptup, assets, theme, jss)
 	var icons = assets.footerIcons;
 	
 	var iconliststyle = new jss.StyleSet(
+		theme.chrome.linkFont,
 		new jss.Style("& li", {
 			textAlign: "left",
+		}),
+		new jss.Style("& li>a", {
+			display: "block",
+			padding: "0.4em",
 		}),
 		new jss.Style("& li>a>*", {
 			display: "inline-block",
@@ -16,8 +21,8 @@ function($, scriptup, assets, theme, jss)
 			whiteSpace: "pre",
 		}),
 		new jss.Style("& li>a>img", {
-			width: "1.4em",
-			margin: "0.1em 0.3em",
+			width: "2em",
+			margin: "0 1em",
 		})
 	);
 	
@@ -29,7 +34,7 @@ function($, scriptup, assets, theme, jss)
 		new jss.Style("&>*", {
 			display: "inline-block",
 			verticalAlign: "middle",
-			margin: "1em 1.3em",
+			margin: "1em 2em",
 		})
 	);
 	
@@ -40,26 +45,24 @@ function($, scriptup, assets, theme, jss)
 			su("div", function(su){
 				su("a", {
 					href: "/",
+					class: theme.chrome.headerFont.classes,
 					css: {
-						display: "inline-block",
+						fontSize: "1.4em",
 						textAlign: "left",
-						textTransform: "uppercase",
-						fontWeight: "bold",
-						whiteSpace: "pre",
 					},
 				}, function(su){
 					su("img", {
 						src: assets.logo,
 						alt: "CSES Logo",
 						css: {
-							width: "5em",
+							width: "4.5em",
 							verticalAlign: "middle",
 						}
 					});
 					su("div", {
 						css: {
 							display: "inline-block",
-							margin: "0 1.7em",
+							marginLeft: "1.5em",
 							whiteSpace: "pre",
 							verticalAlign: "middle",
 						},
@@ -76,7 +79,7 @@ function($, scriptup, assets, theme, jss)
 						img: icons.phone, alt: "Phone",
 					}, {
 						href: "mailto:questions@cses.carleton.ca", text: "questions@cses.carleton.ca",
-						img: icons.facebook, alt: "Facebook",
+						img: icons.email, alt: "Facebook",
 					}, {
 						href: "https://facebook.com/MyCSES", text: "/MyCSES",
 						img: icons.facebook, alt: "Facebook",
@@ -111,7 +114,7 @@ function($, scriptup, assets, theme, jss)
 							href: e.href,
 						}, function(su){
 							su("img", {src: e.img, alt: e.alt});
-							su("address", e.text);
+							su("address", e.text).css("fontWeight", 300);
 						});
 					});
 				});

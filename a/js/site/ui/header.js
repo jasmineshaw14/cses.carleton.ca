@@ -14,12 +14,19 @@ function($, scriptup, assets, theme, jss)
 		{text: "Contact", href: "/contact"},
 	];
 	
-	var linkstyle = new jss.Style({
-		textTransform: "lowercase",
-	});
-	var titlestyle = new jss.Style({
-		textTransform: "uppercase",
-	});
+	var linkstyle = new jss.StyleSet(
+		theme.chrome.linkFont,
+		new jss.Style({
+			textTransform: "lowercase",
+			fontSize: "1.3em",
+		})
+	);
+	var titlestyle = new jss.StyleSet(
+		theme.chrome.headerFont,
+		new jss.Style({
+			fontSize: "2em",
+		})
+	);
 	
 	function drawHeader480(){
 		return scriptup("h1", "No small header");
@@ -35,7 +42,7 @@ function($, scriptup, assets, theme, jss)
 			class: header1000_container.classes,
 			css: {
 				textAlign: "center",
-				fontSize: "1.3rem",
+				fontSize: "1.3em",
 			},
 		}, function(su){
 				var img = su("a", {
@@ -76,7 +83,7 @@ function($, scriptup, assets, theme, jss)
 	);
 	function drawHeaderBig(){
 		function navlink(su, l) {
-			su("a", {
+			return su("a", {
 				text: l.text,
 				href: l.href,
 				"class": linkstyle.classes,
@@ -89,7 +96,7 @@ function($, scriptup, assets, theme, jss)
 		return scriptup("div", {
 			css: {
 				textAlign: "center",
-				marginBottom: "5em",
+				marginBottom: "2em",
 				
 				background: "linear-gradient(to bottom, hsl(0,0%,100%),"+theme.chrome.bg+")",
 				borderBottom: "0.1em solid hsl(0, 0%, 83%)",

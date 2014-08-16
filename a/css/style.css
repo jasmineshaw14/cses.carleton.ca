@@ -33,9 +33,44 @@ a, img {
 	
 	color: inherit;
 	text-decoration: inherit;
+	font: inherit;
 }
 
+#header {
+	position: relative;
+	z-index: 10;
+}
+#header * {
+	z-index: 5;
+}
 #content {
+	position: relative;
 	max-width: 50em;
 	margin: auto;
+	z-index: 4;
+}
+
+/*** Carousel ***/
+.owl-theme .owl-controls {
+	position: absolute;
+	right: 0.3em;
+	top: 0.3em;
+}
+
+.owl-controls .owl-buttons {
+	display: none;
+}
+
+.owl-controls .owl-page {
+	display: block;
+	width: 0.5em;
+	height: 0.5em;
+	margin: 0.2em;
+	border-radius: 50%;
+	border: 0.3em solid white;
+	box-shadow: hsl(0, 0%, 50%) 0 0 0.5em;
+	background: hsla(0, 0%, 0%, 0.2);
+}
+.owl-controls .owl-page.active {
+	background: white;
 }

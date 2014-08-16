@@ -12,6 +12,10 @@ window.DEBUG = true; // Never actually checked if true.
 			"https://cdn.jsdelivr.net/js-signals/1.0.0/signals.min",
 			"https://cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals.min",
 		],
+		owl1: [
+			"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.2/owl.carousel.min",
+			"https://cdn.jsdelivr.net/jquery.owlcarousel/1.31/owl.carousel.min",
+		],
 		Paragon1: [
 			"https://kevincox-cdn.appspot.com/Paragon-1.1.1.min",
 			"/a/js/Paragon1",

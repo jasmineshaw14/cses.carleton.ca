@@ -1,15 +1,16 @@
-define(["jquery", "cses", "site/router", "site/PageGenerated", "site/templates", "scriptup"],
-function($,        cses,   router,        mkgen,                templates,        scriptup)
-{
+define([
+	"jquery", "cses", "site/router", "site/PageGenerated", "site/templates",
+	"scriptup", "site/ui/Banner",
+], function($, cses, router, mkgen, templates, scriptup, Banner) {
 	"use strict";
 	
 	return mkgen(function($cont){
 		var s = location.pathname.substr(1);
 		if (!s) { // Index page.
 			scriptup($cont, function(su){
-				su("div", function(su){
-					
-				});
+				var banner = new Banner();
+				this.append(banner.$root);
+				
 				su("h1", {text: "Welcome to the CSES site."});
 				su("p", {text: "There is nothing here yet."});
 				su("ul", function(su){

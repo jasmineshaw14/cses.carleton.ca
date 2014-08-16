@@ -7,6 +7,7 @@
 	paths: {
 		jquery: "empty:",
 		jssignals1: "empty:",
+		owl1: "empty:",
 		q1: "empty:",
 		store2: "empty:",
 		typeahead010: "empty:",

@@ -376,6 +376,13 @@
 		this.width  = w;
 		this.height = h;
 	}
+	Object.defineProperties(BannerImage, {
+		_fromAPI: {
+			value: function BannerImage__fromAPI(j){
+				return new BannerImage(cses.blobprefix+j.blob, j.w, j.h);
+			},
+		},
+	});
 	Object.preventExtensions(BannerImage);
 	Object.preventExtensions(BannerImage.prototype);
 	
@@ -384,20 +391,55 @@
 		desc:   "",
 	});
 	function Banner() {
+		BannerModel.call(this);
 	}
 	Object.defineProperties(Banner, {
 		fetchAll: {
 			value: function Banner_fetchAll(){
 				return cses.request("GET", "/banner").then(function(r){
-					console.log(r.json);
-					return r.json;
+					return {
+						banners: r.json.banners.map(Banner._fromAPI),
+					};
 				});
+			},
+		},
+		_fromAPI: {
+			value: function Banner__fromAPI(j){
+				var r = new Banner();
+				r.desc = j.alt;
+				r.images = j.images.map(BannerImage._fromAPI);
+				return r;
 			},
 		},
 	});
 	Object.preventExtensions(Banner);
 	Banner.prototype = Object.create(BannerModel.prototype, {
 		constructor: {value: Banner},
+		
+		imageForWidth: {
+			value: function banner_imageForWidth(w){
+				if (!this.images.length) return undefined;
+				if (typeof w == "undefined") w = window.innerWidth
+				
+				return this.images.reduce(function(a, b){
+					/*
+					 * a b w r
+					 * -------
+					 * 1 2 3 b
+					 * 2 1 3 a
+					 * 2 3 1 a
+					 * 3 2 1 b
+					 * 1 3 2 a
+					 * 2 3 1 b
+					 */
+					return a.width > b.width? (
+						w > a.width? a : b
+					) : (
+						w > b.width? b : a
+					);
+				})
+			}
+		}
 	});
 	Object.preventExtensions(Banner.prototype);
 	
@@ -638,6 +680,10 @@
 		/** A book in the textbook trade.
 		 */
 		TBTBook: {value: TBTBook, enumerable: true},
+		
+		/** A banner.
+		 */
+		Banner: {value: Banner, enumerable: true},
 	});
 	Object.preventExtensions(cses);
 	
