@@ -6,8 +6,14 @@ rm -rvf "$tdir"
 
 api="${1:-https://api.cses.carleton.ca}"
 
+appdir='a/'
+
+# cp -r "$appdir" 'traceur-out/'
+# find 'traceur-out/' -name '*.js' | parallel -v traceur --script '{}' --out '{}'
+# appdir='traceur-out/'
+
 echo 'Merging scripts...'
-r.js -o 'build.js' "dir=$tdir/a/$ver/"
+r.js -o 'build.js' "appDir=$appdir" baseUrl="js/" "dir=$tdir/a/$ver/"
 rm "$tdir/a/$ver/build.txt" # Remove r.js's file.
 
 echo 'Generating index.html...'

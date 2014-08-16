@@ -1,6 +1,5 @@
 ({
 	appDir: "a/",
-	
 	baseUrl: "js",
 	//mainConfigFile: "a/js/bootstrap.js",
 	
@@ -69,5 +68,9 @@
 				DEBUG: false,
 			},
 		},
+	},
+	
+	throwWhen: {
+		optimize: true,
 	},
 })
