@@ -43,7 +43,7 @@ define(function(){
 		}
 		
 		this.classes = uid();
-		selector = selector.replace("&", "."+this.classes)
+		selector = selector.replace(/&/g, "."+this.classes)
 		
 		sheet.insertRule(selector+"{}", 0);
 		var rule = sheet.cssRules[0];

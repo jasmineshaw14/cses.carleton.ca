@@ -1,8 +1,10 @@
 define([
 	"jquery", "site/PageGenerated", "site/router", "cses", "scriptup",
 	"underscore", "site/ui/PersonSelect", "site/ui/PersonCompleter", "url1",
+	"jss", "site/theme",
 ], function(
-	$, mkgen, router, cses, scriptup, _, PersonSelect, PersonComplete, URL
+	$, mkgen, router, cses, scriptup, _, PersonSelect, PersonComplete, URL, jss,
+	theme
 ) {
 	"use strict";
 	
@@ -47,14 +49,96 @@ define([
 		});
 	}
 	
+	var booktitlestyle = new jss.StyleSet(
+		new jss.Style({
+			display: "table-row-group",
+			fontSize: "0.8em",
+		}),
+		new jss.Style("&:hover", {
+			background: theme.sepColor,
+		}),
+		new jss.Style("& > div", {
+			display: "table-row",
+		}),
+		new jss.Style("& > div > div", {
+			display: "table-cell",
+			padding: " 0 1em 0.7em 1em",
+		}),
+		new jss.Style("& > div:first-child > div", {
+			borderTop: theme.sepBorder,
+			paddingTop: "0.7em",
+		}),
+		new jss.Style("& dt", {
+			display: "inline",
+			fontWeight: "bolder",
+		}),
+		new jss.Style("& dd", {
+			display: "inline",
+		}),
+		new jss.Style("& dt::after", {
+			content: "': '",
+		})
+	);
+	function booktile(b){
+		b.load();
+		return scriptup("a", {
+			href: "/textbooktrade/book/"+b.id,
+			class: booktitlestyle.classes,
+		}, function(su){
+			su("div", function(su){
+				su("div", function(su){
+					su("dt", "Title");
+					var e = su("dd", "");
+					b.titlechanged.add(function(t){ e.text(t) })
+				});
+				su("div", function(su){
+					su("dt", "Author");
+					var e = su("dd", "");
+					b.authorchanged.add(function(t){ e.text(t) })
+				});
+				su("div", function(su){
+					su("dt", "Price");
+					var e = su("dd", "");
+					b.pricechanged.add(function(t){ e.text("$"+t) })
+				});
+			});
+			su("div", function(su){
+				su("div", {css:{columnSpan: "all"}}, function(su){
+					su("dt", "Edition");
+					var e = su("dd", "");
+					b.editionchanged.add(function(t){ e.text(t) })
+				});
+				su("div"); // No colspan so put nothing in the column.
+				su("div", function(su){
+					su("dt", "Availability");
+					var e = su("dd", "");
+					b.buyerchanged.add(function(s){
+						e.text(s? "Not Available" : "Available");
+						e.css("color", s? theme.textBadColor : theme.textGoodColor);
+					});
+				});
+			});
+		});
+	}
+	
 	return mkgen(function($cont){
-		document.title = "Text Book Trade — CSES";
+		document.title = "Textbook Trade — CSES";
 		
 		var path = document.location.pathname.split("/").slice(2);
 		
 		scriptup($cont, function(su){
 			if (!path.length) {
-				su("h1", {text: "Text Book Trade"});
+				su("h1", "Textbook Trade");
+				su("p", "At the beginning of each semester CSES opens up its"
+					+ " textbook trade where students looking to sell their"
+					+ " textbooks can do so in a reliable and efficent manner"
+					+ " through CSES.  We track all books and prices, and once"
+					+ " a student has purchased your textbook the original"
+					+ " owner will be notified and all money returned to them."
+					+ " Textbook trade is a free service run out of our office"
+					+ " for all members.  Contact your VP Services, Alex"
+					+ " Whitlock, for more information."
+				);
 				
 				var url = URL.parse(document.location.href);
 				url.get = url.get || {};
@@ -72,16 +156,9 @@ define([
 					}).done(function(r){
 						list.empty();
 						scriptup(list, function(su){
-							for (var i = 0; i < r.length; i++){
-								su("li", function(su){
-									su("h2", function(su){
-										su("a", {
-											text: r[i].title,
-											href: "/textbooktrade/book/"+r[i].id,
-										});
-									});
-								});
-							}
+							r.forEach(function(b) {
+								list.append(booktile(b));
+							});
 						});
 					})
 				}
@@ -114,7 +191,11 @@ define([
 					});
 				}); su("br");
 				
-				var list = su("ul");
+				su("h2", "Results:").css("marginBottom", "0.4em");
+				var list = su("div", {class: "chrome", css:{
+					display: "table",
+					width: "100%",
+				}});
 				populateBooks();
 			} else if (path[0] == "book") {
 				var book = new cses.TBTBook(path[1]);

@@ -267,6 +267,8 @@
 	var TBTBookModel = Paragon.create({
 		id: undefined,
 		title: "",
+		edition: "",
+		author: "",
 		price: undefined,
 		seller: undefined,
 		buyer:  undefined,
@@ -315,6 +317,8 @@
 				return cses.request("GET", "/tbt/book/"+this.id).then(function(r){
 					self.id      = r.json.id;
 					self.title   = r.json.title;
+					self.edition = r.json.edition;
+					self.author  = r.json.author;
 					self.price   = r.json.price;
 					self.courses = r.json.courses;
 					self.seller  = new Person(r.json.seller);
@@ -515,7 +519,7 @@
 				
 				var burl = api + path;
 				if (opt.get)
-					burl += URL.buildget(opt.get);
+					burl += "?"+URL.buildget(opt.get);
 				
 				return Q(opt.auth).then(function(auth){
 					var r = Q.defer();

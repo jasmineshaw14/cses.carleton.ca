@@ -15,6 +15,9 @@ function($, scriptup, assets, theme, jss)
 			display: "block",
 			padding: "0.4em",
 		}),
+		new jss.Style("& li>a:hover", {
+			background: "hsla(0,0%,0%,0.1)",
+		}),
 		new jss.Style("& li>a>*", {
 			display: "inline-block",
 			verticalAlign: "middle",
@@ -22,6 +25,8 @@ function($, scriptup, assets, theme, jss)
 		}),
 		new jss.Style("& li>a>img", {
 			width: "2em",
+		}),
+		new jss.Style("& li>a>span, & li>a>address", {
 			margin: "0 1em",
 		})
 	);

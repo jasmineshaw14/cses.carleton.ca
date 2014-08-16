@@ -68,8 +68,13 @@ window.DEBUG = true; // Never actually checked if true.
 	if (DEBUG) {
 		// Turn on for better error messages.
 		require(["q1"],function(Q){Q.longStackSupport = true});
+		
+		if (location.search.match(/[?&]nochrome(&|$)/)) {
+			document.getElementById("header").style.display = "none";
+			document.getElementById("footer").style.display = "none";
+		}
 	}
 	
 	// Start
-	require(["site/ui/header", "site/ui/footer", "site/main"]);
+	require(["site/theme", "site/ui/header", "site/ui/footer", "site/main"]);
 }()

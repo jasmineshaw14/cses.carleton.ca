@@ -20,11 +20,9 @@ define(["jss"], function(jss){
 			+ ")";
 	}
 	
-	console.log(hsl(), hsl(120,0.5,0.5), hsl(240,0,1,0.5));
-	
 	var accent = hsl(263, 0.49, 0.47);
 	
-	new jss.Style("h1", {
+	new jss.Style("h1,h2", {
 		color: accent,
 	});
 	
@@ -52,5 +50,9 @@ define(["jss"], function(jss){
 				fontWeight: "300",
 			}),
 		},
+		sepBorder: "1px solid "+hsl(0,0,0.9),
+		sepColor: hsl(0,0,0.9),
+		textGoodColor: hsl(139, 0.58, 0.3),
+		textBadColor:  hsl(  0, 1, 0.5),
 	};
 });

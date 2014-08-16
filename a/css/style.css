@@ -29,14 +29,18 @@ a, img {
 	outline: none;
 }
 
-.chrome * {
+.chrome, .chrome * {
 	margin: 0;
 	padding: 0;
 	border: none;
 	list-style: none;
 	
+	text-decoration: inherit;
 	color: inherit;
 	font: inherit;
+}
+a.chrome:hover, .chrome a:hover {
+	text-decoration: inherit;
 }
 
 #header {
@@ -48,8 +52,10 @@ a, img {
 }
 #content {
 	position: relative;
-	max-width: 50em;
+	max-width: 40em;
 	margin: auto;
+	padding: 0 0.6em;
+	font-size: 1.2em;
 	z-index: 4;
 }
 
