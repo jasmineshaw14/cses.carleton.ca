@@ -66,7 +66,7 @@
 	uglify2: {
 		compress: {
 			global_defs: {
-				PRODUCTION: true,
+				DEBUG: false,
 			},
 		},
 	},
