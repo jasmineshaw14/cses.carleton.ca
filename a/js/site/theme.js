@@ -9,9 +9,13 @@ define(["jss"], function(jss){
 				fontWeight: "900",
 				textTransform: "uppercase",
 			}),
-			linkFont: new jss.Style({
+			headerLinkFont: new jss.Style({
 				fontFamily: "Lato, sans-serif",
 				fontWeight: "100",
+			}),
+			linkFont: new jss.Style({
+				fontFamily: "Lato, sans-serif",
+				fontWeight: "300",
 			}),
 		},
 	};

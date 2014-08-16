@@ -15,10 +15,20 @@ function($, scriptup, assets, theme, jss)
 	];
 	
 	var linkstyle = new jss.StyleSet(
-		theme.chrome.linkFont,
+		theme.chrome.headerLinkFont,
 		new jss.Style({
 			textTransform: "lowercase",
 			fontSize: "1.3em",
+		}),
+		new jss.Style("&:hover", {
+			visibility: "hidden",
+		}),
+		new jss.Style("&:hover::before", {
+			visibility: "visible",
+			content: 'attr(data-text)',
+			fontWeight: "bolder",
+			// textDecoration: "underline",
+			position: "absolute",
 		})
 	);
 	var titlestyle = new jss.StyleSet(
@@ -66,6 +76,7 @@ function($, scriptup, assets, theme, jss)
 							su("a", {
 								href: links[i].href,
 								text: links[i].text,
+								"data-text": links[i].text,
 								"class": linkstyle.classes,
 							});
 						});
@@ -86,6 +97,7 @@ function($, scriptup, assets, theme, jss)
 			return su("a", {
 				text: l.text,
 				href: l.href,
+				"data-text": l.text,
 				"class": linkstyle.classes,
 				css: {
 					display: "inline-block",
