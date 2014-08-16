@@ -8,6 +8,8 @@ define([
 ) {
 	"use strict";
 	
+	function isadmin(){ return cses.authperms.indexOf("tbt") >= 0 }
+	
 	function genadmin(su, book) {
 		su("h2", "TBT Admin");
 		
@@ -85,6 +87,40 @@ define([
 			href: "/textbooktrade/book/"+b.id,
 			class: booktitlestyle.classes,
 		}, function(su){
+			if (isadmin()) {
+				su("div", function(su){
+					su("div", function(su){
+						su("dt", "ID");
+						var e = su("dd", b.id);
+					});
+					su("div", function(su){
+						su("dt", "Seller");
+						var e = su("dd", "");
+						b.sellerchanged.add(function(t){
+							t.namefullchanged.add(function(n){
+								e.text(n);
+							});
+							t.load();
+						});
+					});
+					su("div", function(su){
+						su("dt", "Buyer");
+						var e = su("dd", "");
+						b.buyerchanged.add(function(t){
+							if (t) {
+								t.namefullchanged.add(function(n){
+									e.text(n);
+									e.css("opacity", 1);
+								});
+								t.load();
+							} else {
+								e.text("None");
+								e.css("opacity", 0.5);
+							}
+						});
+					});
+				});
+			}
 			su("div", function(su){
 				su("div", function(su){
 					su("dt", "Title");
@@ -240,7 +276,7 @@ define([
 						});
 					});
 					cses.authtoken.done(function(){
-						if (cses.authperms.indexOf("tbt") >= 0) {
+						if (isadmin()) {
 							genadmin(su, book);
 						}
 					});
