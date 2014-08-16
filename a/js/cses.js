@@ -16,15 +16,21 @@
 }(this, function CSES($, Q, URL, Paragon){
 	"use strict";
 	var cses = {};
-	var api = URL.parse("https://api.cses.carleton.ca");
+	var api = "https://api.cses.carleton.ca";
 	if (typeof location == "object") {
 		if (location.hostname == "cses.carleton.ca")
 			; // Use default.
 		else if (location.hostname == "cses.kevincox.ca")
-			api = URL.parse("https://api.cses.kevincox.ca");
+			api = "https://api.cses.kevincox.ca";
 		else {
 			api = URL.parse(location.href);
-			api.port = 8080;
+			api = URL.build({
+				host: api.host,
+				port: 8080,
+				scheme: api.scheme,
+				user: api.user,
+				pass: api.pass,
+			});
 		}
 	}
 	var authtoken_ = Q("");
@@ -285,12 +291,7 @@
 					}
 				}).then(function(r){
 					return r.json.books.map(function(rb){
-						var b = new TBTBook(rb.id);
-						b.title = rb.title;
-						b.seller = new Person(rb.seller.id);
-						b.seller.name = rb.seller.name;
-						b.buyer = rb.buyer && new Person(rb.buyer);
-						return b;
+						return new TBTBook(rb);
 					});
 				});
 			},
@@ -448,9 +449,7 @@
 			var r = Q.defer();
 			var req = new XMLHttpRequest()
 			
-			api.path = "/blob";
-			api.get  = {};
-			var url = URL.build(api);
+			var url = api+"/blob";
 			
 			req.open("PUT", url);
 			req.setRequestHeader("Authorization", "Bearer "+auth);
@@ -514,9 +513,9 @@
 				opt = opt || {};
 				if (typeof opt.auth == "undefined") opt.auth = cses.authtoken;
 				
-				api.path = path;
-				api.get  = opt.get;
-				var burl = URL.build(api);
+				var burl = api + path;
+				if (opt.get)
+					burl += URL.buildget(opt.get);
 				
 				return Q(opt.auth).then(function(auth){
 					var r = Q.defer();
@@ -661,7 +660,7 @@
 			},
 		},
 		
-		blobprefix: {value: ((api.path="/blob/"), URL.build(api))},
+		blobprefix: {value: api+"/blob/"},
 		
 		/** The Person constructor.
 		 */
