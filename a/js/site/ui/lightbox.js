@@ -65,8 +65,8 @@ function($, signals)
 					$cover.off("click", this._bgclose);
 					$cover.one("transitionend", function(e){
 						console.log("END", e);
-						$cover.detach();
 						$cover.css("display", "none");
+						self.$root.detach();
 						self.closed.dispatch();
 					});
 				}
