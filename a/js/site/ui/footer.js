@@ -14,6 +14,7 @@ function($, scriptup, assets, theme, jss)
 		new jss.Style("& li>a", {
 			display: "block",
 			padding: "0.4em",
+			transition: "background 0.3s",
 		}),
 		new jss.Style("& li>a:hover", {
 			background: "hsla(0,0%,0%,0.1)",

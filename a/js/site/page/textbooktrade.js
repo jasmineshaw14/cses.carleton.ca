@@ -86,6 +86,7 @@ define([
 		new jss.Style({
 			display: "table-row-group",
 			fontSize: "0.8em",
+			transition: "background 0.2s",
 		}),
 		new jss.Style("&:hover", {
 			background: theme.sepColor,
