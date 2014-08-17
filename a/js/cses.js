@@ -15,7 +15,7 @@
 	}
 }(this, function CSES($, Q, URL, Paragon){
 	"use strict";
-	var cses = {};
+	var cses = window.cses = {};
 	var api = "https://api.cses.carleton.ca";
 	if (typeof location == "object") {
 		if (location.hostname == "cses.carleton.ca")
@@ -75,7 +75,7 @@
 				if (!this.done) return "In flight";
 				
 				// Trim off code.
-				return this.xhr.statusText || "API not accessable";
+				return this.xhr.statusText || "API not accessible.";
 			},
 		},
 		success: {
@@ -595,6 +595,9 @@
 						cses.authuser  = undefined;
 					}
 					return tok;
+				}).catch(undefined, function(e){
+					console.log("Error setting authtoken.", e);
+					return false;
 				});
 			},
 			enumerable: true,

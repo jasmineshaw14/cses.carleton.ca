@@ -13,10 +13,16 @@ html, body {
 	text-decoration: inherit;
 }
 
-body {
+*, *::before, *::after {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#main {
 	display: table;
 }
-body > * {
+#main > * {
 	display: table-row;
 	height: 1px;
 }

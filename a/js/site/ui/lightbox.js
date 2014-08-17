@@ -1,5 +1,5 @@
-define(["jquery"],
-function($)
+define(["jquery", "jssignals1"],
+function($, signals)
 {
 	"use strict";
 	
@@ -16,6 +16,7 @@ function($)
 			
 			textAlign: "center",
 			overflow: "auto",
+			zIndex: "100",
 			
 			transitionProperty: "opcaity",
 			transitionDuration: "0.2s",
@@ -36,6 +37,8 @@ function($)
 		});
 		this._open = false;
 		this._bgclose = function(e){ if (this == e.target) self.open = false };
+		
+		this.closed = new signals.Signal();
 	}
 	Object.preventExtensions(LightBox);
 	Object.defineProperties(LightBox.prototype, {
@@ -60,9 +63,9 @@ function($)
 					$cover.css("opacity", 0);
 					$cover.off("click", this._bgclose);
 					$cover.one("transitionend", function(e){
-						console.log("CALLED");
 						$cover.detach();
 						self.$root.detach();
+						self.closed.dispatch();
 					});
 				}
 				

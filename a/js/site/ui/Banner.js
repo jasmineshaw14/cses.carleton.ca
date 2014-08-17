@@ -54,7 +54,7 @@ function($, cses, _unslider)
 					self._$list.append(
 						$("<li>", {
 							css:{
-								float: "left",
+								cssFloat: "left",
 								height: maxh+"px",
 							},
 						}).append(i)

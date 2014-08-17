@@ -1,40 +1,17 @@
-define(["jquery", "site/router", "site/PageGenerated", "site/session", "cses", "store2"],
-function($,        router,        mkgen,                session,        cses,    store)
+define(["site/router", "site/PageGenerated", "store2", "site/ui/Login"],
+function(router,        mkgen,                store,    Login)
 {
 	"use strict";
 	
-	function loginform() {
-		var user = $("<input>", {
-			type: "text",
-		});
-		var pass = $("<input>", {
-			type: "password",
-		})
-		var r = $("<form>")
-			.append(user, pass, $("<input>", {
-			type: "submit",
-			value: "Login",
-		}));
-		
-		r.on("submit", function(e){
-			e.preventDefault(); // Don't do browser-default submit.
-			
-			session.login(user.val(), pass.val()).then(function(r){
-				router.replace(store.get("page-login-next") || "/");
-				store.remove("page-login-next");
-			}, function(r){
-				//@TODO: Display error to user.
-				console.log("LOGIN FAILED!", r);
-			}).done();
-		});
-		
-		return r;
-	}
-	
 	return mkgen("Login — CSES", function($cont){
-		$cont.append($("<h1>", {
-			text: "Login",
-		}));
-		$cont.append(loginform());
+		var login = new Login();
+		login.$root.css({
+			margin: "2em auto"
+		})
+		$cont.append(login.$root);
+		login.done.done(function(){
+			router.replace(store.get("page-login-next") || "/");
+			store.remove("page-login-next");
+		});
 	});
 });

@@ -7,11 +7,13 @@ function($,        mkgen,                session,        router,        cses,   
 		var uid = location.pathname.split("/")[2];
 		
 		if (!uid) {
-			cses.authtoken.then(function(){
+			session.loginPopup().done(function(){
 				router.replace("/people/"+cses.authuser.id);
-			}, function(){
-				session.loginRequest("/people");
+			}, function(e){
+				console.log(e);
+				router.replace("/");
 			});
+			return;
 		}
 		var p = new cses.Person(uid);
 		

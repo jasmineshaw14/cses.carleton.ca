@@ -21,6 +21,7 @@ define(["jss"], function(jss){
 	}
 	
 	var accent = hsl(263, 0.49, 0.47);
+	var accentContrast = hsl(0,0,1);
 	
 	new jss.Style("h1,h2", {
 		color: accent,
@@ -31,6 +32,25 @@ define(["jss"], function(jss){
 	});
 	new jss.Style("a:hover", {
 		textDecoration: "underline",
+	});
+	
+	new jss.Style("button",{
+		margin: "0.2em 0",
+		padding: "0.7em 1.2em",
+		border: "none",
+		background: accent,
+		color: accentContrast,
+		fontWeight: "bolder",
+	});
+	
+	new jss.Style("input[type='text'], input[type='password']",{
+		margin: "0.2em 0",
+		padding: "0.3em 0.6em",
+		fontSize: "1em",
+		border: "none",
+		background: hsl(0,0,0,0.2),
+		color: accent,
+		fontWeight: "bolder",
 	});
 	
 	return {
