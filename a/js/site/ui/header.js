@@ -146,7 +146,7 @@ function($, scriptup, assets, theme, jss)
 							position: "absolute",
 							width: "15.92em",
 							left: "-3.96em",
-							bottom: "-4.61em"
+							bottom: "-4.6em"
 						},
 					});
 					su("img", {
