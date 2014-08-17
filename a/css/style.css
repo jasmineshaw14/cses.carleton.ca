@@ -2,7 +2,7 @@ html {
 	font: 400 1em Lato, sans-serif;
 }
 
-html, body {
+html, body, #main {
 	margin: 0;
 	padding: 0;
 	height: 100%;
