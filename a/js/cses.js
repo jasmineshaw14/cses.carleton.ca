@@ -414,6 +414,7 @@
 	var BannerModel = Paragon.create({
 		images: {value: []},
 		desc:   "",
+		href: "",
 	});
 	function Banner() {
 		BannerModel.call(this);
@@ -432,6 +433,7 @@
 			value: function Banner__fromAPI(j){
 				var r = new Banner();
 				r.desc = j.alt;
+				r.href = j.href;
 				r.images = j.images.map(BannerImage._fromAPI);
 				return r;
 			},

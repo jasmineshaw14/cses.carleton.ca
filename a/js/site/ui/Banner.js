@@ -46,10 +46,17 @@ function($, cses, _unslider)
 					if (i.height > maxh) maxh = i.height;
 					if (i.width  > maxw) maxw = i.width;
 					
-					return $("<img>", {
+					var r = $("<img>", {
 						src: i.src,
 						alt: i.desc,
 					});
+					if (b.href){
+						r = $("<a>", {
+							href: b.href,
+						}).append(r);
+					}
+					
+					return r;
 				}).forEach(function(i){
 					self._$list.append(
 						$("<li>", {
