@@ -149,7 +149,7 @@
 	function Person(id) {
 		PersonModel.call(this);
 		
-		this.id = id; //|| cses.authuser.id;
+		this.id = id;
 		this.perms = [];
 		this.name = "";
 		this.namefull = "";
@@ -190,7 +190,6 @@
 				var self = this;
 				
 				return cses.request("GET", "/person/"+this.id).then(function(r){
-					self.id       = r.json.id;
 					self.perms    = r.json.perms;
 					self.name     = r.json.name;
 					self.namefull = r.json.namefull;
@@ -260,7 +259,6 @@
 			value: function post_load(){
 				var self = this;
 				return cses.request("GET", "/post/"+this.id).then(function(r){
-					self.id      = r.json.id;
 					self.slug    = r.json.slug;
 					self.title   = r.json.title;
 					self.type    = r.json.type
