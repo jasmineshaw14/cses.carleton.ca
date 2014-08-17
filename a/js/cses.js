@@ -75,7 +75,7 @@
 				if (!this.done) return "In flight";
 				
 				// Trim off code.
-				return this.xhr.statusText.slice(3) || "API not accessable";
+				return this.xhr.statusText || "API not accessable";
 			},
 		},
 		success: {
@@ -106,8 +106,15 @@
 		json: {
 			get: function responseJSON_json_get(){
 				if (this._json) return this._json;
+				if (!this.raw)  return undefined;
 				
 				return this._json = JSON.parse(this.raw);
+			},
+		},
+		
+		msg: {
+			get: function responseJSON_msg_get(){
+				return (this.json && this.json.msg) || superg(this, Response, "msg")
 			},
 		},
 		
@@ -270,6 +277,7 @@
 		edition: "",
 		author: "",
 		price: undefined,
+		paid: undefined,
 		seller: undefined,
 		buyer:  undefined,
 		courses: {value: []},
@@ -315,11 +323,11 @@
 			value: function tbtbook_load() {
 				var self = this;
 				return cses.request("GET", "/tbt/book/"+this.id).then(function(r){
-					self.id      = r.json.id;
 					self.title   = r.json.title;
 					self.edition = r.json.edition;
 					self.author  = r.json.author;
 					self.price   = r.json.price;
+					self.paid    = r.json.paid;
 					self.courses = r.json.courses;
 					self.seller  = new Person(r.json.seller);
 					self.buyer   = r.json.buyer && new Person(r.json.buyer) || undefined;
@@ -373,6 +381,20 @@
 				});
 			},
 		},
+		
+		pay: {
+			value: function tbtbook_pay(auth){
+				var self = this;
+				return cses.request("PUT", "/tbt/book/"+this.id, {
+					post: {
+						authorizer: auth.id,
+						paid: true,
+					}
+				}).then(function(r){
+					self.paid = true;
+				});
+			}
+		}
 	});
 	Object.preventExtensions(TBTBook.prototype);
 	

@@ -10,43 +10,74 @@ define([
 	
 	function isadmin(){ return cses.authperms.indexOf("tbt") >= 0 }
 	
+	function uiSell(book){
+		return scriptup("div", function(su){
+			var buyer, auth, error;
+			su("h3", "Sell Book");
+			su("form", {
+				on: {
+					submit: function(e){
+						e.preventDefault();
+						
+						book.sell(auth.value, buyer.value).then(undefined, function(r){
+							error.text(r.msg);
+						});
+					},
+				},
+			}, function(su){
+				su("label", "Buyer", function(su){
+					buyer = new PersonSelect();
+					this.append(buyer.$root);
+				}); su("br");
+				su("label", "Authorized By", function(su){
+					su("input", {type: "text"}, function(su){
+						auth = new PersonComplete(this);
+					});
+				});
+				su("button", {type: "submit", text: "Sell"});
+				error = su("p");
+			});
+		});
+	}
+	function uiPay(b){
+		return scriptup("div", function(su){
+			su("h3", "Pay Seller");
+			
+			var auth, error;
+			su("form", {
+				on: {
+					submit: function(e){
+						e.preventDefault();
+						b.pay(auth.value).catch(function(e){
+							error.text(e.msg);
+						});
+					}
+				}
+			}, function(su){
+				su("label", "Authorized By", function(su){
+					su("input", {type: "text"}, function(su){
+						auth = new PersonComplete(this);
+					});
+				});
+				su("button", {type: "submit", text: "Sell"});
+				error = su("p");
+			})
+		});
+	}
+	
 	function genadmin(su, book) {
 		su("h2", "TBT Admin");
 		
 		su("a", {href: "/textbooktrade/book/"+book.id+"/history", text: "View History"});
 		
 		su("div", function(su){
-			book.buyerchanged.add(function(b){
-				if (b) {
-					this.empty();
-					return;
-				}
+			book.changed.add(function(){
+				this.empty();
 				
-				var buyer, auth, error;
-				su("h3", "Sell Book");
-				su("form", {
-					on: {
-						submit: function(e){
-							e.preventDefault();
-							
-							book.sell(auth.value, buyer.value).then(undefined, function(r){
-								error.text(r.msg);
-							});
-						},
-					},
-				}, function(su){
-					su("label", "Buyer", function(su){
-						buyer = new PersonSelect();
-						this.append(buyer.$root);
-					}); su("br");
-					su("label", "Authorized By", function(su){
-						su("input", {type: "text"}, function(su){
-							auth = new PersonComplete(this);
-						});
-					});
-					su("button", {type: "submit", text: "Sell"});
-					error = su("p");
-				});
+				if (book.buyer) {
+					if (!book.paid) this.append(uiPay(book));
+				} else
+					this.append(uiSell(book));
 			}, this);
 		});
 	}
@@ -252,28 +283,36 @@ define([
 								this.text(c.join(", "))
 							}, this);
 						});
-						su("dt", "Seller");
-						su("dd", function(su){
-							var self = this;
-							book.sellerchanged.add(function(s){
-								s.namefullchanged.add(function(nf){
-									self.text(nf);
-								});
-								s.load();
-							});
-						});
-						su("dt", "Bought By");
-						su("dd", function(su){
-							var self = this;
-							book.buyerchanged.add(function(b){
-								if (b) {
-									b.namefullchanged.add(function(nf){
+						if (isadmin()){
+							su("dt", "Seller");
+							su("dd", function(su){
+								var self = this;
+								book.sellerchanged.add(function(s){
+									s.namefullchanged.add(function(nf){
 										self.text(nf);
 									});
-									b.load();
-								} else self.text("None");
+									s.load();
+								});
 							});
-						});
+							su("dt", "Paid Seller?");
+							su("dd", function(su){
+								book.paidchanged.add(function(s){
+									this.text(s);
+								}, this);
+							});
+							su("dt", "Bought By");
+							su("dd", function(su){
+								var self = this;
+								book.buyerchanged.add(function(b){
+									if (b) {
+										b.namefullchanged.add(function(nf){
+											self.text(nf);
+										});
+										b.load();
+									} else self.text("None");
+								});
+							});
+						}
 					});
 					cses.authtoken.done(function(){
 						if (isadmin()) {
