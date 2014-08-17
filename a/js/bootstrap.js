@@ -8,21 +8,16 @@ window.DEBUG = true; // Never actually checked if true.
 			"https://cdn.jsdelivr.net/jquery/2.1.0/jquery.min",
 			"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min",
 		],
+		jquery_event_swipe: [
+			"https://cdn.jsdelivr.net/jquery.event.swipe/0.5.2/jquery.event.swipe.min",
+		],
 		jssignals1: [
 			"https://cdn.jsdelivr.net/js-signals/1.0.0/signals.min",
 			"https://cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals.min",
 		],
-		owl1: [
-			"https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.2/owl.carousel.min",
-			"https://cdn.jsdelivr.net/jquery.owlcarousel/1.31/owl.carousel.min",
-		],
 		Paragon1: [
 			"https://kevincox-cdn.appspot.com/Paragon-1.1.1.min",
 			"/a/js/Paragon1",
-		],
-		polymer_platform: [
-			"https://cdn.jsdelivr.net/polymer.platform/0.3.4/platform.js",
-			"https://cdnjs.cloudflare.com/ajax/libs/polymer/0.3.4/platform",
 		],
 		q1: [
 			"https://cdnjs.cloudflare.com/ajax/libs/q.js/1.0.1/q.min",
@@ -39,6 +34,9 @@ window.DEBUG = true; // Never actually checked if true.
 		underscore: [ // Underscore won't let us name it.
 			"https://cdn.jsdelivr.net/underscorejs/1.6.0/underscore-min",
 			"ttps://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min",
+		],
+		unslider0: [
+			"https://cdn.jsdelivr.net/jquery.unslider/0.1/unslider.min",
 		],
 		url1: [
 			"https://kevincox-cdn.appspot.com/url-1.0.4.min",
@@ -63,6 +61,11 @@ window.DEBUG = true; // Never actually checked if true.
 		paths: paths,
 		waitSeconds: 15,
 		//enforceDefine: true,
+		
+		shim: {
+			jquery_event_swipe: {deps: ["jquery"]},
+			unslider0: {deps: ["jquery_event_swipe"]},
+		}
 	});
 	
 	if (DEBUG) {

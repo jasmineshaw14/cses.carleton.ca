@@ -108,7 +108,7 @@ function($, scriptup, assets, theme, jss)
 		return scriptup("div", {
 			css: {
 				textAlign: "center",
-				marginBottom: "2em",
+				marginBottom: "4em",
 				
 				background: "linear-gradient(to bottom, hsl(0,0%,100%),"+theme.chrome.bg+")",
 				borderBottom: "0.1em solid hsl(0, 0%, 83%)",

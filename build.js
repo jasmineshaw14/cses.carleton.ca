@@ -6,11 +6,13 @@
 	paths: {
 		jquery: "empty:",
 		jssignals1: "empty:",
-		owl1: "empty:",
+		Paragon1: "empty:",
 		q1: "empty:",
 		store2: "empty:",
 		typeahead010: "empty:",
 		underscore: "empty:",
+		unslider0: "empty:",
+		url1: "empty:",
 		// requirejs: "../../require",
 	},
 	deps: [ // Preload modules we know we will need.
@@ -31,27 +33,28 @@
 	
 	//keepBuildDir: true,
 	modules: [
-		{ name: "bootstrap",
-			// include: ["requirejs"],
+		{
+			name: "bootstrap",
 			
 			override: {
 				wrap: {
 					start:
 						// Load fallback require.js if needed.
-						'+function(i){"use strict";' +
+						'+function(i,s){' +
 							'if(window.require)i();' +
 							'else{' +
-								'var s=document.createElement("script");' +
+								's=document.createElement("script");' +
 								's.src="https://cdnjs.cloudflare.com/ajax/' +
 									'libs/require.js/2.1.11/require.min.js";' +
 								's.onload=i;' +
-								'document.head.appendChild(s);' +
+								'document.head.appendChild(s)' +
 							'}' +
 						'}(function(){',
 					end: '})',
 				},
 			},
-		}, { name: "site/page/admin",
+		}, {
+			name: "site/page/admin",
 			exclude: ["bootstrap"],
 		},
 	],

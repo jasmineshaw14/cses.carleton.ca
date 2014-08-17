@@ -1,5 +1,5 @@
-define(["jquery", "cses", "owl1"],
-function($, cses, _owl)
+define(["jquery", "cses", "unslider0"],
+function($, cses, _unslider)
 {
 	"use strict";
 	
@@ -8,10 +8,18 @@ function($, cses, _owl)
 		var self = this;
 		
 		this.$root = $("<div>", {
+			class: "chrome",
 			css: {
+				position: "relative",
+				display: "block",
+				margin: "0 auto",
+				maxWidth: "100%",
+				visibility: "hidden",
+				overflow: "auto",
 				textAlign: "center",
 			},
 		});
+		this._$list = $("<ul>").appendTo(this.$root);
 		this._banners = [];
 		setTimeout(function(){self.update().done()}, 0);
 	}
@@ -30,21 +38,33 @@ function($, cses, _owl)
 			value: function banner__resize(){
 				var self = this;
 				
-				this.$root.empty();
-				this._banners.forEach(function(b){
+				this._$list.empty();
+				var maxh = 0;
+				var maxw = 0;
+				this._banners.map(function(b){
 					var i = b.imageForWidth();
-					self.$root.append($("<img>", {
+					if (i.height > maxh) maxh = i.height;
+					if (i.width  > maxw) maxw = i.width;
+					
+					return $("<img>", {
 						src: i.src,
-						css: {
-							width: "100%",
-						},
-					}));
+						alt: i.desc,
+					});
+				}).forEach(function(i){
+					self._$list.append(
+						$("<li>", {
+							css:{
+								float: "left",
+								height: maxh+"px",
+							},
+						}).append(i)
+					);
 				});
-				this.$root.owlCarousel({
-					navigation: true,
-					singleItem: true,
-					autoPlay: true,
-					stopOnHover: true,
+				this.$root.css("width", maxw+"px");
+				this.$root.css("visibility", "");
+				this.$root.unslider({
+					dots: true,
+					delay: 5000,
 				});
 			},
 		},
