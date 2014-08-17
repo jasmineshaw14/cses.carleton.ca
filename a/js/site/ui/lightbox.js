@@ -5,6 +5,7 @@ function($, signals)
 	
 	var $cover = $("<div>", {
 		css: {
+			display: "none",
 			position: "fixed",
 			left: 0,
 			right: 0,
@@ -18,10 +19,10 @@ function($, signals)
 			overflow: "auto",
 			zIndex: "100",
 			
-			transitionProperty: "opcaity",
-			transitionDuration: "0.2s",
+			transition: "opacity 0.2s",
 		},
 	});
+	$cover.appendTo(document.body);
 	
 	function LightBox()
 	{
@@ -57,14 +58,15 @@ function($, signals)
 						top: $(window).scrollTop(),
 					});
 					this.$root.appendTo($cover);
-					$cover.appendTo(document.body);
+					$cover.css("display", "block");
 					setTimeout(function(){$cover.css("opacity", "1")}, 0);
 				} else {
 					$cover.css("opacity", 0);
 					$cover.off("click", this._bgclose);
 					$cover.one("transitionend", function(e){
+						console.log("END", e);
 						$cover.detach();
-						self.$root.detach();
+						$cover.css("display", "none");
 						self.closed.dispatch();
 					});
 				}
