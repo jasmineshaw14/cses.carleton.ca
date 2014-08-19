@@ -17,7 +17,7 @@
 	},
 	deps: [ // Preload modules we know we will need.
 		"jquery",
-		"jquery_event_swipe",
+		// "jquery_event_swipe",
 		"jssignals1",
 		"q1",
 		"store2",

@@ -36,6 +36,8 @@ define(function(){
 	var nextid = 0;
 	function uid(){ return "-jss-" + nextid++; }
 	
+	function returnclasses(){ return this.classes }
+	
 	function Style(selector, style) {
 		if (typeof selector != "string") {
 			style = selector;
@@ -54,6 +56,9 @@ define(function(){
 				this.style[k] = style[k];
 		}
 	}
+	Object.defineProperties(Style.prototype, {
+		toString: {value: returnclasses},
+	});
 	
 	function StyleSet()
 	{
@@ -71,6 +76,7 @@ define(function(){
 				return this;
 			},
 		},
+		toString: {value: returnclasses},
 	});
 	
 	Object.defineProperties(self, {

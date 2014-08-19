@@ -5,11 +5,15 @@ window.DEBUG = true; // Never actually checked if true.
 	
 	var paths = {
 		jquery: [ // jQuery won't let us name it.
-			"https://cdn.jsdelivr.net/jquery/2.1.0/jquery.min",
-			"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min",
+			"https://code.jquery.com/jquery-2.1.1.min",
+			"https://cdn.jsdelivr.net/jquery/2.1.1/jquery.min",
+			"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min",
 		],
-		jquery_event_swipe: [
-			"https://cdn.jsdelivr.net/jquery.event.swipe/0.5.2/jquery.event.swipe.min",
+		// jquery_event_swipe: [
+		// 	"https://cdn.jsdelivr.net/jquery.event.swipe/0.5.2/jquery.event.swipe.min",
+		// ],
+		jqueryte1: [
+			"https://cdnjs.cloudflare.com/ajax/libs/jquery-te/1.4.0/jquery-te.min",
 		],
 		jssignals1: [
 			"https://cdn.jsdelivr.net/js-signals/1.0.0/signals.min",
@@ -37,6 +41,7 @@ window.DEBUG = true; // Never actually checked if true.
 		],
 		unslider0: [
 			"https://cdn.jsdelivr.net/jquery.unslider/0.1/unslider.min",
+			"https://cdn.rawgit.com/idiot/unslider/1.0.0/src/unslider.min",
 		],
 		url1: [
 			"https://kevincox-cdn.appspot.com/url-1.0.4.min",
@@ -47,13 +52,17 @@ window.DEBUG = true; // Never actually checked if true.
 	if (DEBUG) {
 		///// Source versions for easy debugging.
 		paths.jquery.unshift(
-			"https://cdn.jsdelivr.net/jquery/2.1.0/jquery",
-			"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery");
+			"https://code.jquery.com/jquery-2.1.1",
+			"https://cdn.jsdelivr.net/jquery/2.1.1/jquery",
+			"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery");
 		paths.jssignals1.unshift(
 			"https://cdn.jsdelivr.net/js-signals/1.0.0/signals",
 			"https://cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals");
 		paths.q1.unshift(
 			"https://cdnjs.cloudflare.com/ajax/libs/q.js/1.0.1/q");
+		paths.unslider0.unshift(
+			"https://cdn.jsdelivr.net/jquery.unslider/0.1/unslider",
+			"https://cdn.rawgit.com/idiot/unslider/1.0.0/src/unslider");
 	}
 	
 	require.config({
@@ -63,8 +72,9 @@ window.DEBUG = true; // Never actually checked if true.
 		//enforceDefine: true,
 		
 		shim: {
-			jquery_event_swipe: {deps: ["jquery"]},
-			unslider0: {deps: ["jquery_event_swipe"]},
+			// jquery_event_swipe: {deps: ["jquery"]},
+			jqueryte1: {deps: ["jquery"]},
+			unslider0: {deps: ["jquery", /*"jquery_event_swipe"*/]},
 		}
 	});
 	

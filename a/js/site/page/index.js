@@ -1,8 +1,21 @@
 define([
 	"jquery", "cses", "site/router", "site/PageGenerated", "site/templates",
-	"scriptup", "site/ui/Banner",
-], function($, cses, router, mkgen, templates, scriptup, Banner) {
+	"scriptup", "site/ui/Banner", "jss", "site/ui/toolbelt",
+], function(
+	$, cses, router, mkgen, templates, scriptup, Banner, jss, toolbelt
+) {
 	"use strict";
+	
+	function uiAdmin(){
+		var $t = new toolbelt.Tool("E", "Edit this page");
+	}
+	
+	function uiEdit($e, post){
+		var jqtem = "jqueryte1"; // Lazy load.
+		require([jqtem], function(jqte){
+			
+		});
+	}
 	
 	return mkgen(function($cont){
 		var s = location.pathname.substr(1);
@@ -40,6 +53,12 @@ define([
 				var template = templates[p.type] || templates.page;
 				
 				template($cont, p);
+				
+				cses.authtoken.then(function(t){
+					if (t) {
+						$cont.append(uiAdmin());
+					}
+				})
 			}, function(){
 				router.load("404");
 			});
