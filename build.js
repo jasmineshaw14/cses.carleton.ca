@@ -4,6 +4,7 @@
 	//mainConfigFile: "a/js/bootstrap.js",
 	
 	paths: {
+		ckeditor4: "empty:",
 		jquery: "empty:",
 		jssignals1: "empty:",
 		Paragon1: "empty:",
@@ -16,21 +17,10 @@
 		// requirejs: "../../require",
 	},
 	deps: [ // Preload modules we know we will need.
-		"jquery",
-		// "jquery_event_swipe",
-		"jssignals1",
-		"q1",
-		"store2",
-		"underscore",
-		"unslider0",
-		"url1",
-		
-		"cses",
 		"site/Page",
 		"site/PageStatic",
 		"site/PageGenerated",
 		"site/page/index",
-		"site/templates",
 	],
 	
 	//keepBuildDir: true,

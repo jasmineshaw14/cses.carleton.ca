@@ -1,5 +1,5 @@
-define(["exports", "jquery", "url1"],
-function(self,      $,        url)
+define(["exports", "jquery", "url1", "jssignals1"],
+function(self,      $,        url, signals)
 {
 	"use strict";
 	
@@ -69,6 +69,8 @@ function(self,      $,        url)
 		load: {
 			value: function router_load(what) {
 				console.log("Loading /"+what);
+				
+				self.navigation.dispatch();
 				
 				// Get top-level path component.
 				var comp = what.split("/")[0] || "index";
@@ -177,6 +179,8 @@ function(self,      $,        url)
 				self.load(location.pathname.substr(1));
 			},
 		},
+		
+		navigation: {value: new signals.Signal()}
 	});
 	Object.preventExtensions(self);
 	

@@ -6,14 +6,46 @@ define([
 ) {
 	"use strict";
 	
-	function uiAdmin(){
-		var $t = new toolbelt.Tool("E", "Edit this page");
+	function uiAdmin($cont, $post, post){
+		var $t = toolbelt.tool("E", "Edit this page");
+		$t.one("click", uiEdit.bind(undefined, $cont, $post, post));
+		
+		router.navigation.addOnce(function(){
+			$t.remove();
+		});
 	}
 	
-	function uiEdit($e, post){
-		var jqtem = "jqueryte1"; // Lazy load.
-		require([jqtem], function(jqte){
-			
+	function uiEdit($cont, $e, post){
+		$("<link>", {
+			rel: "stylesheet",
+			href: "/a/css/jqueryte.css",
+		}).appendTo($cont);
+		var deps = ["ckeditor4"]; // Lazy load.
+		var editor;
+		require(deps, function(CK){
+			$e.attr("contenteditable", true);
+			editor = CK.inline($e.get(0),{
+				extraPlugins: [
+					"sourcedialog",
+					"showblocks",
+					"colorbutton",
+					"colordialog",
+					"dialogadvtab",
+					"table",
+					"tabletools",
+					"tab",
+				].join(","),
+			});
+		});
+		
+		scriptup($cont, function(su){
+			su("form", function(su){
+				this.on("submit", function(e){
+					e.preventDefault();
+					console.log(editor.getData());
+				});
+				su("button", "Save");
+			});
 		});
 	}
 	
@@ -48,15 +80,15 @@ define([
 			}
 			
 			var p = new cses.Post(s);
-			p.load().then(function(){
-				console.log(p.type);
+			p.load().done(function(){
 				var template = templates[p.type] || templates.page;
 				
-				template($cont, p);
+				var $post = $(template(p));
+				$post.appendTo($cont)
 				
-				cses.authtoken.then(function(t){
+				cses.authtoken.done(function(t){
 					if (t) {
-						$cont.append(uiAdmin());
+						uiAdmin($cont, $post, p);
 					}
 				})
 			}, function(){

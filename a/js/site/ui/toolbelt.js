@@ -41,21 +41,14 @@ function(scriptup, jss)
 		class: "chrome " + style,
 	}).appendTo(document.body);
 	
-	function Tool(letter, action)
-	{
-		var self = this;
-		
-		this.$root = scriptup("li", function(su){
+	function tool(letter, action) {
+		return scriptup("li", function(su){
 			su("span", action);
 			su("span", letter);
 		}).appendTo(belt);
 	}
-	Object.preventExtensions(Tool);
-	Object.defineProperties(Tool.prototype, {
-	});
-	Object.preventExtensions(Tool.prototype);
 	
 	return {
-		Tool: Tool,
+		tool: tool,
 	};
 });

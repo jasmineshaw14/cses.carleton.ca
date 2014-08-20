@@ -4,6 +4,9 @@ window.DEBUG = true; // Never actually checked if true.
 	"use strict";
 	
 	var paths = {
+		ckeditor4: [
+			"https://cdn.ckeditor.com/4.4.4/standard-all/ckeditor",
+		],
 		jquery: [ // jQuery won't let us name it.
 			"https://code.jquery.com/jquery-2.1.1.min",
 			"https://cdn.jsdelivr.net/jquery/2.1.1/jquery.min",
@@ -12,9 +15,6 @@ window.DEBUG = true; // Never actually checked if true.
 		// jquery_event_swipe: [
 		// 	"https://cdn.jsdelivr.net/jquery.event.swipe/0.5.2/jquery.event.swipe.min",
 		// ],
-		jqueryte1: [
-			"https://cdnjs.cloudflare.com/ajax/libs/jquery-te/1.4.0/jquery-te.min",
-		],
 		jssignals1: [
 			"https://cdn.jsdelivr.net/js-signals/1.0.0/signals.min",
 			"https://cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals.min",
@@ -39,10 +39,6 @@ window.DEBUG = true; // Never actually checked if true.
 			"https://cdn.jsdelivr.net/underscorejs/1.6.0/underscore-min",
 			"ttps://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min",
 		],
-		unslider0: [
-			"https://cdn.jsdelivr.net/jquery.unslider/0.1/unslider.min",
-			"https://cdn.rawgit.com/idiot/unslider/1.0.0/src/unslider.min",
-		],
 		url1: [
 			"https://kevincox-cdn.appspot.com/url-1.0.4.min",
 			"/a/js/url1",
@@ -60,9 +56,6 @@ window.DEBUG = true; // Never actually checked if true.
 			"https://cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals");
 		paths.q1.unshift(
 			"https://cdnjs.cloudflare.com/ajax/libs/q.js/1.0.1/q");
-		paths.unslider0.unshift(
-			"https://cdn.jsdelivr.net/jquery.unslider/0.1/unslider",
-			"https://cdn.rawgit.com/idiot/unslider/1.0.0/src/unslider");
 	}
 	
 	require.config({
@@ -72,9 +65,8 @@ window.DEBUG = true; // Never actually checked if true.
 		//enforceDefine: true,
 		
 		shim: {
+			ckeditor4: {exports: "CKEDITOR"},
 			// jquery_event_swipe: {deps: ["jquery"]},
-			jqueryte1: {deps: ["jquery"]},
-			unslider0: {deps: ["jquery", /*"jquery_event_swipe"*/]},
 		}
 	});
 	
