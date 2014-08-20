@@ -1,8 +1,8 @@
 define([
 	"jquery", "cses", "site/router", "site/PageGenerated", "site/templates",
-	"scriptup", "site/ui/Banner", "jss", "site/ui/toolbelt",
+	"scriptup", "site/ui/Banner", "jss", "site/ui/toolbelt", "site/ui/MyBanner",
 ], function(
-	$, cses, router, mkgen, templates, scriptup, Banner, jss, toolbelt
+	$, cses, router, mkgen, templates, scriptup, Banner, jss, toolbelt, MyBanner
 ) {
 	"use strict";
 	

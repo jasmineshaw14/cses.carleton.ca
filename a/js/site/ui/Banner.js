@@ -1,5 +1,5 @@
-define(["jquery", "cses", "unslider0"],
-function($, cses, _unslider)
+define(["jquery", "cses", "unslider0", "site/ui/MyBanner"],
+function($, cses, _unslider, MyBanner)
 {
 	"use strict";
 	
@@ -7,19 +7,11 @@ function($, cses, _unslider)
 	{
 		var self = this;
 		
-		this.$root = $("<div>", {
-			class: "chrome",
-			css: {
-				position: "relative",
-				display: "block",
-				margin: "0 auto",
-				maxWidth: "100%",
-				visibility: "hidden",
-				overflow: "auto",
-				textAlign: "center",
-			},
-		});
-		this._$list = $("<ul>").appendTo(this.$root);
+		this.banner = new MyBanner();
+		this.banner.interval = 7;
+		
+		this.$root = $(this.banner.root);
+		this._$list = $(this.banner.list);
 		this._banners = [];
 		setTimeout(function(){self.update().done()}, 0);
 	}
@@ -39,39 +31,23 @@ function($, cses, _unslider)
 				var self = this;
 				
 				this._$list.empty();
-				var maxh = 0;
-				var maxw = 0;
-				this._banners.map(function(b){
+				this._banners.forEach(function(b){
 					var i = b.imageForWidth();
-					if (i.height > maxh) maxh = i.height;
-					if (i.width  > maxw) maxw = i.width;
 					
 					var r = $("<img>", {
 						src: i.src,
 						alt: i.desc,
+						css: {
+							width: "100%",
+						}
 					});
-					if (b.href){
+					if (b.href) {
 						r = $("<a>", {
 							href: b.href,
 						}).append(r);
 					}
 					
-					return r;
-				}).forEach(function(i){
-					self._$list.append(
-						$("<li>", {
-							css:{
-								cssFloat: "left",
-								height: maxh+"px",
-							},
-						}).append(i)
-					);
-				});
-				this.$root.css("width", maxw+"px");
-				this.$root.css("visibility", "");
-				this.$root.unslider({
-					dots: true,
-					delay: 5000,
+					self._$list.append($("<li>").append(r));
 				});
 			},
 		},
