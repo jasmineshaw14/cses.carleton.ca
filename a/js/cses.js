@@ -266,6 +266,19 @@
 				});
 			},
 		},
+		
+		save: {
+			value: function post_save(){
+				var self = this;
+				return cses.request("PUT", "/post/"+this.id, {
+					post: {
+						title:   self.title,
+						type:    self.type,
+						content: self.content.html(),
+					},
+				});
+			},
+		},
 	});
 	Object.preventExtensions(Post.prototype);
 	

@@ -15,6 +15,26 @@ define([
 		});
 	}
 	
+	function isAdmin(){
+		return cses.authtoken.then(function(t){
+			if (t && cses.authperms.indexOf("postw") >= 0) return true;
+			else                                           throw false;
+		});
+	}
+	
+	function renderpost($cont, p){
+		var template = templates[p.type] || templates.page;
+		
+		var $post = $(template(p));
+		$post.appendTo($cont)
+		
+		isAdmin().done(function(){
+			uiAdmin($cont, $post, p);
+		});
+		
+		return $post;
+	}
+	
 	function uiEdit($cont, $e, post){
 		$("<link>", {
 			rel: "stylesheet",
@@ -42,7 +62,11 @@ define([
 			su("form", function(su){
 				this.on("submit", function(e){
 					e.preventDefault();
-					console.log(editor.getData());
+					// post.content = editor.getData();
+					post.content = $e.clone();
+					post.save().done(function(r){
+						router.load(post.id);
+					})
 				});
 				su("button", "Save");
 			});
@@ -81,18 +105,27 @@ define([
 			
 			var p = new cses.Post(s);
 			p.load().done(function(){
-				var template = templates[p.type] || templates.page;
-				
-				var $post = $(template(p));
-				$post.appendTo($cont)
-				
-				cses.authtoken.done(function(t){
-					if (t) {
-						uiAdmin($cont, $post, p);
-					}
-				})
+				$cont.append(renderpost($cont, p));
 			}, function(){
-				router.load("404");
+				isAdmin().then(function(){
+					scriptup($cont, function(su){
+						su("h1", "There is nothing here.");
+						su("button", "Create a Page")
+							.on("click", function(e){
+								e.preventDefault();
+								
+								$cont.empty();
+								var p   = new cses.Post(location.pathname.slice(1));
+								var $pe = renderpost($cont, p);
+								$pe.html("<h1>A New Post</h1>");
+								$cont.append($pe);
+								
+								uiEdit($cont, $pe, p);
+							});
+					});
+				}, function(){
+					router.load("404");
+				});
 			});
 		}
 	});

@@ -78,6 +78,7 @@ function(self,      $,        url, signals)
 				// Short circuit if we know the file doesn't exist.
 				if (!comp.match(new RegExp("^"+[
 					"404",
+					"400",
 					"admin(|/.*)",
 					"credits",
 					"edit",
