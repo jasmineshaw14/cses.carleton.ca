@@ -1,5 +1,5 @@
-define(["jquery", "cses", "unslider0", "site/ui/MyBanner"],
-function($, cses, _unslider, MyBanner)
+define(["jquery", "cses", "site/ui/MyBanner"],
+function($, cses, MyBanner)
 {
 	"use strict";
 	
