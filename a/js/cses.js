@@ -334,7 +334,6 @@
 			value: function tbtbook_load() {
 				var self = this;
 				return cses.request("GET", "/tbt/book/"+this.id).then(function(r){
-					self.id      = r.json.id;
 					self.title   = r.json.title;
 					self.edition = r.json.edition;
 					self.author  = r.json.author;
@@ -366,6 +365,7 @@
 		
 		save: {
 			value: function tbtbook_save(authorizer) {
+				var self = this;
 				var url = this.id? "/"+this.id : "/tbt/book";
 				return cses.request("PUT", url, {
 					post: {
@@ -377,6 +377,9 @@
 						buyer:      this.buyer && this.buyer.id,
 						authorizer: authorizer.id,
 					},
+				}).then(function(r){
+					self.id = r.json.id;
+					return r;
 				});
 			},
 		},

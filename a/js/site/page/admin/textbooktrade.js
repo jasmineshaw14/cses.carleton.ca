@@ -56,8 +56,8 @@ define([
 						                   .filter(function(s){return s});
 						b.price = price.val() || undefined;
 						b.seller = seller.value;
-						b.save(authorized.value).then(function(r){
-							router.go("/textbooktrade/book/"+r.id);
+						b.save(authorized.value).done(function(r){
+							router.go("/textbooktrade/book/"+b.id);
 						}, function(e){
 							console.log(e, e.msg);
 							error.text(e.msg);

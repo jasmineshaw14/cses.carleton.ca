@@ -8,6 +8,8 @@ define([
 	"use strict";
 	
 	function PersonSelect() {
+		var self = this;
+		
 		this.$root = $("<span>");
 		this.comp  = new PersonCompleter($("<input>", {type: "text", appendTo: this.$root}));
 		$("<button>", {
@@ -20,7 +22,7 @@ define([
 					var pa = PersonAdd();
 					pa.on("cses:personadd:added", function(e, p){
 						lb.open = false;
-						seller.value = p;
+						self.comp.value = p;
 					});
 					lb.$root.append(pa);
 					lb.styleFloating = true;
