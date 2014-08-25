@@ -83,6 +83,7 @@ define([
 	return mkgen(function($cont){
 		var s = location.pathname.substr(1);
 		if (!s) { // Index page.
+			document.title = "CSES";
 			scriptup($cont, function(su){
 				var banner = new Banner();
 				this.append(banner.$root);
