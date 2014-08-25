@@ -42,13 +42,14 @@ define([
 			} else if (path[0] == "add") {
 				su("h1", "Textbook Trade Add");
 				var error;
-				var title, courses, price, seller, authorized;
+				var title, author, courses, price, seller, authorized;
 				su("form", {
 					on: {submit: function(e){
 						e.preventDefault();
 						
 						var b = new cses.TBTBook();
 						b.title = title.val() || undefined;
+						b.author = title.val() || undefined;
 						b.courses = courses.val()
 						                   .replace(/[^\w]/, '')
 						                   .split(",")
@@ -65,6 +66,9 @@ define([
 				}, function(su) {
 					su("label", {text: "Title "}, function(su){
 						title = su("input", {type: "text"});
+					}); su("br");
+					su("label", {text: "Author "}, function(su){
+						author = su("input", {type: "text"});
 					}); su("br");
 					su("label", {text: "Courses"}, function(su){
 						courses = su("input", { prop: {

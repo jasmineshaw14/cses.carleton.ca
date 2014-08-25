@@ -334,6 +334,7 @@
 			value: function tbtbook_load() {
 				var self = this;
 				return cses.request("GET", "/tbt/book/"+this.id).then(function(r){
+					self.id      = r.json.id;
 					self.title   = r.json.title;
 					self.edition = r.json.edition;
 					self.author  = r.json.author;
@@ -369,6 +370,7 @@
 				return cses.request("PUT", url, {
 					post: {
 						title:      this.title,
+						author:     this.author,
 						courses:    this.courses,
 						price:      this.price,
 						seller:     this.seller && this.seller.id,
