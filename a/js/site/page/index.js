@@ -63,10 +63,21 @@ define([
 				this.on("submit", function(e){
 					e.preventDefault();
 					// post.content = editor.getData();
+					
+					post.title   = title.val();
 					post.content = $e.clone();
+					
 					post.save().done(function(r){
 						router.load(post.id);
 					})
+				});
+				window.p = post;
+				var title = su("input", {
+					type: "text",
+					val: post.title,
+				});
+				post.titlechanged.add(function(t){
+					title.val(t);
 				});
 				su("button", "Save");
 			});
