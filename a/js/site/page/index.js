@@ -36,10 +36,6 @@ define([
 	}
 	
 	function uiEdit($cont, $e, post){
-		$("<link>", {
-			rel: "stylesheet",
-			href: "/a/css/jqueryte.css",
-		}).appendTo($cont);
 		var deps = ["ckeditor4"]; // Lazy load.
 		var editor;
 		require(deps, function(CK){
