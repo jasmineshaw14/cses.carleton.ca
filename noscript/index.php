@@ -1,7 +1,7 @@
 <?php
-	$title = "CSES"
-	$url = "/"
-	include('template.php');
+	$title = "CSES";
+	$url = "/";
+	include('header.php');
 ?>
 </head><body>
 <h1>CSES</h1>
