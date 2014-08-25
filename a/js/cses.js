@@ -707,6 +707,27 @@
 			},
 		},
 		
+		/** Check if user has permissions.
+		 * 
+		 * Returns a promise that will be fulfilled iff the user is logged in
+		 * and has all of the permissions.  The promise is rejected if the user
+		 * is not logged in or is missing a permission.
+		 */
+		hasPermission: {
+			value: function CSES_hasPermission(){
+				var args = arguments;
+				return cses.authtoken.then(function(t){
+					if (!t) throw false;
+					
+					for (var i = arguments.length; i--; )
+						if (cses.authperms.indexOf(args[i]) < 0)
+							throw false;
+					
+					return true;
+				});
+			},
+		},
+		
 		blobprefix: {value: api+"/blob/"},
 		
 		/** The Person constructor.
