@@ -1,8 +1,10 @@
 define([
 	"jquery", "cses", "site/router", "site/PageGenerated", "site/templates",
 	"scriptup", "site/ui/Banner", "jss", "site/ui/toolbelt", "site/ui/MyBanner",
+	"moment"
 ], function(
-	$, cses, router, mkgen, templates, scriptup, Banner, jss, toolbelt, MyBanner
+	$, cses, router, mkgen, templates, scriptup, Banner, jss, toolbelt,
+	MyBanner, moment
 ) {
 	"use strict";
 	
@@ -33,6 +35,106 @@ define([
 		});
 		
 		return $post;
+	}
+	
+	function uiHome(){
+		return scriptup("div", function(su){
+			var banner = new Banner();
+			// this.append(banner.$root);
+			
+			su("ul", {css:{float:"left"}}, function(su){
+				[
+					{href: "/hello-world", text: "A page"},
+					{href: "/login",text: "Login"},
+					{href: "/logout",text: "Logout"},
+					{href: "/people", text: "People"},
+					{href: "/no-page", text: "Dead link"},
+					{href: "/textbooktrade", text: "Textbook Trade"}
+				].forEach(function(i){
+					su("li", function(su){ su("a", i) });
+				});
+			});
+			
+			this.append(uiUpcomming());
+		});
+	}
+	
+	var upcommingstyle = new jss.StyleSet(
+		new jss.Style({
+			fontSize: "0.8em",
+			maxWidth: "100%",
+			cssFloat: "right",
+			textAlign: "center",
+		}),
+		new jss.Style("& ul", {
+			padding: "0",
+			listStyle: "none",
+		}),
+		new jss.Style("& a", {
+			display: "block",
+			textDecoration: "none",
+			color: "inherit",
+		}),
+		new jss.Style("& h2", {
+			fontSize: "1em",
+			margin: "1em 0 0 0",
+			whiteSpace: "nowrap",
+			overflow: "hidden",
+			textOverflow: "ellipsis",
+		}),
+		new jss.Style("& p", {
+			margin: "0.1em 0 0 0",
+			color: "hsl(0,0%,40%)",
+		})
+	);
+	function uiUpcomming(){
+		return scriptup("aside", {class: upcommingstyle.classes}, function(su){
+			su("h1", "Upcoming Events");
+			su("ul", function(su){
+				cses.Event.fetch(8).done(function(events){
+					events
+						.filter(function(event){ return event.title.length < 40 })
+						.slice(0, 8)
+						.forEach(function(event){
+							su("li").append(uiEvent(event));
+						});
+				});
+			})
+		});
+	}
+	function uiEvent(e){
+		return scriptup("a", {
+			href: e.href,
+		}, function(su){
+			su("h2", e.title);
+			
+			var ds;
+			var start = moment(e.start).startOf("day");
+			var end   = e.end && moment(e.end).startOf("day");
+			
+			var ys = end.year() == moment().year()? "" : " YYYY";
+			
+			if (start.year() == end.year()) {
+				if (start.month() == end.month()) {
+					if (start.day() == end.day()){
+						ds = start.format("MMMM Do"+ys);
+					} else {
+						ds  = start.format("MMMM Do");
+						ds += " - ";
+						ds += end.format("Do"+ys);
+					}
+				} else {
+					ds  = start.format("MMMM Do");
+					ds += " - ";
+					ds += end.format("MMMM Do"+ys)
+				}
+			} else {
+				ds  = start.format("MMMM Do YYYY");
+				ds += " - ";
+				ds += end.format("MMMM Do YYYY");
+			}
+			su("p", ds);
+		});
 	}
 	
 	function uiEdit($cont, $e, post){
@@ -84,25 +186,7 @@ define([
 		var s = location.pathname.substr(1);
 		if (!s) { // Index page.
 			document.title = "CSES";
-			scriptup($cont, function(su){
-				var banner = new Banner();
-				this.append(banner.$root);
-				
-				su("h1", {text: "Welcome to the CSES site."});
-				su("p", {text: "There is nothing here yet."});
-				su("ul", function(su){
-					[
-						{href: "/hello-world", text: "A page"},
-						{href: "/login",text: "Login"},
-						{href: "/logout",text: "Logout"},
-						{href: "/people", text: "People"},
-						{href: "/no-page", text: "Dead link"},
-						{href: "/textbooktrade", text: "Textbook Trade"}
-					].forEach(function(i){
-						su("li", function(su){ su("a", i) });
-					});
-				});
-			});
+			$cont.append(uiHome());
 		} else { // Fetch from database.
 			
 			// Remove trailing slash.

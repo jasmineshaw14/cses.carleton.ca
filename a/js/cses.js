@@ -2,18 +2,19 @@
 	"use strict";
 	
 	if (typeof define == "function" && define["amd"]) { // AMD
-		define(["jquery", "q1", "url1", "Paragon1"], cses);
+		define(["jquery", "q1", "url1", "Paragon1", "reqwest1"], cses);
 	} else if (typeof module == "object" && module.exports) { // Node
 		module["exports"] = cses(
 			require("jquery"),
 			require("q"),
 			require("url"),
-			require("Paragon")
+			require("Paragon"),
+			require("reqwest")
 		);
 	} else {
-		root["cses"] = cses(jQuery, Q, url, Paragon);
+		root["cses"] = cses(jQuery, Q, url, Paragon, reqwest);
 	}
-}(this, function CSES($, Q, URL, Paragon){
+}(this, function CSES($, Q, URL, Paragon, reqwest){
 	"use strict";
 	var cses = window.cses = {};
 	var api = "https://api.cses.carleton.ca";
@@ -488,6 +489,80 @@
 	});
 	Object.preventExtensions(Banner.prototype);
 	
+	var calendars = [
+		"mmblktn9tkvj50r24fcp9ejk5o%40group.calendar.google.com",
+		"qph9lt0jmmn0r6valqfhj5rre0%40group.calendar.google.com",
+		"sqejs0pqa5ln2qcs91tvk5jahg%40group.calendar.google.com",
+		"en.canadian%23holiday%40group.v.calendar.google.com",
+	];
+	
+	function Event() { }
+	Object.defineProperties(Event, {
+		fetch: {
+			value: function Event_fetch(number){
+				number = number || 10;
+				
+				var u = "https://www.googleapis.com/calendar/v3/" +
+					"calendars/{id}/events" +
+					"?orderBy=starttime" +
+					"&singleEvents=true" +
+					"&timeMin=" + new Date().toISOString() +
+					"&maxResults=" + number +
+					"&fields=items(description%2ChtmlLink%2Cstart%2Cend%2Csummary)" +
+					"&key=AIzaSyCoTrCEScDiR5PZYbfopk0vHE_YDPiiIYw";
+				
+				return Q.allSettled(
+					calendars.map(function(id){
+						var url = u.replace("{id}", id);
+						return reqwest({
+							url: url,
+							crossOrigin: true,
+						}).then(function(r){
+							return r.items.map(function(e){
+								var r = new Event();
+								r.title = e.summary;
+								r.desc  = e.description;
+								r.href  = e.htmlLink;
+								if (e.start.dateTime) {
+									r.start = new Date(e.start.dateTime);
+								} else {
+									// No way to get proper timezone, so just
+									// assume it is the user's timezone.
+									
+									var p = e.start.date.split("-");
+									r.start = new Date(+p[0],+p[1]-1,+p[2]);
+								}
+								if (e.end.dateTime) {
+									r.end = new Date(e.end.dateTime);
+								} else {
+									var p = e.end.date.split("-");
+									r.end = new Date(+p[0],+p[1]-1,+p[2]);
+									
+									// Subtract 1ms so it ends the day before.
+									r.end -= 1;
+								}
+								return r;
+							});
+						});
+					})
+				).then(function(eventsp){
+					var events = [];
+					eventsp.forEach(function(ep){
+						if (ep.state == "fulfilled") {
+							events.push.apply(events, ep.value);
+						} else {
+							console.log("Fetching calendar failed.", ep);
+						}
+					});
+					
+					events.sort(function(a,b){ return a.start - b.start });
+					
+					return events;
+				})
+			}
+		}
+	});
+	
 	function uploadFile(f) {
 		return cses.authtoken.then(function(auth){
 			var r = Q.defer();
@@ -751,6 +826,8 @@
 		/** A banner.
 		 */
 		Banner: {value: Banner, enumerable: true},
+		
+		Event: {value: Event, enumerable: true},
 	});
 	Object.preventExtensions(cses);
 	

@@ -12,12 +12,12 @@ window.DEBUG = true; // Never actually checked if true.
 			"https://cdn.jsdelivr.net/jquery/2.1.1/jquery.min",
 			"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min",
 		],
-		// jquery_event_swipe: [
-		// 	"https://cdn.jsdelivr.net/jquery.event.swipe/0.5.2/jquery.event.swipe.min",
-		// ],
 		jssignals1: [
 			"https://cdn.jsdelivr.net/js-signals/1.0.0/signals.min",
 			"https://cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals.min",
+		],
+		moment: [ // Moment won't let us rename it.
+			"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min",
 		],
 		Paragon1: [
 			"https://kevincox-cdn.appspot.com/Paragon-1.1.1.min",
@@ -26,6 +26,10 @@ window.DEBUG = true; // Never actually checked if true.
 		q1: [
 			"https://cdnjs.cloudflare.com/ajax/libs/q.js/1.0.1/q.min",
 			"https://googledrive.com/host/0B5Q4xFi89w8sSHBHaUtMeXM5c28", // A slow worst-case.
+		],
+		reqwest1: [
+			"https://cdnjs.cloudflare.com/ajax/libs/reqwest/1.1.2/reqwest.min",
+			"https://cdn.rawgit.com/ded/reqwest/v1.1.2/reqwest.min",
 		],
 		store2: [
 			//"https://cdn.jsdelivr.net/store/2.1.2/store2.min", Too old, doesn't define itself.
