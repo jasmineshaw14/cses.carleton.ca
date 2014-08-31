@@ -242,6 +242,7 @@
 		find: {
 			value: function Post_find(o){
 				return cses.request("GET", "/post", {
+					auth: false,
 					get: {
 						dir: o.dir,
 					}
@@ -259,7 +260,9 @@
 		load: {
 			value: function post_load(){
 				var self = this;
-				return cses.request("GET", "/post/"+this.id).then(function(r){
+				return cses.request("GET", "/post/"+this.id, {
+					auth: false,
+				}).then(function(r){
 					self.slug    = r.json.slug;
 					self.title   = r.json.title;
 					self.type    = r.json.type
@@ -441,7 +444,9 @@
 	Object.defineProperties(Banner, {
 		fetchAll: {
 			value: function Banner_fetchAll(){
-				return cses.request("GET", "/banner").then(function(r){
+				return cses.request("GET", "/banner", {
+					auth: false,
+				}).then(function(r){
 					return {
 						banners: r.json.banners.map(Banner._fromAPI),
 					};
@@ -618,7 +623,8 @@
 		 * @param opt [Object] An options object.  The following keys have
 		 *   meaning:
 		 *   - auth: If provided is used as the authorization token for the
-		 *       request.  Otherwise the global one is.
+		 *       request or false to not use authorization. Otherwise the
+		 *       global default token is used.
 		 *   - get: If provided it is a object that will be used to build the
 		 *       query string.
 		 *   - post:
