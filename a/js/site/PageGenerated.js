@@ -1,5 +1,5 @@
-define(["site/Page"],
-function(Page)
+define(["site/Page", "q1"],
+function(Page, Q)
 {
 	"use strict";
 	
@@ -46,6 +46,7 @@ function(Page)
 		});
 		Object.preventExtensions(PageGenerated.prototype);
 		
-		return PageGenerated;
+		var pagep = Q.resolve(PageGenerated);
+		return function(){ return pagep };
 	}
 });

@@ -1,5 +1,5 @@
-define(["site/Page"],
-function(Page)
+define(["site/Page", "q1"],
+function(Page, Q)
 {
 	"use strict";
 	
@@ -20,7 +20,7 @@ function(Page)
 			load: {
 				value: function PageStatic_load(){
 					document.title = title;
-					this.$cont.append($content);
+					this.$root.append($content);
 				},
 			},
 			unload: {
@@ -32,6 +32,7 @@ function(Page)
 		});
 		Object.preventExtensions(PageStatic.prototype);
 		
-		return PageStatic;
+		var pagep = Q.resolve(PageStatic);
+		return function(){ return pagep };
 	}
 });

@@ -3,7 +3,7 @@ function(scriptup, mkstatic)
 {
 	"use strict";
 	
-	var content = scruiptup("div", {
+	var content = scriptup("div", {
 		css: {
 			padding: "15px",
 			textAlign: "center",

@@ -22,26 +22,25 @@ function($,        mkgen,                session,        cses,   scriptup)
 	}
 	
 	return mkgen("Upload — CSES", function($cont){
-		if (!cses.authuser) { // Ensured logged in.
-			session.loginRequest("/admin/upload");
-			return;
-		}
-		
-		scriptup($cont, function(su){
-			su("h1", {text: "Upload"});
-			su("input", {
-				attr: {
-					type: "file",
-					multiple: true,
-				},
-				on: { change: function(e){
-					e.preventDefault();
-					
-					for (var i = 0; i < this.files.length; i++)
-						uploadFile(this.files[i]);
-				} },
+		cses.hasPermission("upload").then(function(){
+			scriptup($cont, function(su){
+				su("h1", {text: "Upload"});
+				su("input", {
+					attr: {
+						type: "file",
+						multiple: true,
+					},
+					on: { change: function(e){
+						e.preventDefault();
+						
+						for (var i = 0; i < this.files.length; i++)
+							uploadFile(this.files[i]);
+					} },
+				});
+				out = su("div");
 			});
-			out = su("div");
+		}, function(){
+			session.loginRequest("/admin/upload");
 		});
 	});
 });

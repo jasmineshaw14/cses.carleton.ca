@@ -70,6 +70,8 @@ function(self,      $,        url, signals)
 			value: function router_load(what) {
 				console.log("Loading /"+what);
 				
+				var u = url.parse("/"+what);
+				
 				self.navigation.dispatch();
 				
 				// Get top-level path component.
@@ -78,7 +80,7 @@ function(self,      $,        url, signals)
 				// Short circuit if we know the file doesn't exist.
 				if (!comp.match(new RegExp("^"+[
 					"404",
-					"400",
+					"500",
 					"admin(|/.*)",
 					"credits",
 					"edit",
@@ -93,22 +95,29 @@ function(self,      $,        url, signals)
 				var ourloadid = ++loadid;
 				
 				// Load the page.
-				require(["site/page/"+comp], function(Page) {
+				require(["site/page/"+comp], function(resolver) {
 					if (loadid != ourloadid) return; // Another load has started.
 					
-					if ( typeof Page != "function" ) // Probably can't reach server.
+					if ( typeof resolver != "function" ) // Probably can't reach server.
 					{
 						console.log("Error loading page!", "site/page/"+comp);
 						self.load("404");
 						return;
 					}
 					
-					if (self.curpage) self.curpage.unload(); // Unload last page.
-					
-					self.curpage = new Page(self.$container);
-					self.curpage.load();
-					
-					console.log("Displayed /"+what+".");
+					resolver(u).then(function(Page){
+						self.$container.children().detach();
+						if (self.curpage) self.curpage.unload(); // Unload last page.
+						
+						self.curpage = new Page(u);
+						self.$container.append(self.curpage.$root);
+						self.curpage.load();
+						
+						console.log("Displayed /"+what+".");
+					}).catch(function(e){
+						console.log("Error", e, arguments);
+						self.load("500");
+					}).done();
 				}, function (e) {
 					console.log("FAIL");
 					console.log(e, e.requireModules, e.requireType);

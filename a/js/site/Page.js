@@ -5,8 +5,10 @@ define(["jquery"], function($){
 	 * 
 	 * @param $cont A jQuery element which to render the page into.
 	 */
-	function Page($cont) {
-		this.$cont = $("<div>").appendTo($cont);
+	function Page(url) {
+		this.url = url;
+		this.title = "Title Not Set";
+		this.$root = this.$cont = $("<div>");
 	}
 	Object.defineProperties(Page.prototype, {
 		/** Load the page into the element.
@@ -16,7 +18,7 @@ define(["jquery"], function($){
 		 */
 		load: {
 			value: function Page_render() {
-				this.$cont.html("<h1>No content</h1><p>This page needs to provide some content.</p>");
+				this.$root.html("<h1>No content</h1><p>This page needs to provide some content.</p>");
 			},
 		},
 		/** Unload the page from the element.
@@ -26,7 +28,7 @@ define(["jquery"], function($){
 		 */
 		unload: {
 			value: function Page_unload() {
-				this.$cont.remove();
+				this.$root.remove();
 			}
 		},
 	});
