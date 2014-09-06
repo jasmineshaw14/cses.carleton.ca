@@ -70,7 +70,10 @@ define([
 						this.on("submit", function(e){
 							e.preventDefault();
 							
-							p.save();
+							p.perms = permlist.val().split(",")
+							p.save().done(function(){
+								router.load("people/"+p.id);
+							});
 						});
 						var permlist = su("input", {
 							type: "text",

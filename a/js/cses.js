@@ -212,10 +212,11 @@
 				var url = this.id? "/person/"+this.id : "/person";
 				return cses.request("PUT", url, {
 					post: {
-						name: this.name || undefined,
+						name:     this.name || undefined,
 						namefull: this.namefull || undefined,
-						number: this.number || undefined,
-						emails: this.id? undefined :(this.emails || undefined),
+						number:   this.number || undefined,
+						emails:   this.id? undefined : (this.emails || undefined),
+						perms:    this.perms,
 					},
 				}).then(function(r){
 					self.id = r.json.id;
