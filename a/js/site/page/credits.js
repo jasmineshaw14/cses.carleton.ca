@@ -8,9 +8,5 @@ function(mkstatic,          scriptup){
 			su("h3", function(su){ su("a", {text: name, href: url}) });
 			su("p", {text: text});
 		}
-		
-		lib("progressbar.js", "https://bug7a.github.io/progressbar.js/",
-			"Progressbar.js is a extensible progressbar."
-		);
 	}));
 });

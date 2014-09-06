@@ -31,8 +31,6 @@ function(self,      $,        url, signals)
 		}
 	});
 	
-	setTimeout(function(){ self.load(location.pathname.substr(1)) }, 0);
-	
 	Object.defineProperties(self, {
 		$container: {value: $("#content")},
 		curpage:  {value: undefined, writable: true},

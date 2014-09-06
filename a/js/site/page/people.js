@@ -21,16 +21,6 @@ define([
 		
 		scriptup($cont, function(su){
 			switch (uid) {
-			case "":
-				if (!uid) {
-					session.loginPopup().done(function(){
-						router.replace("/people/"+cses.authuser.id);
-					}, function(e){
-						console.log(e);
-						router.replace("/");
-					});
-				}
-				break;
 			case "new":
 				cses.hasPermission("personw").done(function(){
 					var pa = new PersonAdd();
@@ -39,11 +29,20 @@ define([
 					});
 					$cont.append(pa);
 				}, function(){
-					console.log("JEere");
 					session.loginRequest("/people/new");
 				})
 				break;
 			default:
+				if (!uid) {
+					session.loginPopup().done(function(){
+						router.replace("/people/"+cses.authuser.id);
+					}, function(e){
+						console.log(e);
+						router.replace("/");
+					});
+					break;
+				}
+				
 				var p = new cses.Person(uid);
 				
 				var title = su("h1", function(su){
@@ -65,6 +64,24 @@ define([
 					}, this);
 				});
 				p.load();
+				
+				cses.hasPermission("personw").then(function(){
+					su("form", function(su){
+						this.on("submit", function(e){
+							e.preventDefault();
+							
+							
+						});
+						var permlist = su("input", {
+							type: "text",
+							val: p.perms.join(","),
+						});
+						p.permschanged.add(function(perms){
+							permlist.val(perms.join(","));
+						});
+						su("button", "Update Permissions");
+					});
+				});
 			}
 		});
 	});

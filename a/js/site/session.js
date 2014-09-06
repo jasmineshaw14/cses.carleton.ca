@@ -66,7 +66,9 @@ define([
 			value: function session_restore(){
 				var t = store.get("authtoken");
 				if (t)
-					cses.authorize(t).catch(function(){ store.remove("authtoken") });
+					return cses.authorize(t).catch(function(e){ console.log(e); store.remove("authtoken") });
+				else
+					return Q();
 			},
 		},
 		/** Login with the provided username and password.
