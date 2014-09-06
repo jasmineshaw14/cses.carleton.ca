@@ -38,7 +38,7 @@
 	
 	/// Super method.
 	function superm(self, sup, prop) {
-		return sup.prototype[prop].apply(self, [].prototype.slice(3));
+		return sup.prototype[prop].apply(self, [].prototype.slice.call(arguments, 3));
 	}
 	/// Super get.
 	function superg(self, sup, prop) {

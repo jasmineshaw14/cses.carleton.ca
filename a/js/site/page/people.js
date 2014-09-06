@@ -70,7 +70,7 @@ define([
 						this.on("submit", function(e){
 							e.preventDefault();
 							
-							
+							p.save();
 						});
 						var permlist = su("input", {
 							type: "text",
