@@ -42,6 +42,8 @@ define([
 						su("dd", "$"+s.pricepaid);
 						su("dt", "Paid Books");
 						su("dd", ""+s.bookspaid);
+						su("dt", "Cash on Hand");
+						su("dd", ""+(s.pricesold-s.pricepaid));
 					});
 				});
 			} else if (path[0] == "add") {
