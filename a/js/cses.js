@@ -375,6 +375,7 @@
 				return cses.request("PUT", url, {
 					post: {
 						title:      this.title,
+						edition:    this.edition,
 						author:     this.author,
 						courses:    this.courses,
 						price:      this.price,

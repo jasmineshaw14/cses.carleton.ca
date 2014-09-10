@@ -297,6 +297,10 @@ define([
 						su("dd", function(){
 							book.titlechanged.add(function(t){this.text(t)}, this);
 						});
+						su("dt", "Edition");
+						su("dd", function(){
+							book.editionchanged.add(function(t){this.text(t)}, this);
+						});
 						su("dt", "Price");
 						su("dd", function(){
 							book.pricechanged.add(function(p){this.text("$ "+p)}, this);
