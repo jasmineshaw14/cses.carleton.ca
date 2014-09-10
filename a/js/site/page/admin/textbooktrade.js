@@ -18,8 +18,8 @@ define([
 				su("h1", "Textbook Trade Admin");
 				su("ul", function(su){
 					[
-						{href: "summary", text: "Summary"},
-						{href: "add", text: "Add Books"},
+						{href: "/admin/textbooktrade/summary", text: "Summary"},
+						{href: "/admin/textbooktrade/add", text: "Add Books"},
 						{href: "/textbooktrade", text: "Book List"},
 					].forEach(function(i){
 						i.href = i.href;
@@ -38,6 +38,10 @@ define([
 						su("dd", "$"+s.pricesold);
 						su("dt", "Sold Books");
 						su("dd", ""+s.bookssold);
+						su("dt", "Paid Value");
+						su("dd", "$"+s.pricepaid);
+						su("dt", "Paid Books");
+						su("dd", ""+s.bookspaid);
 					});
 				});
 			} else if (path[0] == "add") {
