@@ -1,10 +1,10 @@
 define([
 	"jquery", "site/PageGenerated", "site/router", "cses", "scriptup",
 	"underscore", "site/ui/PersonSelect", "site/ui/PersonCompleter", "url1",
-	"jss", "site/theme",
+	"jss", "site/theme", "site/ui/toolbelt",
 ], function(
 	$, mkgen, router, cses, scriptup, _, PersonSelect, PersonComplete, URL, jss,
-	theme
+	theme, toolbelt
 ) {
 	"use strict";
 	
@@ -193,6 +193,17 @@ define([
 		document.title = "Textbook Trade — CSES";
 		
 		var path = document.location.pathname.split("/").slice(2);
+		
+		if (isadmin()) {
+			var $t = toolbelt.tool("A", "Textbook Trade Admin");
+			$t.one("click", function(){
+				router.go("/admin/textbooktrade")
+			});
+			
+			router.navigation.addOnce(function(){
+				$t.remove();
+			});
+		}
 		
 		scriptup($cont, function(su){
 			if (!path.length) {

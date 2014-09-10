@@ -20,8 +20,9 @@ define([
 					[
 						{href: "summary", text: "Summary"},
 						{href: "add", text: "Add Books"},
+						{href: "/textbooktrade", text: "Book List"},
 					].forEach(function(i){
-						i.href = "/admin/textbooktrade/" + i.href;
+						i.href = i.href;
 						su("li", function(su){ su("a", i) });
 					});
 				});
