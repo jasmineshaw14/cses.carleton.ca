@@ -80,6 +80,18 @@ define([
 					this.append(uiSell(book));
 			}, this);
 		});
+		
+		su("form", function(su){
+			su("button", "Delete");
+			
+			this.on("submit", function(e){
+				e.preventDefault();
+				
+				book.delete().done(function(){
+					router.go("/textbooktrade");
+				});
+			});
+		});
 	}
 	
 	var booktitlestyle = new jss.StyleSet(

@@ -371,7 +371,7 @@
 		save: {
 			value: function tbtbook_save(authorizer) {
 				var self = this;
-				var url = this.id? "/"+this.id : "/tbt/book";
+				var url = this.id? "/tbt/book/"+this.id : "/tbt/book";
 				return cses.request("PUT", url, {
 					post: {
 						title:      this.title,
@@ -387,6 +387,12 @@
 					return r;
 				});
 			},
+		},
+		
+		delete: {
+			value: function tbtbook_delete(){
+				return cses.request("DELETE", "/tbt/book/"+this.id);
+			}
 		},
 		
 		sell: {
