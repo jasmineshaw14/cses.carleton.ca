@@ -1,6 +1,13 @@
 define(["jss"], function(jss){
 	"use strict";
 	
+	/** Generate a CSS hsl string.
+	 * 
+	 * @param h The hue from 0-360, defaults to 0.
+	 * @param s The saturation from 0-1 defaults to 0.
+	 * @param l The lightness from 0-1, defaults to 0.
+	 * @param a The alpha from 0-1, defaults to 1.
+	 */
 	function hsl(h,s,l,a) {
 		if (typeof s == "undefined") s = 0;
 		if (typeof l == "undefined") l = 0;
@@ -72,7 +79,8 @@ define(["jss"], function(jss){
 		},
 		sepBorder: "1px solid "+hsl(0,0,0.9),
 		sepColor: hsl(0,0,0.9),
-		textGoodColor: hsl(139, 0.58, 0.3),
-		textBadColor:  hsl(  0, 1, 0.5),
+		textGoodColor:   hsl(139, 0.58, 0.3),
+		textBadColor:    hsl(  0, 1, 0.5),
+		textDeemphColor: hsl(  0, 0, 0.5),
 	};
 });

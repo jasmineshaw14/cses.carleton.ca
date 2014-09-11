@@ -1,10 +1,10 @@
 define([
 	"jquery", "site/PageGenerated", "site/router", "cses", "scriptup",
 	"underscore", "site/ui/PersonSelect", "site/ui/PersonCompleter", "url1",
-	"jss", "site/theme", "site/ui/toolbelt",
+	"jss", "site/theme", "site/ui/toolbelt", "site/ui/TextbookList",
 ], function(
 	$, mkgen, router, cses, scriptup, _, PersonSelect, PersonComplete, URL, jss,
-	theme, toolbelt
+	theme, toolbelt, TextbookList
 ) {
 	"use strict";
 	
@@ -94,113 +94,6 @@ define([
 		});
 	}
 	
-	var booktitlestyle = new jss.StyleSet(
-		new jss.Style({
-			display: "table-row-group",
-			fontSize: "0.8em",
-			transition: "background 0.2s",
-		}),
-		new jss.Style("&:hover", {
-			background: theme.sepColor,
-		}),
-		new jss.Style("& > div", {
-			display: "table-row",
-		}),
-		new jss.Style("& > div > div", {
-			display: "table-cell",
-			padding: " 0 1em 0.7em 1em",
-		}),
-		new jss.Style("& > div:first-child > div", {
-			borderTop: theme.sepBorder,
-			paddingTop: "0.7em",
-		}),
-		new jss.Style("& dt", {
-			display: "inline",
-			fontWeight: "bolder",
-		}),
-		new jss.Style("& dd", {
-			display: "inline",
-		}),
-		new jss.Style("& dt::after", {
-			content: "': '",
-		})
-	);
-	function booktile(b){
-		b.load();
-		return scriptup("a", {
-			href: "/textbooktrade/book/"+b.id,
-			class: booktitlestyle.classes,
-		}, function(su){
-			if (isadmin()) {
-				su("div", function(su){
-					su("div", function(su){
-						su("dt", "ID");
-						var e = su("dd", b.id);
-					});
-					su("div", function(su){
-						su("dt", "Seller");
-						var e = su("dd", "");
-						b.sellerchanged.add(function(t){
-							t.namefullchanged.add(function(n){
-								e.text(n);
-							});
-							t.load();
-						});
-					});
-					su("div", function(su){
-						su("dt", "Buyer");
-						var e = su("dd", "");
-						b.buyerchanged.add(function(t){
-							if (t) {
-								t.namefullchanged.add(function(n){
-									e.text(n);
-									e.css("opacity", 1);
-								});
-								t.load();
-							} else {
-								e.text("None");
-								e.css("opacity", 0.5);
-							}
-						});
-					});
-				});
-			}
-			su("div", function(su){
-				su("div", function(su){
-					su("dt", "Title");
-					var e = su("dd", "");
-					b.titlechanged.add(function(t){ e.text(t) })
-				});
-				su("div", function(su){
-					su("dt", "Author");
-					var e = su("dd", "");
-					b.authorchanged.add(function(t){ e.text(t) })
-				});
-				su("div", function(su){
-					su("dt", "Price");
-					var e = su("dd", "");
-					b.pricechanged.add(function(t){ e.text("$"+t) })
-				});
-			});
-			su("div", function(su){
-				su("div", {css:{columnSpan: "all"}}, function(su){
-					su("dt", "Edition");
-					var e = su("dd", "");
-					b.editionchanged.add(function(t){ e.text(t) })
-				});
-				su("div"); // No colspan so put nothing in the column.
-				su("div", function(su){
-					su("dt", "Availability");
-					var e = su("dd", "");
-					b.buyerchanged.add(function(s){
-						e.text(s? "Not Available" : "Available");
-						e.css("color", s? theme.textBadColor : theme.textGoodColor);
-					});
-				});
-			});
-		});
-	}
-	
 	return mkgen(function($cont){
 		document.title = "Textbook Trade — CSES";
 		
@@ -245,13 +138,8 @@ define([
 						title: title.val(),
 						sold: sold.prop("checked"),
 					}).done(function(r){
-						list.empty();
-						scriptup(list, function(su){
-							r.forEach(function(b) {
-								list.append(booktile(b));
-							});
-						});
-					})
+						list.empty().append(TextbookList(r));
+					});
 				}
 				var populateBooksThrottled = _.debounce(populateBooks, 500);
 				
@@ -283,10 +171,7 @@ define([
 				}); su("br");
 				
 				su("h2", "Results:").css("marginBottom", "0.4em");
-				var list = su("div", {class: "chrome", css:{
-					display: "table",
-					width: "100%",
-				}});
+				var list = su("div");
 				populateBooks();
 			} else if (path[0] == "book") {
 				var book = new cses.TBTBook(path[1]);
