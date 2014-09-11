@@ -21,9 +21,14 @@
 	if (typeof location == "object") {
 		if (location.hostname == "cses.carleton.ca")
 			; // Use default.
+		else if (location.hostname == "cses.engsoc.org"){
+			api = "https://api-cses.engsoc.org";
+			console.log("Here", location.hostname);
+		}
 		else if (location.hostname == "cses.kevincox.ca")
 			api = "https://api.cses.kevincox.ca";
 		else {
+			console.log("WTF");
 			api = URL.parse(location.href);
 			api = URL.build({
 				host: api.host,
