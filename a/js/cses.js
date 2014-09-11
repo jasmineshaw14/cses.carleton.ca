@@ -224,6 +224,16 @@
 				});
 			},
 		},
+		
+		passwordSet: {
+			value: function person_passwordSet(pass){
+				return cses.request("PUT", "/person/"+this.id+"/pass", {
+					post: {
+						pass: pass,
+					},
+				});
+			},
+		},
 	});
 	Object.preventExtensions(Person.prototype);
 	

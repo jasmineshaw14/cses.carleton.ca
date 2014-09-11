@@ -6,13 +6,15 @@ define([
 	"cses",
 	"scriptup",
 	"site/ui/PersonAdd",
+	"q1",
 ], function($,
 	mkgen,
 	session,
 	router,
 	cses,
 	scriptup,
-	PersonAdd
+	PersonAdd,
+	Q
 ) {
 	"use strict";
 	
@@ -84,6 +86,30 @@ define([
 						});
 						su("button", "Update Permissions");
 					});
+				});
+				
+				Q.allSettled([
+					cses.hasPermission("personw"),
+					cses.hasPermission("selfw"),
+				]).spread(function(admin, user){
+					if (admin.state == "fulfilled" || (
+						user.state == "fulfilled" && uid == cses.authuser.id
+					)) {
+						su("form", function(su){
+							this.on("submit", function(e){
+								e.preventDefault();
+								
+								p.passwordSet(pass.val()).done(function(){
+									router.load("people/"+p.id);
+								});
+							});
+							var pass = su("input", {
+								type: "password",
+								val:  "========",
+							});
+							su("button", "Change Password");
+						});
+					}
 				});
 			}
 		});
