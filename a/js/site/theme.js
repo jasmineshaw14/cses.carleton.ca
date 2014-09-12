@@ -52,6 +52,7 @@ define(["jss"], function(jss){
 	
 	new jss.Style("input[type='text']," +
 		"input[type='password']," +
+		"input[type='number']," +
 		"input[type='email']", {
 		margin: "0.2em 0",
 		padding: "0.3em 0.6em",
