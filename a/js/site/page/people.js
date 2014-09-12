@@ -121,6 +121,17 @@ define([
 							this.on("submit", function(e){
 								e.preventDefault();
 								
+								if (!pass.val()) {
+									su("p", {
+										text: "You must set a password.",
+										css: {
+											color: theme.textBadColor,
+											margin: "0.8em 0",
+											textAlign: "left",
+										},
+									});
+									return;
+								}
 								if (pass.val() != pass2.val()) {
 									su("p", {
 										text: "Passswords don't match!",
@@ -155,11 +166,11 @@ define([
 							});
 							var pass = su("input", {
 								type: "password",
-								val:  "========",
+								placeholder:  "password",
 							}); su("br");
 							var pass2 = su("input", {
 								type: "password",
-								val:  "===!====",
+								placeholder:  "password",
 							});
 							su("button", "Change Password");
 						});
