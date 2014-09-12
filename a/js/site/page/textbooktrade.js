@@ -199,12 +199,15 @@ define([
 						if (isadmin()){
 							su("dt", "Seller");
 							su("dd", function(su){
-								var self = this;
-								book.sellerchanged.add(function(s){
-									s.namefullchanged.add(function(nf){
-										self.text(nf);
+								su("a", function(su){
+									var self = this;
+									book.sellerchanged.add(function(s){
+										self.attr("href", "/people/"+s.id);
+										s.namefullchanged.add(function(nf){
+											self.text(nf);
+										});
+										s.load();
 									});
-									s.load();
 								});
 							});
 							su("dt", "Paid Seller?");
@@ -218,11 +221,17 @@ define([
 								var self = this;
 								book.buyerchanged.add(function(b){
 									if (b) {
-										b.namefullchanged.add(function(nf){
-											self.text(nf);
+										var a = su("a", {
+											href: "/people/"+b.id,
 										});
-										b.load();
-									} else self.text("None");
+										b.namefullchanged.add(function(nf){
+											a.text(nf);
+										});
+									} else {
+										self.attr("href", "");
+										self.text("None");
+									}
+									b.load();
 								});
 							});
 						}
