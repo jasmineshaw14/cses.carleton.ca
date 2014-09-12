@@ -122,10 +122,16 @@ define([
 								e.preventDefault();
 								
 								p.passwordSet(pass.val()).done(function(){
-									router.load("people/"+p.id);
-								}, function(e){
-									console.log(e.msg);
 									su("p", {
+										text: "Password Changed",
+										css: {
+											color: theme.textGoodColor,
+											margin: "0.8em 0",
+											textAlign: "left",
+										},
+									});
+								}, function(e){
+									isu("p", {
 										text: e.msg,
 										css: {
 											color: theme.textBadColor,
