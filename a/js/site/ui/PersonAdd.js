@@ -24,7 +24,7 @@ function($, cses, scriptup)
 				},
 			},
 		}, function(su){
-			su("label", {text: "Name "}, function(su){
+			su("label", {text: "First Name "}, function(su){
 				name = su("input", {type: "text", pattern: ".+"});
 			}); su("br");
 			su("label", {text: "Full Name "}, function(su){
