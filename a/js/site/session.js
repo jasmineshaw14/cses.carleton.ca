@@ -65,8 +65,11 @@ define([
 		restore: {
 			value: function session_restore(){
 				var t = store.get("authtoken");
-				if (t)
-					return cses.authorize(t).catch(function(e){ console.log(e); store.remove("authtoken") });
+				if (t) {
+					return cses.authorize(t).catch(function(e){
+						console.log(e); store.remove("authtoken")
+					});
+				}
 				else
 					return Q();
 			},
@@ -88,8 +91,8 @@ define([
 		 */
 		logout: {
 			value: function session_logout() {
-				cses.unauthorize();
 				store.clear("authtoken");
+				return cses.unauthorize();
 			},
 		},
 	});

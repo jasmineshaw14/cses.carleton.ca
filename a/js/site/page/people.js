@@ -67,14 +67,24 @@ define([
 				});
 				p.load();
 				
-				cses.hasPermission("personw").then(function(){
+				cses.hasPermission("wheel").then(function(){
 					su("form", function(su){
 						this.on("submit", function(e){
 							e.preventDefault();
 							
 							p.perms = permlist.val().split(",")
 							p.save().done(function(){
-								router.load("people/"+p.id);
+								var after = "people/"+p.id;
+								
+								// If our permissions where changed we need
+								// a new token, so login again.
+								if (cses.authuser.id == p.id) {
+									session.logout().finally(function(){
+										session.loginRequest(after);
+									}).done();
+								}
+								else
+									router.load(after);
 							});
 						});
 						var permlist = su("input", {
