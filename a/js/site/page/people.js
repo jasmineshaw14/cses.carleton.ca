@@ -7,6 +7,7 @@ define([
 	"scriptup",
 	"site/ui/PersonAdd",
 	"q1",
+	"site/theme",
 ], function($,
 	mkgen,
 	session,
@@ -14,7 +15,8 @@ define([
 	cses,
 	scriptup,
 	PersonAdd,
-	Q
+	Q,
+	theme
 ) {
 	"use strict";
 	
@@ -85,6 +87,16 @@ define([
 								}
 								else
 									router.load(after);
+							}, function(e){
+								su("p", {
+									text: e.msg,
+									css: {
+										display: "none",
+										color: theme.textBadColor,
+										margin: "0.8em 0",
+										textAlign: "left",
+									},
+								});
 							});
 						});
 						var permlist = su("input", {
@@ -111,6 +123,16 @@ define([
 								
 								p.passwordSet(pass.val()).done(function(){
 									router.load("people/"+p.id);
+								}, function(e){
+									console.log(e.msg);
+									su("p", {
+										text: e.msg,
+										css: {
+											color: theme.textBadColor,
+											margin: "0.8em 0",
+											textAlign: "left",
+										},
+									});
 								});
 							});
 							var pass = su("input", {
