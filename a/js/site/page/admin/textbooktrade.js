@@ -59,7 +59,7 @@ define([
 						b.edition = edition.val() || undefined;
 						b.author = author.val() || undefined;
 						b.courses = courses.val()
-						                   .replace(/[^\w]/, '')
+						                   .replace(/[^0-9A-Za-z,]/g, '')
 						                   .split(",")
 						                   .filter(function(s){return s});
 						b.price = price.val() || undefined;
