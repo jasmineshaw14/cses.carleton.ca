@@ -657,20 +657,30 @@
 		request: {
 			value: function CSES_request(method, path, opt) {
 				opt = opt || {};
-				if (typeof opt.auth == "undefined") opt.auth = cses.authtoken;
+				if (typeof opt.auth    == "undefined") opt.auth = cses.authtoken;
+				if (typeof opt.headers == "undefined") opt.headers = {};
 				
-				var burl = api + path;
+				if (cses.corstunnel) {
+					opt.headers["X-CSES-Path"] = path;
+					path = "/corstunnel";
+				}
+				
+				path = api + path;
 				if (opt.get)
-					burl += "?"+URL.buildget(opt.get);
+					path += "?"+URL.buildget(opt.get);
 				
 				return Q(opt.auth).then(function(auth){
 					var r = Q.defer();
 					
 					var req = new XMLHttpRequest();
-					req.open(method, burl);
+					req.open(method, path);
 					
 					if (auth)
-						req.setRequestHeader("Authorization", "Bearer "+auth);
+						opt.headers["Authorization"] = "Bearer "+auth;
+					
+					for (var k in opt.headers) {
+						req.setRequestHeader(k, opt.headers[k]);
+					}
 					
 					if (opt.post) {
 						req.setRequestHeader("Content-Type", "application/json");
@@ -678,7 +688,7 @@
 					} else
 						req.send();
 					
-					var response = new ResponseJSON(burl, req);
+					var response = new ResponseJSON(path, req);
 					
 					req.onreadystatechange = function cses_request_readystate(){
 						if (!response.done) return;
@@ -831,6 +841,19 @@
 		},
 		
 		blobprefix: {value: api+"/blob/"},
+		
+		/** Should we use the CORS tunnel?
+		 * 
+		 * Current CORS requires a preflight request for every request and
+		 * these can only be cached per-URI.  Also most browsers only cache
+		 * these for a maximum of a day, leading to a huge performance impact.
+		 * 
+		 * Enabling this option tunnels all requests through one URI so that
+		 * only one preflight request (per-day) is necessary.
+		 * 
+		 * Everything "should" work as normal.
+		 */
+		corstunnel: {value: false /*!DEBUG*/, writable: true, enumerable: true},
 		
 		/** The Person constructor.
 		 */
