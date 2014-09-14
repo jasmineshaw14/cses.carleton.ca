@@ -4,16 +4,27 @@ tdir='generated/'
 ver=$(printf '%X' $(date -u '+%s'))
 rm -rvf "$tdir"
 
-api="${1:-https://api.cses.carleton.ca}"
+api="${1:-https://api-cses.engsoc.org}"
 
-appdir='a/'
+tmp="$(mktemp -d)"
+function onexit {
+	rm -r "$tmp"
+}
+trap onexit EXIT
+app="$tmp/a/"
 
-# cp -r "$appdir" 'traceur-out/'
-# find 'traceur-out/' -name '*.js' | parallel -v traceur --script '{}' --out '{}'
-# appdir='traceur-out/'
+cp -r "a/" "$app"
+
+cat - "$app/js/bootstrap.js" > "$tmp/bootstrap.js" <<EOF
+window.DEBUG = false;
+window.CSES_API = $(printf '"%q"' "$api");
+EOF
+mv "$tmp/bootstrap.js" "$app/js/bootstrap.js"
+
+# find "$tmp/a/js/" -name '*.js' | parallel -v traceur --script '{}' --out '{}'
 
 echo 'Merging scripts...'
-r.js -o 'build.js' "appDir=$appdir" baseUrl="js/" "dir=$tdir/a/$ver/"
+r.js -o 'build.js' "appDir=$app" 'baseUrl=js/' "dir=$tdir/a/$ver/"
 rm "$tdir/a/$ver/build.txt" # Remove r.js's file.
 
 echo 'Generating index.html...'

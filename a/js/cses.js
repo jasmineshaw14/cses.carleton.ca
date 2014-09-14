@@ -17,26 +17,19 @@
 }(this, function CSES($, Q, URL, Paragon, reqwest){
 	"use strict";
 	var cses = window.cses = {};
-	var api = "https://api.cses.carleton.ca";
-	if (typeof location == "object") {
-		if (location.hostname == "cses.carleton.ca")
-			; // Use default.
-		else if (location.hostname == "cses.engsoc.org"){
-			api = "https://api-cses.engsoc.org";
-		}
-		else if (location.hostname == "cses.kevincox.ca")
-			api = "https://api.cses.kevincox.ca";
-		else {
-			api = URL.parse(location.href);
-			api = URL.build({
-				host: api.host,
-				port: 8080,
-				scheme: api.scheme,
-				user: api.user,
-				pass: api.pass,
-			});
-		}
+	
+	var api = window.CSES_API;
+	if (!api) { // For dev use :8080.
+		api = URL.parse(location.href);
+		api = URL.build({
+			host: api.host,
+			port: 8080,
+			scheme: api.scheme,
+			user: api.user,
+			pass: api.pass,
+		});
 	}
+	
 	var authtoken_ = Q("");
 	
 	/// Super method.
