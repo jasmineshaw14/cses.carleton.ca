@@ -317,9 +317,10 @@
 				q = q || {};
 				return cses.request("GET", "/tbt/book", {
 					get: {
-						course: q.course || undefined,
-						title:  q.title  || undefined,
-						sold:   !!q.sold,
+						course:   q.course || undefined,
+						title:    q.title  || undefined,
+						sold:     !!q.sold,
+						involves: q.involves && q.involves.id,
 					}
 				}).then(function(r){
 					return r.json.books.map(function(rb){

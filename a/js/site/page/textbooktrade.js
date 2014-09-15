@@ -2,9 +2,10 @@ define([
 	"jquery", "site/PageGenerated", "site/router", "cses", "scriptup",
 	"underscore", "site/ui/PersonSelect", "site/ui/PersonCompleter", "url1",
 	"jss", "site/theme", "site/ui/toolbelt", "site/ui/TextbookList",
+	"site/session"
 ], function(
 	$, mkgen, router, cses, scriptup, _, PersonSelect, PersonComplete, URL, jss,
-	theme, toolbelt, TextbookList
+	theme, toolbelt, TextbookList, session
 ) {
 	"use strict";
 	
@@ -229,6 +230,7 @@ define([
 								var self = this;
 								book.buyerchanged.add(function(b){
 									if (b) {
+										self.empty();
 										var a = su("a", {
 											href: "/people/"+b.id,
 										});
@@ -279,6 +281,18 @@ define([
 				default:
 					router.load("/404");
 				}
+				break;
+			case "mybooks":
+				session.loginRequest("/textbooktrade/mybooks").done(function(){
+					cses.TBTBook.find({
+						sold: true,
+						involves: cses.authuser,
+					}).done(function(r){
+						su("div").append(TextbookList(r));
+					});
+				}, function(){
+					router.go("/textbooktrade");
+				});
 				break;
 			default:
 				router.load("/404");
