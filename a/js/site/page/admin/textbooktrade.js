@@ -1,10 +1,10 @@
 define([
 	"jquery", "site/PageGenerated", "site/session", "site/router", "cses",
 	"scriptup", "site/ui/PersonSelect", "site/ui/PersonCompleter",
-	"site/ui/lightbox",
+	"site/ui/lightbox", "site/ui/TitleComplete",
 ], function(
 	$, mkgen, session, router, cses, scriptup, PersonSelect, PersonCompleter,
-	LightBox
+	LightBox, TitleComplete
 ) {
 	"use strict";
 	
@@ -74,6 +74,15 @@ define([
 				}, function(su) {
 					su("label", {text: "Title "}, function(su){
 						title = su("input", {type: "text"});
+						TitleComplete(title);
+						
+						function complete(e,book){
+							if (!edition.val()) edition.val(book.edition);
+							if (!author.val())  author.val(book.author);
+							if (!courses.val()) courses.val(book.courses.join(","));
+						}
+						title.on("typeahead:selected", complete);
+						title.on("typeahead:autocompleted", complete);
 					}); su("br");
 					su("label", {text: "Edition "}, function(su){
 						edition = su("input", {type: "text"});

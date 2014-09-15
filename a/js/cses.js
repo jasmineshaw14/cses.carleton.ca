@@ -354,6 +354,8 @@
 					self.seller  = new Person(r.json.seller);
 					self.buyer   = r.json.buyer && new Person(r.json.buyer) || undefined;
 					self.courses = r.json.courses;
+					
+					return self;
 				});
 			},
 		},
@@ -387,7 +389,7 @@
 						price:      this.price,
 						seller:     this.seller && this.seller.id,
 						buyer:      this.buyer && this.buyer.id,
-						authorizer: authorizer.id,
+						authorizer: authorizer && authorizer.id,
 					},
 				}).then(function(r){
 					self.id = r.json.id;
