@@ -228,8 +228,7 @@ define([
 											a.text(nf);
 										});
 									} else {
-										self.attr("href", "");
-										self.text("None");
+										self.text("Not bought.");
 									}
 									b.load();
 								});
