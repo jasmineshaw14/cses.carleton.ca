@@ -50,6 +50,9 @@ define([
 		
 		scriptup($cont, function(su){
 			switch (uid) {
+			case "":
+				router.replace(location.pathname.slice(0, -1));
+				// Fix URL and fall through.
 			case undefined:
 				document.title = "Members — CSES";
 				su("div", function(su){
@@ -96,25 +99,29 @@ define([
 				});
 				break;
 			default:
+				var person = new cses.Person(uid);
+				
 				switch (path[3]) {
+				case "":
+					router.replace(location.pathname.slice(0, -1));
+					// Fix URL and fall through.
 				case undefined:
-					var p = new cses.Person(uid);
-					p.namefullchanged.add(function(n){ document.title = n+" — CSES" });
-					this.append(uiPerson(p));
-					p.load();
+					person.namefullchanged.add(function(n){ document.title = n+" — CSES" });
+					this.append(uiPerson(person));
+					person.load();
 					
 					cses.hasPermission("wheel").then(function(){
 						su("form", function(su){
 							this.on("submit", function(e){
 								e.preventDefault();
 								
-								p.perms = permlist.val().split(",")
-								p.save().done(function(){
-									var after = "people/"+p.id;
+								person.perms = permlist.val().split(",")
+								person.save().done(function(){
+									var after = "people/"+person.id;
 									
 									// If our permissions where changed we need
 									// a new token, so login again.
-									if (cses.authuser.id == p.id) {
+									if (cses.authuser.id == person.id) {
 										session.logout().finally(function(){
 											session.loginRequest(after);
 										}).done();
@@ -135,9 +142,9 @@ define([
 							});
 							var permlist = su("input", {
 								type: "text",
-								val: p.perms.join(","),
+								val: person.perms.join(","),
 							});
-							p.permschanged.add(function(perms){
+							person.permschanged.add(function(perms){
 								permlist.val(perms.join(","));
 							});
 							su("button", "Update Permissions");
@@ -178,7 +185,7 @@ define([
 										return;
 									}
 									
-									p.passwordSet(pass.val()).done(function(){
+									person.passwordSet(pass.val()).done(function(){
 										su("p", {
 											text: "Password Changed",
 											css: {
@@ -208,7 +215,48 @@ define([
 								});
 								su("button", "Change Password");
 							});
+							su("a", {
+								text: "Edit Profile",
+								href: "/people/"+person.id+"/edit",
+							});
 						}
+					});
+					break;
+				case "edit":
+					person.load().done(function(){
+						console.log(person, person.name);
+						su("form", function(su){
+							var name, full, number, error;
+							su("label", {text: "Name "}, function(su){
+								name = su("input", {
+									type: "text",
+									val: person.name,
+									pattern: ".+",
+								});
+							}); su("br");
+							su("label", {text: "Full Name "}, function(su){
+								full = su("input", {
+									type: "text",
+									val: person.namefull,
+									pattern: ".+"
+								});
+							}); su("br");
+							su("button", {text: "Save"});
+							error = su("p");
+							
+							this.on("submit", function(e){
+								e.preventDefault();
+								
+								person.name = name.val();
+								person.namefull = full.val();
+								
+								person.save().done(function(){
+									router.go("/people/"+person.id);
+								}, function(e){
+									error.text(e.msg);
+								})
+							});
+						});
 					});
 					break;
 				default:
