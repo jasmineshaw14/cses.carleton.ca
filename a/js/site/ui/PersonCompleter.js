@@ -1,5 +1,5 @@
-define(["jquery", "cses", "Paragon1", "scriptup", "typeahead010"],
-function($, cses, Paragon, scriptup, _)
+define(["jquery", "cses", "Paragon1", "scriptup", "typeahead010", "jssignals1"],
+function($, cses, Paragon, scriptup, _, jssignals)
 {
 	"use strict";
 	
@@ -32,9 +32,8 @@ function($, cses, Paragon, scriptup, _)
 		},
 	};
 	
-	function selected(e, datum){ $(this).data("person", datum) }
-	
 	function PersonCompleter(element) {
+		var self = this;
 		this.$root = $(element);
 		
 		// Super hack, typeahead doesn't work on nodes not yet in the DOM.
@@ -42,19 +41,25 @@ function($, cses, Paragon, scriptup, _)
 			self.$root.typeahead(ttopt, ttds);
 		}, 300, this);
 		
+		function selected(e, datum){
+			self._value = datum;
+			self.selected.dispatch(datum);
+		}
+		
 		this.$root.on("typeahead:selected",      selected);
 		this.$root.on("typeahead:autocompleted", selected);
 		this.$root.on("typeahead:cursorchanged", selected);
+		
+		this.selected = new jssignals.Signal();
 	}
 	Object.preventExtensions(PersonCompleter);
 	Object.defineProperties(PersonCompleter.prototype, {
 		value: {
 			get: function personcompleter_value_get(){
-				return this.$root.data("person");
+				return this._value;
 			},
 			set: function personcompleter_value_set(n){
-				this.$root.data("person", n);
-				console.log(n, personstr(n), this.value);
+				this._value = n;
 				this.$root.typeahead("val", personstr(n));
 			}
 		}

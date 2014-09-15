@@ -56,7 +56,7 @@ define([
 						
 						var b = new cses.TBTBook();
 						b.title = title.val() || undefined;
-						b.edition = edition.val() || undefined;
+						b.edition = edition.val();
 						b.author = author.val() || undefined;
 						b.courses = courses.val()
 						                   .replace(/[^0-9A-Za-z,]/g, '')

@@ -8,6 +8,7 @@ define([
 	"site/ui/PersonAdd",
 	"q1",
 	"site/theme",
+	"site/ui/PersonCompleter"
 ], function($,
 	mkgen,
 	session,
@@ -16,7 +17,8 @@ define([
 	scriptup,
 	PersonAdd,
 	Q,
-	theme
+	theme,
+	PersonCompleter
 ) {
 	"use strict";
 	
@@ -38,11 +40,27 @@ define([
 				break;
 			default:
 				if (!uid) {
-					session.loginPopup().done(function(){
-						router.replace("/people/"+cses.authuser.id);
-					}, function(e){
-						console.log(e);
-						router.replace("/");
+					su("div", function(su){
+						cses.authtoken.done(function(t){
+							if (t) {
+								su("a", {
+									text: "View your profile.",
+									href: "/people/"+cses.authuser.id,
+								});
+							}
+						});
+					});
+					su("h1", "Find A CSES Member");
+					su("form", function(su){
+						var person = su("input", {
+							type: "text",
+						});
+						var pc = new PersonCompleter(person);
+						su("button", "Go");
+						this.on("submit", function(e){
+							e.preventDefault();
+							router.go("/people/"+pc.value.id);
+						});
 					});
 					break;
 				}
