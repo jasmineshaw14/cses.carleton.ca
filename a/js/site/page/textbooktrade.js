@@ -87,9 +87,11 @@ define([
 			this.on("submit", function(e){
 				e.preventDefault();
 				
-				book.delete().done(function(){
-					router.go("/textbooktrade");
-				});
+				if (confirm("Really delete this book?")) {
+					book.delete().done(function(){
+						router.go("/textbooktrade");
+					});
+				}
 			});
 		});
 	}
