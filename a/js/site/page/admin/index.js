@@ -8,6 +8,7 @@ function($,        mkgen,                session,        cses,   scriptup)
 			su("h1", "Admin Area");
 			su("ul", function(su){
 				[
+					{href: "/people/new", text: "Create a User"},
 					{href: "/admin/upload", text: "Upload"},
 					{href: "/admin/textbooktrade", text: "Textbook Trade"},
 				].forEach(function(l){
