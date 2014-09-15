@@ -19,7 +19,7 @@ define([
 					submit: function(e){
 						e.preventDefault();
 						
-						book.sell(auth.value, buyer.value).then(undefined, function(r){
+						book.sell(auth.value, buyer.value).done(undefined, function(r){
 							error.text(r.msg);
 						});
 					},
