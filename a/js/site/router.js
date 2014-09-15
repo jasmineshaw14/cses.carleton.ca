@@ -152,6 +152,7 @@ function(self,      $,        url, signals)
 			},
 			enumerable: true,
 		},
+		
 		/** Replace the current page.
 		 * 
 		 * Loads a new page over the same history slot as the old page.  The url
@@ -185,6 +186,17 @@ function(self,      $,        url, signals)
 		_onpopstate: {
 			value: function router__onpopstate(){
 				self.load(location.pathname.substr(1));
+			},
+		},
+		
+		/** Drop a trailing slash from the path.
+		 * 
+		 * This doesn't load any pages merely overwrites the current history
+		 * slot.
+		 */
+		dropSlash: {
+			value: function router_dropSlash(){
+				this.updateURL(location.pathname.slice(0, -1));
 			},
 		},
 		

@@ -51,7 +51,7 @@ define([
 		scriptup($cont, function(su){
 			switch (uid) {
 			case "":
-				router.replace(location.pathname.slice(0, -1));
+				router.dropSlash();
 				// Fix URL and fall through.
 			case undefined:
 				document.title = "Members — CSES";
@@ -103,7 +103,7 @@ define([
 				
 				switch (path[3]) {
 				case "":
-					router.replace(location.pathname.slice(0, -1));
+					router.dropSlash();
 					// Fix URL and fall through.
 				case undefined:
 					person.namefullchanged.add(function(n){ document.title = n+" — CSES" });

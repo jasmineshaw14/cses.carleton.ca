@@ -113,7 +113,11 @@ define([
 		}
 		
 		scriptup($cont, function(su){
-			if (!path.length) {
+			switch (path[0]) {
+			case "":
+				router.dropSlash();
+				// Fix URL and continue.
+			case undefined:
 				su("h1", "Textbook Trade");
 				su("p", "At the beginning of each semester CSES opens up its"
 					+ " textbook trade where students looking to sell their"
@@ -175,10 +179,12 @@ define([
 				su("h2", "Results:").css("marginBottom", "0.4em");
 				var list = su("div");
 				populateBooks();
-			} else if (path[0] == "book") {
+				break;
+			case "book":
 				var book = new cses.TBTBook(path[1]);
 				book.load();
-				if (path.length == 2) {
+				switch (path[2]) {
+				case undefined:
 					su("dl", function(su){
 						su("dt", "Title");
 						su("dd", function(){
@@ -242,7 +248,8 @@ define([
 							genadmin(su, book);
 						}
 					});
-				} else if (path[2] == "history") {
+					break;
+				case "history":
 					su("h1", "History");
 					su("ul", function(su){
 						book.changeschanged.add(function(cs){
@@ -268,10 +275,12 @@ define([
 						});
 					});
 					book.loadChanges();
-				} else {
+					break;
+				default:
 					router.load("/404");
 				}
-			} else {
+				break;
+			default:
 				router.load("/404");
 			}
 		});
