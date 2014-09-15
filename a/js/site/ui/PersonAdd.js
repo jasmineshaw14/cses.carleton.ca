@@ -4,7 +4,7 @@ function($, cses, scriptup)
 	"use strict";
 	
 	function PersonAdd() {
-		var name, namefull, number, email;
+		var name, last, number, email;
 		var error;
 		var form = scriptup("form", {
 			on: {
@@ -13,7 +13,7 @@ function($, cses, scriptup)
 					
 					var p = new cses.Person();
 					p.name     = name.val()
-					p.namefull = namefull.val();
+					p.namefull = name.val()+" "+last.val();
 					p.number   = number.val();
 					p.emails   = [email.val()];
 					p.save().done(function(){
@@ -27,8 +27,8 @@ function($, cses, scriptup)
 			su("label", {text: "First Name "}, function(su){
 				name = su("input", {type: "text", pattern: ".+"});
 			}); su("br");
-			su("label", {text: "Full Name "}, function(su){
-				namefull = su("input", {type: "text", pattern: ".+"});
+			su("label", {text: "Last Name "}, function(su){
+				last = su("input", {type: "text", pattern: ".+"});
 			}); su("br");
 			su("label", {text: "Student Number "}, function(su){
 				number = su("input", {type: "text", pattern: "\\d{9}"});
