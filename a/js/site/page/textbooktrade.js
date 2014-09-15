@@ -131,6 +131,18 @@ define([
 					+ " Whitlock, for more information."
 				);
 				
+				su("div", function(su){
+					cses.authtoken.done(function(t){
+						if (!t) return;
+						
+						su("a", {
+							text: "View your books",
+							href: "/textbooktrade/mybooks",
+						})
+					})
+				});
+				
+				su("h2", "Find a Book");
 				var url = URL.parse(document.location.href);
 				url.get = url.get || {};
 				
@@ -252,6 +264,7 @@ define([
 					});
 					break;
 				case "history":
+					document.title = "Book History — CSES";
 					su("h1", "History");
 					su("ul", function(su){
 						book.changeschanged.add(function(cs){
@@ -283,6 +296,8 @@ define([
 				}
 				break;
 			case "mybooks":
+				document.title = "My Books — CSES";
+				su("h1", "My Books");
 				session.loginRequest("/textbooktrade/mybooks").done(function(){
 					cses.TBTBook.find({
 						sold: true,
