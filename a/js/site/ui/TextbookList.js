@@ -115,7 +115,7 @@ function($, cses, scriptup, jss, theme)
 		});
 	}
 	
-	function PersonAdd(books){
+	function TextbookList(books){
 		if (!books.length) {
 			return scriptup("div", {
 				text: "No books match your search.",
@@ -138,5 +138,5 @@ function($, cses, scriptup, jss, theme)
 		});
 	}
 	
-	return PersonAdd;
+	return TextbookList;
 });
