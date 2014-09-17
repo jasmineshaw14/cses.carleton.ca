@@ -60,7 +60,7 @@ define([
 						auth = new PersonComplete(this);
 					});
 				});
-				su("button", {type: "submit", text: "Sell"});
+				su("button", {type: "submit", text: "Pay"});
 				error = su("p");
 			})
 		});
