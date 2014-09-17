@@ -141,7 +141,7 @@
 	 * @property {String} perms An array of permissions they have.
 	 *
 	 * @class Person
-	 * @param id {String} The user id.
+	 * @param id {Number} The user id.
 	 */
 	function Person(id) {
 		PersonModel.call(this);
@@ -235,7 +235,7 @@
 	
 	var PostModel = Paragon.create({
 		id: "",
-		type: "article",
+		type: "page",
 		title: "",
 		content: {value: $("<div>")},
 	});

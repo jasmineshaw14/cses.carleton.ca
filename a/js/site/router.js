@@ -145,12 +145,23 @@ function(self,      $,        url, signals)
 		go: {
 			value: function router_go(where) {
 				console.log("Going", where);
-				history.pushState(null, "", where);
+				this.pushURL(where);
 				
 				// Make browser resolve relative urls for us.
-				self.load(self.relativeURL(location.href).substr(1));
+				this.load(this.relativeURL(location.href).substr(1));
 			},
 			enumerable: true,
+		},
+		
+		/** Change the URL and create history.
+		 * 
+		 * This creates a history element for the old page and changes to the
+		 * new URL without actually loading anything.
+		 */
+		pushURL: {
+			value: function router_pushURL(where){
+				history.pushState(null, "", where);
+			},
 		},
 		
 		/** Replace the current page.

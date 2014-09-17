@@ -1,11 +1,13 @@
 define([
 	"q1",
 	"site/page/admin/index",
+	"site/page/admin/post",
 	"site/page/admin/textbooktrade",
 	"site/page/admin/upload",
 ], function(
 	Q,
 	index,
+	post,
 	tbt,
 	upload
 ) {
@@ -16,18 +18,15 @@ define([
 			var slug = url.path.split("/")[2] || "index";
 			var page = {
 				index: index,
+				post: post,
 				textbooktrade: tbt,
 				upload: upload,
 			}[slug];
 			
-			if (!page) reject(404);
+			if (!page) reject("404");
 			else resolve(Q().then(function(){
 				return page(url);
 			}));
 		});
 	}
-	return mkdefer(function(){
-		var path = location.pathname.split("/")[2];
-		return "site/page/admin/" + (path? path : "index");
-	});
 });
