@@ -76,7 +76,7 @@ define([
 	
 	var upcommingstyle = new jss.StyleSet(
 		new jss.Style({
-			float: "right",
+			cssFloat: "right",
 			fontSize: "0.8em",
 			width: "10em",
 			maxWidth: "100%",

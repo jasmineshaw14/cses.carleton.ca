@@ -3,7 +3,7 @@ define(["jquery", "scriptup", "cses"], function($, scriptup, cses){
 		page: {
 			value: function template_article(page){
 				document.title = page.title + " — CSES";
-				return $("<div>").append(page.content.contents());
+				return $("<div>").html(page.content);
 			},
 		},
 		dir: {

@@ -117,7 +117,7 @@ define([
 		
 		updateContent: {
 			value: function postview_updateContent(){
-				this.post.content = this._$view.clone();
+				this.post.content = this._editor.getData();
 			},
 		},
 		

@@ -239,7 +239,7 @@
 		title: "",
 		created: 0,
 		updated: 0,
-		content: {value: $("<div>")},
+		content: "",
 	});
 	
 	function Post(id) {
@@ -277,7 +277,7 @@
 					self.title   = r.json.title;
 					self.created = new Date(r.json.created*1000);
 					self.updated = new Date(r.json.updated*1000);
-					self.content = $("<div>", {html: r.json.content});
+					self.content = r.json.content;
 				});
 			},
 		},
@@ -289,7 +289,7 @@
 					post: {
 						title:   self.title,
 						type:    self.type,
-						content: self.content.html(),
+						content: self.content,
 					},
 				});
 			},
