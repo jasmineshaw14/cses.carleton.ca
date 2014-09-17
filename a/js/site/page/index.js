@@ -40,7 +40,7 @@ define([
 	function uiHome(){
 		return scriptup("div", function(su){
 			var banner = new Banner();
-			// this.append(banner.$root);
+			this.append(banner.$root);
 			
 			su("ul", {css:{float:"left"}}, function(su){
 				[
