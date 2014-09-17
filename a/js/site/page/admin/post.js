@@ -1,5 +1,6 @@
 define([
 	"jquery",
+	"moment",
 	"site/PageGenerated",
 	"site/session",
 	"site/router",
@@ -8,6 +9,7 @@ define([
 	"site/ui/Post"
 ], function(
 	$,
+	moment,
 	mkgen,
 	session,
 	router,
@@ -25,8 +27,7 @@ define([
 			case "new":
 				scriptup($cont, function(su){
 					su("form", function(su){
-						var now = new Date();
-						var t = now.getFullYear()+"/"+(now.getMonth()+1)+"/title";
+						var t = moment().format("YYYY/MM")+"/post-title";
 						var url = su("input", {type: "text", val: t});
 						su("button", "Create");
 						
@@ -37,7 +38,6 @@ define([
 							
 							var post = new cses.Post(url.val());
 							post.type = "article";
-							post.title = "Title";
 							post.content.html("<h1>A Heading</h1>");
 							var pv = new PostView(post);
 							pv.edit();

@@ -1,10 +1,31 @@
 define([
-	"jquery", "cses", "site/router", "site/PageGenerated", "site/templates",
-	"scriptup", "site/ui/Banner", "jss", "site/ui/toolbelt", "site/ui/MyBanner",
-	"moment", "site/ui/Post"
+	"jquery",
+	"cses",
+	"site/router",
+	"site/PageGenerated",
+	"site/templates",
+	"scriptup",
+	"site/ui/Banner",
+	"jss",
+	"site/ui/toolbelt",
+	"site/ui/MyBanner",
+	"moment",
+	"site/ui/Post",
+	"site/ui/News",
 ], function(
-	$, cses, router, mkgen, templates, scriptup, Banner, jss, toolbelt,
-	MyBanner, moment, PostView
+	$,
+	cses,
+	router,
+	mkgen,
+	templates,
+	scriptup,
+	Banner,
+	jss,
+	toolbelt,
+	MyBanner,
+	moment,
+	PostView,
+	News
 ) {
 	"use strict";
 	
@@ -27,32 +48,38 @@ define([
 	}
 	
 	function uiHome(){
-		return scriptup("div", function(su){
+		return scriptup("div", {css: {position: "relative"}}, function(su){
 			var banner = new Banner();
 			this.append(banner.$root);
 			
-			su("ul", {css:{float:"left"}}, function(su){
-				[
-					{href: "/hello-world", text: "A page"},
-					{href: "/login",text: "Login"},
-					{href: "/logout",text: "Logout"},
-					{href: "/people", text: "People"},
-					{href: "/no-page", text: "Dead link"},
-					{href: "/textbooktrade", text: "Textbook Trade"}
-				].forEach(function(i){
-					su("li", function(su){ su("a", i) });
+			su("div", {
+				css:{
+					float: "left",
+					width: "calc(100% - 10em)",
+				},
+			}, function(su){
+				su("ul", function(su){
+					[
+						{href: "/login",text: "Login"},
+						{href: "/people", text: "People"},
+						{href: "/textbooktrade", text: "Textbook Trade"}
+					].forEach(function(i){
+						su("li", function(su){ su("a", i) });
+					});
 				});
+				
+				this.append(new News().$root);
 			});
-			
 			this.append(uiUpcomming());
 		});
 	}
 	
 	var upcommingstyle = new jss.StyleSet(
 		new jss.Style({
+			float: "right",
 			fontSize: "0.8em",
+			width: "10em",
 			maxWidth: "100%",
-			cssFloat: "right",
 			textAlign: "center",
 		}),
 		new jss.Style("& ul", {

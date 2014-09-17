@@ -96,6 +96,7 @@ define([
 						var title = su("input", {
 							type: "text",
 							val: self.post.title,
+							placeholder: "Human Readable Title",
 						});
 						self.post.titlechanged.add(function(t){
 							title.val(t);

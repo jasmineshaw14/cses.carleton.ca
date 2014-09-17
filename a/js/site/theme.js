@@ -85,5 +85,11 @@ define(["jss"], function(jss){
 		textGoodColor:   hsl(139, 0.58, 0.3),
 		textBadColor:    hsl(  0, 1, 0.5),
 		textDeemphColor: hsl(  0, 0, 0.5),
+		
+		hoverMixin: function(selector){
+			return new jss.Style(selector, {
+				background: "hsla(0,0%,0%,0.1)",
+			});
+		}
 	};
 });

@@ -237,6 +237,8 @@
 		id: "",
 		type: "page",
 		title: "",
+		created: 0,
+		updated: 0,
 		content: {value: $("<div>")},
 	});
 	
@@ -251,11 +253,12 @@
 				return cses.request("GET", "/post", {
 					auth: false,
 					get: {
-						dir: o.dir,
+						type:  o.type,
+						order: o.order,
+						limit: o.limit,
 					}
 				}).then(function(r){
-					//TODO: Wrap.
-					return r.json.posts;
+					return r.json.posts.map(function(id){ return new Post(id) });
 				});
 			},
 		},
@@ -270,9 +273,10 @@
 				return cses.request("GET", "/post/"+this.id, {
 					auth: false,
 				}).then(function(r){
-					self.slug    = r.json.slug;
+					self.type    = r.json.type;
 					self.title   = r.json.title;
-					self.type    = r.json.type
+					self.created = new Date(r.json.created*1000);
+					self.updated = new Date(r.json.updated*1000);
 					self.content = $("<div>", {html: r.json.content});
 				});
 			},

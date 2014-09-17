@@ -4,7 +4,7 @@ function($, scriptup, assets, theme, jss)
 	"use strict";
 	
 	var container = $("#footer");
-	var icons = assets.footerIcons;
+	var icons = assets.icons;
 	
 	var iconliststyle = new jss.StyleSet(
 		theme.chrome.linkFont,
@@ -16,9 +16,7 @@ function($, scriptup, assets, theme, jss)
 			padding: "0.4em",
 			transition: "background 0.3s",
 		}),
-		new jss.Style("& li>a:hover", {
-			background: "hsla(0,0%,0%,0.1)",
-		}),
+		theme.hoverMixin("& li>a:hover"),
 		new jss.Style("& li>a>*", {
 			display: "inline-block",
 			verticalAlign: "middle",

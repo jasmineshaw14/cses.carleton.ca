@@ -1,4 +1,4 @@
-window.DEBUG = window.DEBUG;
+window.DEBUG = window.DEBUG !== false;
 +function(){
 	"use strict";
 	
