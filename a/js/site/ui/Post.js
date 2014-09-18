@@ -74,6 +74,7 @@ define([
 							"colorbutton",
 							"colordialog",
 							"dialogadvtab",
+							"justify",
 							"table",
 							"tabletools",
 							"tab",
