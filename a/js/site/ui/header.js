@@ -156,7 +156,7 @@ function($, scriptup, assets, theme, jss)
 							position: "absolute",
 							width: "8em",
 							left: "0",
-							bottom: "-3.8em"
+							bottom: "-4em"
 						},
 					});
 				});
