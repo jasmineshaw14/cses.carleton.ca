@@ -183,8 +183,8 @@ define([
 							.on("click", function(e){
 								e.preventDefault();
 								
-								var p   = new cses.Post(location.pathname.slice(1));
-								p.content.html("<h1>A New Post</h1>");
+								var p = new cses.Post(location.pathname.slice(1));
+								p.content = "<h1>A New Post</h1>";
 								var pv = new PostView(p);
 								pv.edit();
 								

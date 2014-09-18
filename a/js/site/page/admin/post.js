@@ -38,7 +38,7 @@ define([
 							
 							var post = new cses.Post(url.val());
 							post.type = "article";
-							post.content.html("<h1>A Heading</h1>");
+							post.content = "<h1>A Heading</h1>";
 							var pv = new PostView(post);
 							pv.edit();
 							$cont.empty().append(pv.$root);
