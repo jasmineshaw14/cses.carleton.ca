@@ -1,6 +1,9 @@
 <?php
 
-$buildid = ''; # Will be filled by build script.
+# Will be filled by build script.
+$buildid = '';
+$apiURL = 'http://localhost:8080';
+
 
 $path = substr($_SERVER['REQUEST_URI'], 0, -1 -strlen($_SERVER['QUERY_STRING']));
 $components = preg_split('/[\\/\\?]/', $path, 3);
@@ -15,23 +18,13 @@ function simple($title, $text) {
 	echo "</body></html>\n";
 }
 
-function apiURL() {
-	$h = $_SERVER['HTTP_HOST'];
-	if ($_SERVER['SERVER_NAME'] == 'cses.carleton.ca')
-		return 'https://api.cses.carleton.ca';
-	elseif ($_SERVER['SERVER_NAME'] == 'cses.kevincox.ca')
-		return 'https://api.cses.kevincox.ca';
-	else
-		return "$_SERVER[REQUEST_SCHEME]://$_SERVER[SERVER_NAME]:8080";
-}
-
 $script = __dir__.$components[1].'/index.php';
 if (file_exists($script)) {
 	include($script);
 } elseif (file_exists("$_SERVER[DOCUMENT_ROOT]/a/$buildid/js/site/page/$components[1].js")) {
 	simple('Not Available — CSES', "Sorry Javascript is required to view this page.");
 } else {
-	$c = curl_init(apiURL()."/post$path");
+	$c = curl_init($apiURL."/post$path");
 	curl_setopt($c, CURLOPT_RETURNTRANSFER, TRUE);
 	$r = curl_exec($c);
 	

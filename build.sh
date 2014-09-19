@@ -55,6 +55,7 @@ done
 
 echo 'Copying server-side files...'
 cp -vr '.htaccess' 'noscript/' "$tdir/"
-echo 'Adding build id to router.php...'
-perl -pe "s/(^\s*\\\$buildid\s*=).*$/\$1 \"$ver\";/" \
+echo 'Configuring router.php'
+perl -pe "s/(^\s*\\\$buildid\s*=).*$/\$1 '$ver';/;" \
+     -e  "s,http://localhost:8080,$api," \
          'noscript/router.php' > "$tdir/noscript/router.php"
