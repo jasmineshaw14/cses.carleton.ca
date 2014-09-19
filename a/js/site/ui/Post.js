@@ -68,6 +68,7 @@ define([
 				require(deps, function(CK){
 					self._$view.attr("contenteditable", true);
 					self._editor = CK.inline(self._$view.get(0),{
+						allowedContent: true, // Don't filter my content.
 						extraPlugins: [
 							"sourcedialog",
 							"showblocks",
