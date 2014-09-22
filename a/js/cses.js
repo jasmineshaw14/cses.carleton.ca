@@ -323,7 +323,8 @@
 					get: {
 						course:   q.course || undefined,
 						title:    q.title  || undefined,
-						sold:     !!q.sold,
+						sold:     q.sold,
+						paid:     q.paid,
 						involves: q.involves && q.involves.id,
 					}
 				}).then(function(r){

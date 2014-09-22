@@ -309,6 +309,18 @@ define([
 					router.go("/textbooktrade");
 				});
 				break;
+			case "unpaid":
+				document.title = "Unpaid Sellers — CSES";
+				su("h1", "Unpaid Sellers");
+				cses.TBTBook.find({
+					sold: "1",
+					paid: "0",
+				}).done(function(r){
+					su("div").append(TextbookList(r));
+				}, function(e){
+					su("p", e.msg);
+				})
+				break;
 			default:
 				router.load("/404");
 			}
