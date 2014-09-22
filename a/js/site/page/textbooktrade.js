@@ -274,6 +274,7 @@ define([
 										whiteSpace: "pre",
 									}
 								}, function(su){
+									su("span", "At "+c.time+" ");
 									su("a", {
 										href: "/people/"+c.by.id,
 										text: c.by.id,
