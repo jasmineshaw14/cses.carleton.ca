@@ -23,11 +23,13 @@ function(self,      $,        url, signals)
 		if ( e.which != 1 ) return; // Only left click.
 		
 		var rel = self.relativeURL(this.href);
+		// console.log("Clicked link to "+rel);
 		
 		if (rel) // Is in our site.
 		{
 			self.go(rel);
 			e.preventDefault();
+			e.stopPropagation();
 		}
 	});
 	

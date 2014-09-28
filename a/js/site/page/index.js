@@ -154,6 +154,7 @@ define([
 	}
 	
 	return mkgen(function($cont){
+		console.log("WSRSRV", location.href);
 		var s = location.pathname.substr(1);
 		if (!s) { // Index page.
 			document.title = "CSES";
