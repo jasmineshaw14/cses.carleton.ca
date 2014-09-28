@@ -6,7 +6,11 @@ function($, scriptup, assets, theme, jss)
 	var container = $("#header");
 	
 	var links = [
-		{text: "Services", href: "/services"},
+		{text: "Services", href: "/services", sub: [
+			{text: "Alexander's Office",     href: "/services/office"},
+			{text: "Equipment Loan Program", href: "/services/equipmentloans"},
+			{text: "EngSwag",                href: "/services/swag"},
+		]},
 		{text: "Publications", href: "/publications"},
 		{text: "Get Involved", href: "/getinvolved"},
 		{text: "About Us", href: "/about"},
@@ -14,21 +18,85 @@ function($, scriptup, assets, theme, jss)
 		{text: "Contact", href: "/contact"},
 	];
 	
+	var dropdownstyle = new jss.StyleSet(
+		new jss.Style({
+			position: "absolute",
+			left: "0",
+			top: "100%",
+			visibility: "visible",
+			background: theme.chrome.bg,
+			textAlign: "left",
+			textTransform: "none",
+			width: "12em",
+			fontWeight: "normal",
+		}),
+		new jss.Style("&::before", {
+			content: "''",
+			display: "block",
+			width: "1ch",
+			height: "1ch",
+			margin: "0.2em 0 -0.5ch 0.6em",
+			transform: "rotateZ(45deg)",
+			
+			background: theme.chrome.bg,
+			border: "1px solid hsl(0, 0%, 78%)",
+			borderRight: "none",
+			borderBottom: "none",
+		}),
+		new jss.Style("&>li", {
+			border: "1px solid hsl(0, 0%, 78%)",
+		}),
+		new jss.Style("&>li:not(:first-child)", {
+			borderTop: "none",
+		}),
+		new jss.Style("&>li>a", {
+			position: "relative",
+			display: "block",
+			padding: "0.4em",
+		}),
+		new jss.Style("&>li>a:hover", {
+			background: "hsl(0,0%,78%)",
+			border: "1px solid hsl(0, 0%, 78%)",
+			margin: "-1px",
+		})
+	);
+	
+	function uiDropdown(spec){
+		return scriptup("ul", {
+			class: dropdownstyle.classes,
+		}, function(su){
+			spec.forEach(function(item){
+				su("li", function(su){
+					su("a", {
+						text: item.text,
+						href: item.href,
+					});
+				});
+			});
+		});
+	}
+	
 	var linkstyle = new jss.StyleSet(
 		theme.chrome.headerLinkFont,
 		new jss.Style({
+			position: "relative",
 			textTransform: "lowercase",
 			fontSize: "1.3em",
 		}),
 		new jss.Style("&:hover", {
 			visibility: "hidden",
 		}),
+		new jss.Style("&:not(:hover) ul", {
+			display: "none",
+		}),
 		new jss.Style("&:hover::before", {
+			display: "block",
 			visibility: "visible",
 			content: 'attr(data-text)',
 			fontWeight: "bolder",
 			// textDecoration: "underline",
 			position: "absolute",
+			whiteSpace: "pre",
 		})
 	);
 	var titlestyle = new jss.StyleSet(
@@ -93,8 +161,8 @@ function($, scriptup, assets, theme, jss)
 		new jss.Style("&>*:last-child", {textAlign: "left"})
 	);
 	function drawHeaderBig(){
-		function navlink(su, l) {
-			return su("a", {
+		function navlink(l) {
+			return scriptup("a", {
 				text: l.text,
 				href: l.href,
 				"data-text": l.text,
@@ -103,6 +171,9 @@ function($, scriptup, assets, theme, jss)
 					display: "inline-block",
 					margin: "1em 0.7em",
 				},
+			}, function(su){
+				if (l.sub)
+					this.append(uiDropdown(l.sub));
 			});
 		}
 		return scriptup("div", {
@@ -127,7 +198,7 @@ function($, scriptup, assets, theme, jss)
 						class: titlestyle.classes,
 					});
 					for (var i = 0; i < links.length/2; i++) {
-						navlink(su, links[i]);
+						this.append(navlink(links[i]));
 					}
 				});
 				su("a", {
@@ -166,7 +237,7 @@ function($, scriptup, assets, theme, jss)
 						class: titlestyle.classes,
 					});
 					for (var i = links.length/2; i < links.length; i++) {
-						navlink(su, links[i]);
+						this.append(navlink(links[i]));
 					}
 				});
 			});
