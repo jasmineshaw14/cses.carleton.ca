@@ -519,8 +519,8 @@
 	var calendars = [
 		"mmblktn9tkvj50r24fcp9ejk5o%40group.calendar.google.com",
 		"qph9lt0jmmn0r6valqfhj5rre0%40group.calendar.google.com",
+		"ae01kpkde21c21jrodpusba1vc%40group.calendar.google.com",
 		"sqejs0pqa5ln2qcs91tvk5jahg%40group.calendar.google.com",
-		"en.canadian%23holiday%40group.v.calendar.google.com",
 	];
 	
 	function Event() { }
