@@ -8,13 +8,38 @@ function($, scriptup, assets, theme, jss)
 	var links = [
 		{text: "Services", href: "/services", sub: [
 			{text: "Alexander's Office",     href: "/services/office"},
-			{text: "Equipment Loan Program", href: "/services/equipmentloans"},
 			{text: "EngSwag",                href: "/services/swag"},
+			{text: "Equipment Loan Program", href: "/services/equipmentloans"},
+			{text: "Leo's",                  href: "/services/leos"},
+			{text: "McCoy's",                href: "/services/mccoys"},
+			{text: "SGRC",                   href: "/services/sgrc"},
+			{text: "SGF",                    href: "/services/sgf"},
+			{text: "Exam Library",           href: "/services/Exam Library"},
+			{text: "Trade/Library",          href: "/services/library"},
 		]},
-		{text: "Publications", href: "/publications"},
-		{text: "Get Involved", href: "/getinvolved"},
-		{text: "About Us", href: "/about"},
-		{text: "Governance", href: "/governance"},
+		{text: "Publications", href: "/publications", sub: [
+			{text: "Handbook",   href: "/publications/handbook"},
+			{text: "Iron Times", href: "/publications/irontimes"},
+			{text: "Passport",   href: "/publications/passport"},
+		]},
+		{text: "Get Involved", href: "/getinvolved", sub: [
+			{text: "Find a Club",   href: "/getinvolved/clubs"},
+			{text: "Make a Club",   href: "/getinvolved/clubs/new"},
+			{text: "Events",        href: "/getinvolved/events"},
+			{text: "Directorships", href: "/getinvolved/directorships"},
+			{text: "Conferences",   href: "/getinvolved/conferences"},
+			{text: "Join Council!", href: "/getinvolved/council/join"},
+		]},
+		{text: "About Us", href: "/about", sub: [
+			{text: "Our People",        href: "/about/people"},
+			{text: "Affiliated Groups", href: "/about/groups"},
+		]},
+		{text: "Governance", href: "/governance", sub: [
+			{text: "Accountability",       href: "/governance/accountability"},
+			{text: "Documents and Forms",  href: "/governance/docs"},
+			{text: "Elections",            href: "/governance/elections"},
+			{text: "Meetings and Minutes", href: "/governance/meetings"},
+		]},
 		{text: "Contact", href: "/contact"},
 	];
 	
