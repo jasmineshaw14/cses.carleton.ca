@@ -49,11 +49,11 @@ function($, scriptup, assets, theme, jss)
 			left: "0",
 			top: "100%",
 			visibility: "visible",
-			background: theme.chrome.bg,
 			textAlign: "left",
 			textTransform: "none",
 			width: "12em",
 			fontWeight: "normal",
+			zIndex: "50",
 		}),
 		new jss.Style("&::before", {
 			content: "''",
@@ -70,6 +70,7 @@ function($, scriptup, assets, theme, jss)
 		}),
 		new jss.Style("&>li", {
 			border: "1px solid hsl(0, 0%, 78%)",
+			background: theme.chrome.bg,
 		}),
 		new jss.Style("&>li:not(:first-child)", {
 			borderTop: "none",

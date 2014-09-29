@@ -52,9 +52,6 @@ a.chrome:hover, .chrome a:hover {
 	position: relative;
 	z-index: 10;
 }
-#header * {
-	z-index: 5;
-}
 #content {
 	position: relative;
 	max-width: 40em;
