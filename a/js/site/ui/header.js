@@ -80,7 +80,7 @@ define([
 			textAlign: "left",
 			textTransform: "none",
 			width: "12em",
-			fontWeight: "normal",
+			fontWeight: "300",
 			zIndex: "50",
 		}),
 		new jss.Style("&::before", {
@@ -134,7 +134,6 @@ define([
 		theme.chrome.headerLinkFont,
 		new jss.Style({
 			position: "relative",
-			textTransform: "lowercase",
 			fontSize: "1.3em",
 		}),
 		new jss.Style("&:hover", {
