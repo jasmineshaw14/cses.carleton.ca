@@ -5,7 +5,6 @@ function(scriptup, mkstatic)
 	
 	var content = scriptup("div", {
 		css: {
-			padding: "15px",
 			textAlign: "center",
 		},
 	}, function(su){

@@ -53,6 +53,8 @@ function(jss)
 		
 		this.holds = 0;
 		this._held = false;
+		
+		window.b = this;
 	}
 	Object.defineProperties(MyBanner, {
 		slideIn:  {value: [slideRight,  slideIn]},
@@ -135,7 +137,12 @@ function(jss)
 				
 				this._held = false;
 			}
-		}
+		},
+		clear: {
+			value: function mybanner_clear(){
+				this.list.innerHTML = '';
+			},
+		},
 	});
 	Object.preventExtensions(MyBanner.prototype);
 	

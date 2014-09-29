@@ -465,8 +465,8 @@
 	}
 	Object.defineProperties(Banner, {
 		fetchAll: {
-			value: function Banner_fetchAll(){
-				return cses.request("GET", "/banner", {
+			value: function Banner_fetchAll(path){
+				return cses.request("GET", "/banner"+path, {
 					auth: false,
 				}).then(function(r){
 					return {

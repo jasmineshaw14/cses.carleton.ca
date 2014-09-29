@@ -13,14 +13,13 @@ function($, cses, MyBanner)
 		this.$root = $(this.banner.root);
 		this._$list = $(this.banner.list);
 		this._banners = [];
-		setTimeout(function(){self.update().done()}, 0);
 	}
 	Object.preventExtensions(Banner);
 	Object.defineProperties(Banner.prototype, {
 		update: {
-			value: function banner_update(){
+			value: function banner_update(path){
 				var self = this;
-				return cses.Banner.fetchAll().then(function(r){
+				return cses.Banner.fetchAll(path).then(function(r){
 					self._banners = r.banners;
 					self._resize();
 				});

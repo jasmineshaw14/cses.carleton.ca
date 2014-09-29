@@ -49,9 +49,6 @@ define([
 	
 	function uiHome(){
 		return scriptup("div", {css: {position: "relative"}}, function(su){
-			var banner = new Banner();
-			this.append(banner.$root);
-			
 			su("div", {
 				css:{
 					float: "left",

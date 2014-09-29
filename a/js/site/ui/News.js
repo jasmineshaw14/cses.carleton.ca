@@ -55,7 +55,6 @@ define([
 				},
 			});
 			p.createdchanged.add(function(d){
-				console.log("D", d);
 				date.text(moment(d).format("MMMM Do, YYYY"));
 			});
 			var title = su("h2");

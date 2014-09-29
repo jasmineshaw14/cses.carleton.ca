@@ -1,9 +1,37 @@
-define(["jquery", "scriptup", "site/assets", "site/theme", "jss"],
-function($, scriptup, assets, theme, jss)
-{
+define([
+	"jquery",
+	"scriptup",
+	"site/assets",
+	"site/theme",
+	"jss",
+	"site/ui/Banner",
+	"site/router",
+], function(
+	$,
+	scriptup,
+	assets,
+	theme,
+	jss,
+	Banner,
+	router
+) {
 	"use strict";
 	
-	var container = $("#header");
+	var hbox = $("#header");
+	var container  = $("<div>").appendTo(hbox);
+	
+	var banner = new Banner();
+	banner.update("/");
+	banner.$root.appendTo(hbox);
+	banner.$root.css({
+		width: "auto",
+		maxWidth: "40em",
+		margin: "auto",
+	})
+	
+	router.navigation.add(function(){
+		banner.update(location.pathname);
+	});
 	
 	var links = [
 		{text: "Services", href: "/services", sub: [
