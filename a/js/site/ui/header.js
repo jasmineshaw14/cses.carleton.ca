@@ -76,12 +76,13 @@ define([
 			position: "absolute",
 			left: "0",
 			top: "100%",
+			fontSize: "0.8em",
 			visibility: "visible",
 			textAlign: "left",
 			textTransform: "none",
-			width: "12em",
 			fontWeight: "300",
 			zIndex: "50",
+			whiteSpace: "pre",
 		}),
 		new jss.Style("&::before", {
 			content: "''",
@@ -97,6 +98,7 @@ define([
 			borderBottom: "none",
 		}),
 		new jss.Style("&>li", {
+			display: "block",
 			border: "1px solid hsl(0, 0%, 78%)",
 			background: theme.chrome.bg,
 		}),
