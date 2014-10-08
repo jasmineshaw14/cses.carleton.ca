@@ -18,7 +18,12 @@ define([
 	"use strict";
 	
 	var hbox = $("#header");
-	var container  = $("<div>").appendTo(hbox);
+	var container  = $("<div>", {
+		css: {
+			position: "relative",
+			zIndex: "10",
+		},
+	}).appendTo(hbox);
 	
 	var banner = new Banner();
 	banner.update("/");
