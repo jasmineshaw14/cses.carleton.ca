@@ -30,7 +30,7 @@ define([
 	banner.$root.appendTo(hbox);
 	banner.$root.css({
 		width: "auto",
-		maxWidth: "40em",
+		maxWidth: "50em",
 		margin: "auto",
 	})
 	
@@ -239,13 +239,14 @@ define([
 		return scriptup("div", {
 			css: {
 				textAlign: "center",
-				marginBottom: "4em",
+				marginBottom: "3em",
 				
 				background: "linear-gradient(to bottom, hsl(0,0%,100%),"+theme.chrome.bg+")",
 				borderBottom: "0.1em solid hsl(0, 0%, 83%)",
 				// boxShadow: "hsl(0, 0%, 60%) 0 0 3em -0.5em",
 			},
 		}, function(su){
+			banner.$root.css("minHeight", "2em");
 			su("div", {
 				class: headerBig_continer.classes,
 				css: {
@@ -322,6 +323,7 @@ define([
 		var si = sizes[i];
 		// console.log("Changing Header to", i, si);
 		
+		banner.$root.css("minHeight", "initial");
 		container.empty().append(si.f());
 	}
 	
