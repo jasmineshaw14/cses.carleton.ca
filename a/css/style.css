@@ -54,7 +54,6 @@ a.chrome:hover, .chrome a:hover {
 }
 #content {
 	position: relative;
-	max-width: 40em;
 	margin: auto;
 	padding: 0 0.6em;
 	font-size: 1.2em;

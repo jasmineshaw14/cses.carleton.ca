@@ -12,6 +12,7 @@ define([
 	"moment",
 	"site/ui/Post",
 	"site/ui/News",
+	"site/theme",
 ], function(
 	$,
 	cses,
@@ -25,7 +26,8 @@ define([
 	MyBanner,
 	moment,
 	PostView,
-	News
+	News,
+	theme
 ) {
 	"use strict";
 	
@@ -48,11 +50,16 @@ define([
 	}
 	
 	function uiHome(){
-		return scriptup("div", {css: {position: "relative"}}, function(su){
+		return scriptup("div", {
+			css: {
+				maxWidth: "50em",
+				position: "relative",
+			},
+		}, function(su){
 			su("div", {
 				css:{
 					float: "left",
-					width: "calc(100% - 10em)",
+					maxWidth: "calc(100% - 15em)",
 				},
 			}, function(su){
 				su("ul", function(su){
@@ -75,7 +82,7 @@ define([
 		new jss.Style({
 			cssFloat: "right",
 			fontSize: "0.8em",
-			width: "10em",
+			width: "15em",
 			maxWidth: "100%",
 			textAlign: "center",
 		}),
@@ -151,7 +158,6 @@ define([
 	}
 	
 	return mkgen(function($cont){
-		console.log("WSRSRV", location.href);
 		var s = location.pathname.substr(1);
 		if (!s) { // Index page.
 			document.title = "CSES";
@@ -172,6 +178,7 @@ define([
 					uiAdmin(pv);
 				});
 				
+				$cont.css("maxWidth", "auto");
 				$cont.append(pv.$root);
 			}, function(){
 				isAdmin().then(function(){

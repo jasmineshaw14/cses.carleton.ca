@@ -82,7 +82,7 @@ define([
 			textTransform: "none",
 			fontWeight: "300",
 			zIndex: "50",
-			whiteSpace: "pre",
+			width: "12em",
 		}),
 		new jss.Style("&::before", {
 			content: "''",

@@ -48,8 +48,13 @@
 		var r;
 		if (typeof tag == "string" && tag.match(/^[-A-Za-z0-9]+$/))
 			r = $("<"+tag+">", props);
-		else
+		else {
 			r = $(tag);
+			for (var k in props) {
+				if (k in r) r[k](props[k]);
+				else        r.attr(k, props[k]);
+			}
+		}
 		
 		if (typeof cont == "function") cont.call(r, scriptup.bind(r));
 		

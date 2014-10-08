@@ -1,4 +1,4 @@
-define(["jquery"], function($){
+define(["jquery", "site/theme"], function($, theme){
 	"use strict";
 	
 	/** A page.
@@ -8,7 +8,7 @@ define(["jquery"], function($){
 	function Page(url) {
 		this.url = url;
 		this.title = "Title Not Set";
-		this.$root = this.$cont = $("<div>");
+		this.$root = this.$cont = $("<div>", {class: theme.content.classes});
 	}
 	Object.defineProperties(Page.prototype, {
 		/** Load the page into the element.

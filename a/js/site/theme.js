@@ -64,6 +64,11 @@ define(["jss"], function(jss){
 	});
 	
 	return {
+		width: "40em",
+		content: new jss.Style({
+			maxWidth: "40em",
+			margin: "auto",
+		}),
 		chrome: {
 			bg: "hsl(0,0%,97%)",
 			headerFont: new jss.Style({

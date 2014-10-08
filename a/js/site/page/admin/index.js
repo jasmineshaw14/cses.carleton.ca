@@ -1,5 +1,15 @@
-define(["jquery", "site/PageGenerated", "site/session", "cses", "scriptup"],
-function($,        mkgen,                session,        cses,   scriptup)
+define([
+	"jquery",
+	"site/PageGenerated",
+	"site/session",
+	"cses",
+	"scriptup"
+], function(
+	$,
+	mkgen,
+	session,
+	cses,
+	scriptup)
 {
 	"use strict";
 	
