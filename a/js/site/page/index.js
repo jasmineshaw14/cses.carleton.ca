@@ -54,29 +54,21 @@ define([
 	function uiHome(){
 		return scriptup("div", {
 			css: {
-				maxWidth: "50em",
 				position: "relative",
+				overflow: "auto",
 			},
 		}, function(su){
 			su("div", {
 				css:{
 					float: "left",
-					maxWidth: "calc(100% - 15em)",
+					maxWidth: "calc(100% - 1em - 16rem)",
 				},
 			}, function(su){
-				su("ul", function(su){
-					[
-						{href: "/login",text: "Login"},
-						{href: "/people", text: "People"},
-						{href: "/textbooktrade", text: "Textbook Trade"}
-					].forEach(function(i){
-						su("li", function(su){ su("a", i) });
-					});
-				});
-				
 				this.append(new News().$root);
 			});
-			this.append(uiUpcomming());
+			this.append(uiUpcomming().css({
+				marginTop: "0.6em",
+			}));
 		});
 	}
 	
@@ -84,7 +76,7 @@ define([
 		new jss.Style({
 			cssFloat: "right",
 			fontSize: "0.8em",
-			width: "15em",
+			width: "16rem",
 			maxWidth: "100%",
 			textAlign: "center",
 		}),
@@ -172,6 +164,7 @@ define([
 		var s = location.pathname.substr(1);
 		if (!s) { // Index page.
 			document.title = "CSES";
+			$cont.css("maxWidth", "50rem");
 			$cont.append(uiHome());
 		} else { // Fetch from database.
 			

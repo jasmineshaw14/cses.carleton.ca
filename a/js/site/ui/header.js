@@ -30,8 +30,9 @@ define([
 	banner.$root.appendTo(hbox);
 	banner.$root.css({
 		width: "auto",
-		maxWidth: "50em",
+		maxWidth: "50rem",
 		margin: "auto",
+		marginBottom: "1em",
 	})
 	
 	router.navigation.add(function(){

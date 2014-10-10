@@ -31,6 +31,8 @@ define(["jss"], function(jss){
 	var accentContrast = hsl(0,0,1);
 	
 	new jss.Style("h1,h2", {
+		margin: "0.5em",
+		padding: "0.1em",
 		color: accent,
 	});
 	
@@ -68,6 +70,8 @@ define(["jss"], function(jss){
 		content: new jss.Style({
 			maxWidth: "40em",
 			margin: "auto",
+			background: "hsl(0,0%,98%)",
+			boxShadow: "0.1em 0.1em 0.1em hsla(0,0%,0%,0.2)",
 		}),
 		chrome: {
 			bg: "hsl(0,0%,97%)",
