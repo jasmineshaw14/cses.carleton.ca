@@ -31,9 +31,13 @@ define(["jss"], function(jss){
 	var accentContrast = hsl(0,0,1);
 	
 	new jss.Style("h1,h2", {
-		margin: "0.5em",
-		padding: "0.1em",
+		margin: "0.5em 0",
+		padding: "0.1em 0.5em",
 		color: accent,
+	});
+	
+	new jss.Style("p", {
+		padding: "0.2em 1em",
 	});
 	
 	new jss.Style("a", {
