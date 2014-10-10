@@ -5,13 +5,15 @@ define([
 	"cses",
 	"jss",
 	"site/theme",
+	"site/assets",
 ], function(
 	$,
 	scriptup,
 	moment,
 	cses,
 	jss,
-	theme
+	theme,
+	assets
 ) {
 	"use strict";
 	
@@ -69,7 +71,16 @@ define([
 		this.$root = scriptup("div", {
 			class: style.classes,
 		}, function(su){
-			su("h1", "What's Happening Right Now?");
+			su("h1", "What's Happening Right Now?", function(su){
+				this.prepend($("<img>", {
+					src: assets.icons.news,
+					css: {
+						verticalAlign: "baseline",
+						width: "1.6em",
+						margin: "0 0.4em -0.4em 0",
+					},
+				}));
+			});
 			cses.Post.find({limit: 8}).then(function(posts){
 				su("ol", function(su){
 					posts.forEach(function(p){
