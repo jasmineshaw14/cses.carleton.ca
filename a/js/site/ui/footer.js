@@ -34,6 +34,7 @@ function($, scriptup, assets, theme, jss)
 		new jss.Style({
 			textAlign: "center",
 			background: theme.chrome.bg,
+			margin: "1em 0 0",
 		}),
 		new jss.Style("&>*", {
 			display: "inline-block",
