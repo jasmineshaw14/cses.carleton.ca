@@ -13,6 +13,7 @@ define([
 	"site/ui/Post",
 	"site/ui/News",
 	"site/theme",
+	"site/assets",
 ], function(
 	$,
 	cses,
@@ -27,7 +28,8 @@ define([
 	moment,
 	PostView,
 	News,
-	theme
+	theme,
+	assets
 ) {
 	"use strict";
 	
@@ -109,7 +111,16 @@ define([
 	);
 	function uiUpcomming(){
 		return scriptup("aside", {class: upcommingstyle.classes}, function(su){
-			su("h1", "Upcoming Events");
+			su("h1", "Upcoming Events", function(su){
+				this.prepend($("<img>", {
+					src: assets.icons.calendar,
+					css: {
+						verticalAlign: "baseline",
+						height: "1.6em",
+						margin: "0 0.4em -0.4em 0",
+					},
+				}));
+			});
 			su("ul", function(su){
 				cses.Event.fetch(8).done(function(events){
 					events
