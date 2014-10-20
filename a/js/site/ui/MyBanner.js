@@ -65,6 +65,8 @@ function(jss)
 		current: {
 			get: function mybanner_current_get(){ return this._c },
 			set: function mybanner_current_set(i){
+				if (!this.list.children.length) return;
+				
 				i = ~~i % this.list.children.length;
 				if (i < 0) i += this.list.children.length;
 				
