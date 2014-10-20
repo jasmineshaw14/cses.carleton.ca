@@ -21,7 +21,7 @@ window.CSES_API = $(printf '"%q"' "$api");
 EOF
 mv "$tmp/bootstrap.js" "$app/js/bootstrap.js"
 
-# find "$tmp/a/js/" -name '*.js' | parallel -v traceur --script '{}' --out '{}'
+find "$tmp/a/js/" -name '*.js' | parallel -v traceur --script '{}' --out '{}'
 
 echo 'Merging scripts...'
 r.js -o 'build.js' "appDir=$app" 'baseUrl=js/' "dir=$tdir/a/$ver/"

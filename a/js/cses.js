@@ -184,14 +184,12 @@
 		 */
 		load: {
 			value: function Person_load() {
-				var self = this;
-				
-				return cses.request("GET", "/person/"+this.id).then(function(r){
-					self.perms    = r.json.perms;
-					self.name     = r.json.name;
-					self.namefull = r.json.namefull;
-					self.number   = r.json.number;
-					self.emails   = r.json.emails;
+				return cses.request("GET", "/person/"+this.id).then(r => {
+					this.perms    = r.json.perms;
+					this.name     = r.json.name;
+					this.namefull = r.json.namefull;
+					this.number   = r.json.number;
+					this.emails   = r.json.emails;
 				});
 			},
 		},
@@ -204,7 +202,6 @@
 		 */
 		save: {
 			value: function Person_save(){
-				var self = this;
 				var url = this.id? "/person/"+this.id : "/person";
 				return cses.request("PUT", url, {
 					post: {
@@ -214,9 +211,9 @@
 						emails:   this.id? undefined : (this.emails || undefined),
 						perms:    this.perms,
 					},
-				}).then(function(r){
-					self.id = r.json.id;
-					return self;
+				}).then(r => {
+					this.id = r.json.id;
+					return this;
 				});
 			},
 		},
@@ -269,27 +266,25 @@
 		
 		load: {
 			value: function post_load(){
-				var self = this;
 				return cses.request("GET", "/post/"+this.id, {
 					auth: false,
-				}).then(function(r){
-					self.type    = r.json.type;
-					self.title   = r.json.title;
-					self.created = new Date(r.json.created*1000);
-					self.updated = new Date(r.json.updated*1000);
-					self.content = r.json.content;
+				}).then(r => {
+					this.type    = r.json.type;
+					this.title   = r.json.title;
+					this.created = new Date(r.json.created*1000);
+					this.updated = new Date(r.json.updated*1000);
+					this.content = r.json.content;
 				});
 			},
 		},
 		
 		save: {
 			value: function post_save(){
-				var self = this;
 				return cses.request("PUT", "/post/"+this.id, {
 					post: {
-						title:   self.title,
-						type:    self.type,
-						content: self.content,
+						title:   this.title,
+						type:    this.type,
+						content: this.content,
 					},
 				});
 			},
@@ -349,29 +344,27 @@
 		
 		load: {
 			value: function tbtbook_load() {
-				var self = this;
-				return cses.request("GET", "/tbt/book/"+this.id).then(function(r){
-					self.title   = r.json.title;
-					self.edition = r.json.edition;
-					self.author  = r.json.author;
-					self.price   = r.json.price;
-					self.paid    = r.json.paid;
-					self.courses = r.json.courses;
-					self.seller  = new Person(r.json.seller);
-					self.buyer   = r.json.buyer && new Person(r.json.buyer) || undefined;
-					self.courses = r.json.courses;
+				return cses.request("GET", "/tbt/book/"+this.id).then(r => {
+					this.title   = r.json.title;
+					this.edition = r.json.edition;
+					this.author  = r.json.author;
+					this.price   = r.json.price;
+					this.paid    = r.json.paid;
+					this.courses = r.json.courses;
+					this.seller  = new Person(r.json.seller);
+					this.buyer   = r.json.buyer && new Person(r.json.buyer) || undefined;
+					this.courses = r.json.courses;
 					
-					return self;
+					return this;
 				});
 			},
 		},
 		
 		loadChanges: {
 			value: function tbtbook_loadChanges() {
-				var self = this;
 				return cses.request("GET", "/tbt/book/"+this.id+"/changes")
-				           .then(function(r){
-					self.changes = r.json.changes.map(function(c){
+				           .then(r => {
+					this.changes = r.json.changes.map(function(c){
 						return {
 							by: new Person(c.by),
 							time: new Date(c.time*1000),
@@ -384,7 +377,6 @@
 		
 		save: {
 			value: function tbtbook_save(authorizer) {
-				var self = this;
 				var url = this.id? "/tbt/book/"+this.id : "/tbt/book";
 				return cses.request("PUT", url, {
 					post: {
@@ -397,8 +389,8 @@
 						buyer:      this.buyer && this.buyer.id,
 						authorizer: authorizer && authorizer.id,
 					},
-				}).then(function(r){
-					self.id = r.json.id;
+				}).then(r => {
+					this.id = r.json.id;
 					return r;
 				});
 			},
@@ -412,28 +404,26 @@
 		
 		sell: {
 			value: function tbtbook_sell(auth, to) {
-				var self = this;
 				return cses.request("PUT", "/tbt/book/"+this.id, {
 					post: {
 						authorizer: auth.id,
 						buyer:      to.id,
 					}
-				}).then(function(){
-					self.buyer = to;
+				}).then(() => {
+					this.buyer = to;
 				});
 			},
 		},
 		
 		pay: {
 			value: function tbtbook_pay(auth){
-				var self = this;
 				return cses.request("PUT", "/tbt/book/"+this.id, {
 					post: {
 						authorizer: auth.id,
 						paid: true,
 					}
-				}).then(function(r){
-					self.paid = true;
+				}).then(r => {
+					this.paid = true;
 				});
 			}
 		}
