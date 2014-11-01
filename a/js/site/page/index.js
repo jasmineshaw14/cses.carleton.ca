@@ -14,6 +14,7 @@ define([
 	"site/ui/News",
 	"site/theme",
 	"site/assets",
+	"site/ui/Bars",
 ], function(
 	$,
 	cses,
@@ -29,7 +30,8 @@ define([
 	PostView,
 	News,
 	theme,
-	assets
+	assets,
+	Bars
 ) {
 	"use strict";
 	
@@ -70,6 +72,51 @@ define([
 				marginTop: "0.6em",
 			}));
 		});
+	}
+	
+	function uiBars(){
+		var bars = new Bars();
+		
+		var bar  = bars.createBar();
+		bar.background = "#553E79";
+		bar.add("/getinvolved", "Get Involved",
+			"Voluntering with Carleton Engineering – whether you're an " +
+			"engineering student or not – is unimaginably fun. The ability " +
+			"to balence time commitements, network with new people and work " +
+			"effectivally in a team will make you an asset for any company. " +
+			"Check out the oppertunities we have to offer."
+		);
+		bar.add("/clubs", "Clubs",
+			"Looking for a club that tailors to your interests? Or looking " +
+			"for something completely new? Look no further!"
+		);
+		bar.add("/events", "Events",
+			"Looking for various events to take part in? Here you can find a " +
+			"multitude of Club and Societal events!"
+		);
+		
+		bar  = bars.createBar();
+		bar.background = "#AF1F24";
+		bar.add("/services/engwear", "EngWear",
+			"EngWear is a service provided by CSES.  Every year, we order " +
+			"sweet swag that is emblazoned with the Carleton Engineering " +
+			"logo, so you can wear it proudly wherever you are."
+		);
+		bar.add("/services/engwear", "What We Have",
+			"We sell clothing such as hoodies, sweatpants, FIT shirts, and " +
+			"items such flasks, shot glasses and patches. Check out our " +
+			"inventory."
+		);
+		bar.add("/services/engwear", "Create Your Own",
+			"Have a design that could make some super cool swag‽ We want to " +
+			"see it! Send us your designs to be featured as official CSES " +
+			"swag."
+		);
+		
+		// bar  = bars.createBar();
+		// bar.background = "#272826";
+		
+		return bars.$root;
 	}
 	
 	var upcommingstyle = new jss.StyleSet(
@@ -122,7 +169,7 @@ define([
 							su("li").append(uiEvent(event));
 						});
 				});
-			})
+			});
 		});
 	}
 	function uiEvent(e){
@@ -166,6 +213,7 @@ define([
 			document.title = "CSES";
 			$cont.css("maxWidth", "50rem");
 			$cont.append(uiHome());
+			this.$after.append(uiBars());
 		} else { // Fetch from database.
 			
 			// Remove trailing slash.

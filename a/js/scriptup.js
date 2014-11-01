@@ -46,7 +46,7 @@
 		}
 		
 		var r;
-		if (typeof tag == "string" && tag.match(/^[-A-Za-z0-9]+$/))
+		if (typeof tag == "string" && tag.match(/^[-A-Za-z0-9-]+$/))
 			r = $("<"+tag+">", props);
 		else {
 			r = $(tag);

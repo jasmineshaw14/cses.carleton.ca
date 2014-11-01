@@ -35,7 +35,7 @@ function(Page, Q)
 				value: function PageGenerated_load(){
 					if (titlegen !== false)
 						document.title = (typeof titlegen == "function")?titlegen():titlegen;
-					contentgen(this.$cont);
+					contentgen.call(this, this.$cont);
 				},
 			},
 			unload: {

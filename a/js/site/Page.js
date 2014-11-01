@@ -7,8 +7,10 @@ define(["jquery", "site/theme"], function($, theme){
 	 */
 	function Page(url) {
 		this.url = url;
-		this.title = "Title Not Set";
-		this.$root = this.$cont = $("<div>", {class: theme.content.classes});
+		this.title  = "Title Not Set";
+		this.$root  = $("<div>");
+		this.$cont  = $("<div>", {class: theme.content.classes}).appendTo(this.$root);
+		this.$after = $("<div>").appendTo(this.$root);
 	}
 	Object.defineProperties(Page.prototype, {
 		/** Load the page into the element.
@@ -18,7 +20,7 @@ define(["jquery", "site/theme"], function($, theme){
 		 */
 		load: {
 			value: function Page_render() {
-				this.$root.html("<h1>No content</h1><p>This page needs to provide some content.</p>");
+				this.$cont.html("<h1>No content</h1><p>This page needs to provide some content.</p>");
 			},
 		},
 		/** Unload the page from the element.
