@@ -37,7 +37,7 @@
 	"use strict";
 	
 	return function scriptup(tag, props, cont) {
-		if (typeof props == "string") {
+		if (typeof props == "string" || typeof props == "number") {
 			props = {text: props};
 		}
 		if (typeof props != "object") {
