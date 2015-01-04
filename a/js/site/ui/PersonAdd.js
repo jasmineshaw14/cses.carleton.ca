@@ -14,7 +14,7 @@ function($, cses, scriptup)
 					var p = new cses.Person();
 					p.name     = name.val()
 					p.namefull = name.val()+" "+last.val();
-					p.number   = number.val();
+					p.number   = number.val() || undefined;
 					p.emails   = [email.val()];
 					p.save().done(function(){
 						form.trigger("cses:personadd:added", p);
@@ -31,7 +31,7 @@ function($, cses, scriptup)
 				last = su("input", {type: "text", pattern: ".+"});
 			}); su("br");
 			su("label", {text: "Student Number "}, function(su){
-				number = su("input", {type: "text", pattern: "\\d{9}"});
+				number = su("input", {type: "text", pattern: "\\d{9}|"});
 			}); su("br");
 			su("label", {text: "Email "}, function(su){
 				email = su("input", {type: "email"});
