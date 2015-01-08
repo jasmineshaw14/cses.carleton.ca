@@ -49,7 +49,8 @@ define([
 			{text: "SGRC",                   href: "/services/sgrc"},
 			{text: "SGF",                    href: "/services/sgf"},
 			{text: "Exam Library",           href: "/services/Exam Library"},
-			{text: "Trade/Library",          href: "/services/library"},
+			{text: "Textbook Library",       href: "/services/library"},
+			{text: "Textbook Trade",         href: "/textbooktrade"},
 		]},
 		{text: "Publications", href: "/publications", sub: [
 			{text: "Handbook",   href: "/publications/handbook"},
