@@ -25,7 +25,7 @@ define([
 		},
 	}).appendTo(hbox);
 	
-	var banner = new Banner();
+	var banner = window.banner = new Banner();
 	banner.update("/");
 	banner.$root.appendTo(hbox);
 	banner.$root.css({
