@@ -38,6 +38,7 @@ function($, cses, MyBanner)
 						alt: i.desc,
 						css: {
 							width: "100%",
+							boxShadow: "0.1em 0.1em 0.1em hsla(0,0%,0%,0.2)",
 						}
 					});
 					if (b.href) {
@@ -46,7 +47,11 @@ function($, cses, MyBanner)
 						}).append(r);
 					}
 					
-					self._$list.append($("<li>").append(r));
+					self._$list.append($("<li>", {
+						css: {
+							padding: "0.2em",
+						},
+					}).append(r));
 				});
 			},
 		},
