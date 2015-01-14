@@ -83,7 +83,8 @@ function($, cses, scriptup, jss, theme)
 				su("div", function(su){
 					su("dt", "Title");
 					var e = su("dd", "");
-					b.titlechanged.add(function(t){ e.text(t) })
+					console.log(b, b.title, "fo");
+					b.titlechanged.add(function(t){console.log("tc", t); e.text(t) })
 				});
 				su("div", function(su){
 					su("dt", "Author");

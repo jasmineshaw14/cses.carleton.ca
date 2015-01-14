@@ -18,6 +18,10 @@ window.DEBUG = window.DEBUG !== false;
 		moment: [ // Moment won't let us rename it.
 			"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min",
 		],
+		papaparse4: [
+			"https://cdn.jsdelivr.net/papaparse/4.0.7/papaparse.min",
+			"https://cdn.rawgit.com/mholt/PapaParse/4.0.5/papaparse",
+		],
 		Paragon1: [
 			"https://kevincox-cdn.appspot.com/Paragon-1.1.1.min",
 			"/a/js/Paragon1",
@@ -70,6 +74,7 @@ window.DEBUG = window.DEBUG !== false;
 		shim: {
 			ckeditor4: {exports: "CKEDITOR"},
 			// jquery_event_swipe: {deps: ["jquery"]},
+			papaparse4: {exports: "Papa"},
 		}
 	});
 	

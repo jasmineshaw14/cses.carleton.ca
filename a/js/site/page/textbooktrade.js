@@ -155,7 +155,7 @@ define([
 					cses.TBTBook.find({
 						course: course.val(),
 						title: title.val(),
-						sold: sold.prop("checked"),
+						sold: sold.prop("checked")? undefined : 0,
 					}).done(function(r){
 						list.empty().append(TextbookList(r));
 					});

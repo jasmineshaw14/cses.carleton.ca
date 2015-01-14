@@ -1,10 +1,29 @@
 define([
-	"jquery", "site/PageGenerated", "site/session", "site/router", "cses",
-	"scriptup", "site/ui/PersonSelect", "site/ui/PersonCompleter",
-	"site/ui/lightbox", "site/ui/TitleComplete",
+	"jquery",
+	"site/PageGenerated",
+	"site/session",
+	"site/router",
+	"cses",
+	"scriptup",
+	"site/ui/PersonSelect",
+	"site/ui/PersonCompleter",
+	"site/ui/lightbox",
+	"site/ui/TitleComplete",
+	"q1",
+	"papaparse4"
 ], function(
-	$, mkgen, session, router, cses, scriptup, PersonSelect, PersonCompleter,
-	LightBox, TitleComplete
+	$,
+	mkgen,
+	session,
+	router,
+	cses,
+	scriptup,
+	PersonSelect,
+	PersonCompleter,
+	LightBox,
+	TitleComplete,
+	Q,
+	Papa
 ) {
 	"use strict";
 	
@@ -20,6 +39,7 @@ define([
 					[
 						{href: "/admin/textbooktrade/summary", text: "Summary"},
 						{href: "/admin/textbooktrade/add", text: "Add Books"},
+						{href: "/admin/textbooktrade/dump", text: "Dumps"},
 						{href: "/textbooktrade", text: "Book List"},
 					].forEach(function(i){
 						i.href = i.href;
@@ -46,6 +66,75 @@ define([
 						su("dd", "$"+(s.pricesold-s.pricepaid));
 					});
 				});
+			} else if (path[0] == "dump") {
+				var error;
+				var sold, unsold, paid, unpaid;
+				su("form", {
+					on: {submit: function(e){
+						e.preventDefault();
+						
+						var soldp;
+						if (!sold.prop("checked") || !unsold.prop("checked"))
+							soldp = sold.prop("checked");
+						
+						var paidp;
+						if (!paid.prop("checked") || !unpaid.prop("checked"))
+							paidp = paid.prop("checked");
+						
+						cses.TBTBook.find({
+							sold: soldp,
+							paid: paidp,
+						}).then(function(r){
+							return Q.all(r.map(b => b.load()));
+						}).then(function(r){
+							return Q.all(r.map(b => b.seller.load())).thenResolve(r);
+						}).done(function(books){
+							console.log(books);
+							var csv = Papa.unparse({
+								fields: [
+									"id",
+									"title",
+									"price",
+									"paid",
+									"seller id",
+									"seller name",
+									"seller email",
+								],
+								data: books.map(b => [
+									b.id,
+									b.title,
+									b.price,
+									b.paid,
+									b.seller.id,
+									b.seller.name,
+									b.seller.emails[0]? b.seller.emails[0].email : "none",
+								])
+							});
+							
+							var url = "data:text/csv;charset=UTF-8,"
+							          + encodeURIComponent(csv);
+							document.location = url;
+						}, function(e){
+							console.error(e);
+							error.text(e.toString());
+						})
+					}},
+				}, function(su) {
+					su("label", {text: "Sold "}, function(su){
+						sold = su("input", {type: "checkbox", checked: true});
+					}); su("br");
+					su("label", {text: "Unsold "}, function(su){
+						unsold = su("input", {type: "checkbox", checked: true});
+					}); su("br");
+					su("label", {text: "Paid "}, function(su){
+						paid = su("input", {type: "checkbox", checked: true});
+					}); su("br");
+					su("label", {text: "Unpaid "}, function(su){
+						unpaid = su("input", {type: "checkbox", checked: true});
+					}); su("br");
+					su("button", {type: "submit", text: "Submit"});
+				});
+				error = su("div");
 			} else if (path[0] == "add") {
 				su("h1", "Textbook Trade Add");
 				var error;

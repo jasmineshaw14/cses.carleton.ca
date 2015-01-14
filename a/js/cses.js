@@ -314,12 +314,19 @@
 		find: {
 			value: function TBTBook_find(q) {
 				q = q || {};
+				
+				var sold = q.sold;
+				if (typeof sold != "undefined") sold = sold? "1" : "0";
+				
+				var paid = q.paid;
+				if (typeof paid != "undefined") paid = paid? "1" : "0";
+				
 				return cses.request("GET", "/tbt/book", {
 					get: {
 						course:   q.course || undefined,
 						title:    q.title  || undefined,
-						sold:     q.sold,
-						paid:     q.paid,
+						sold:     sold,
+						paid:     paid,
 						involves: q.involves && q.involves.id,
 					}
 				}).then(function(r){
