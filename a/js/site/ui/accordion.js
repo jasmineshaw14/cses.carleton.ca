@@ -13,18 +13,20 @@ define([
 		display: "block",
 		width: "auto",
 		margin: 0,
-		color: "white",
-		background: theme.accent,
 	});
-	new jss.Style(".accordion > div > *:first-child", {
-		display: "block",
-		width: "auto",
-		margin: 0,
-		color: "white",
-		background: theme.accent,
+	new jss.Style(".accordion > div > *:first-child::after", {
+		content: "''",
+		display: "inline-block",
+		width: "0",
+		height: "0",
+		margin: "0.2em",
+		verticalAlign: "middle",
+		borderTop: "0.2em solid "+theme.accent,
+		borderLeft: "0.2em solid hsla(0,0%,0%,0)",
+		borderRight: "0.2em solid hsla(0,0%,0%,0)",
 	});
 	new jss.Style(".accordion > div > *:first-child:hover", {
-		background: theme.accentHover,
+		background: "hsla(0,0%,0%,0.1)",
 	});
 	new jss.Style(".accordion > div:not(.active) > *:not(:first-child)", {
 		display: "none",
