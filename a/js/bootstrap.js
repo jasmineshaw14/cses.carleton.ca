@@ -89,5 +89,11 @@ window.DEBUG = window.DEBUG !== false;
 	}
 	
 	// Start
-	require(["site/theme", "site/ui/header", "site/ui/footer", "site/main"]);
+	require([
+		"site/theme",
+		"site/ui/header",
+		"site/ui/footer",
+		"site/ui/accordion",
+		"site/main",
+	]);
 }()

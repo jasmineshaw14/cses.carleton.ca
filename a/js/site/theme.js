@@ -27,7 +27,8 @@ define(["jss"], function(jss){
 			+ ")";
 	}
 	
-	var accent = hsl(263, 0.49, 0.47);
+	var accent         = hsl(263, 0.49, 0.47);
+	var accentHover    = hsl(263, 0.49, 0.70);
 	var accentContrast = hsl(0,0,1);
 	
 	new jss.Style("h1,h2", {
@@ -93,8 +94,11 @@ define(["jss"], function(jss){
 				fontWeight: "300",
 			}),
 		},
-		sepBorder: "1px solid "+hsl(0,0,0.9),
-		sepColor: hsl(0,0,0.9),
+		accent:          hsl(263, 0.49, 0.47),
+		accentHover:     hsl(263, 0.49, 0.70),
+		accentContrast:  hsl(0,0,1),
+		sepBorder:       "1px solid "+hsl(0,0,0.9),
+		sepColor:        hsl(0,0,0.9),
 		textGoodColor:   hsl(139, 0.58, 0.3),
 		textBadColor:    hsl(  0, 1, 0.5),
 		textDeemphColor: hsl(  0, 0, 0.5),
