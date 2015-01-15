@@ -41,16 +41,18 @@ define([
 	
 	var links = [
 		{text: "Services", href: "/services", sub: [
-			{text: "Alexander's Office",     href: "/services/office"},
-			{text: "EngSwag",                href: "/services/swag"},
-			{text: "Equipment Loan Program", href: "/services/equipmentloans"},
-			{text: "Leo's",                  href: "/services/leos"},
-			{text: "McCoy's",                href: "/services/mccoys"},
-			{text: "SGRC",                   href: "/services/sgrc"},
-			{text: "SGF",                    href: "/services/sgf"},
-			{text: "Exam Library",           href: "/services/Exam Library"},
-			{text: "Textbook Library",       href: "/services/library"},
-			{text: "Textbook Trade",         href: "/textbooktrade"},
+			{text: "Alexander's Office",            href: "/services/office"},
+			{text: "Advertise Through Us",          href: "/services/advertise"},
+			{text: "Elsie Center",                  href: "/services/elsie"},
+			{text: "EngSwag",                       href: "/services/swag"},
+			{text: "Equipment Loan Program",        href: "/services/elp"},
+			{text: "Leonardo's Lounge",             href: "/services/leos"},
+			{text: "McCoy's Study Lounge",          href: "/services/mccoys"},
+			{text: "Student Group Resource Center", href: "/services/sgrc"},
+			{text: "Student Group Funding",         href: "/services/sgf"},
+			{text: "Exam Library",                  href: "/services/Exam Library"},
+			{text: "Textbook Library",              href: "/services/library"},
+			{text: "Textbook Trade",                href: "/textbooktrade"},
 		]},
 		{text: "Publications", href: "/publications", sub: [
 			{text: "Handbook",   href: "/publications/handbook"},
@@ -58,9 +60,8 @@ define([
 			{text: "Passport",   href: "/publications/passport"},
 		]},
 		{text: "Get Involved", href: "/getinvolved", sub: [
-			{text: "Find a Club",   href: "/getinvolved/clubs"},
-			{text: "Make a Club",   href: "/getinvolved/clubs/new"},
-			{text: "Events",        href: "/getinvolved/events"},
+			{text: "Find a Club",   href: "/getinvolved/findclub"},
+			{text: "Make a Club",   href: "/getinvolved/makeclub"},
 			{text: "Directorships", href: "/getinvolved/directorships"},
 			{text: "Conferences",   href: "/getinvolved/conferences"},
 			{text: "Join Council!", href: "/getinvolved/council/join"},
@@ -68,6 +69,7 @@ define([
 		{text: "About Us", href: "/about", sub: [
 			{text: "Our People",        href: "/about/people"},
 			{text: "Affiliated Groups", href: "/about/groups"},
+			{text: "Culture",           href: "/about/culture"},
 		]},
 		{text: "Governance", href: "/governance", sub: [
 			{text: "Accountability",       href: "/governance/accountability"},
