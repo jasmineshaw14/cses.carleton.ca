@@ -32,11 +32,15 @@ define([
 		display: "none",
 	});
 	
-	$(document).delegate(".accordion > div", "click", function(e){
-		var ele = e.currentTarget;
-		var acc = ele.parentNode;
+	$(document).delegate(".accordion > div > *:first-child", "click", function(e){
+		var $ele = $(e.currentTarget.parentNode);
+		var $all = $(e.currentTarget.parentNode.parentNode.children);
 		
-		$(acc.children).removeClass("active");
-		$(ele).addClass("active");
+		if ($ele.hasClass("active")) { // If already open close.
+			$ele.removeClass("active");
+		} else { // Otherwise open and close others.
+			$all.removeClass("active");
+			$ele.addClass("active");
+		}
 	});
 });
