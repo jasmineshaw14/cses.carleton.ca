@@ -50,7 +50,7 @@ define([
 			{text: "McCoy's Study Lounge",          href: "/services/mccoys"},
 			{text: "Student Group Resource Center", href: "/services/sgrc"},
 			{text: "Student Group Funding",         href: "/services/sgf"},
-			{text: "Exam Library",                  href: "/services/Exam Library"},
+			{text: "Exam Library",                  href: "/services/examlibrary"},
 			{text: "Textbook Library",              href: "/services/library"},
 			{text: "Textbook Trade",                href: "/textbooktrade"},
 		]},
