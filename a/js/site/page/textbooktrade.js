@@ -301,7 +301,6 @@ define([
 				su("h1", "My Books");
 				session.loginRequest("/textbooktrade/mybooks").done(function(){
 					cses.TBTBook.find({
-						sold: true,
 						involves: cses.authuser,
 					}).done(function(r){
 						su("div").append(TextbookList(r));
