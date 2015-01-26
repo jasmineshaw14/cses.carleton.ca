@@ -62,6 +62,13 @@ define([
 		{text: "Get Involved", href: "/getinvolved", sub: [
 			{text: "Find a Club",   href: "/getinvolved/findclub"},
 			{text: "Make a Club",   href: "/getinvolved/makeclub"},
+			{text: "Find an Event", href: "/getinvolved/findanevent", sub: [
+				{text: "Annual Events",             href: "/getinvolved/findanevent/annual"},
+				{text: "Calendar",                  href: "/getinvolved/findanevent/calendar"},
+				{text: "Engineering Competition",   href: "/getinvolved/findanevent/engcomp"},
+				{text: "Febuary Feel Good Week",    href: "/getinvolved/findanevent/ffgw"},
+				{text: "National Engineering Week", href: "/getinvolved/findanevent/new"},
+			]},
 			{text: "Directorships", href: "/getinvolved/directorships"},
 			{text: "Conferences",   href: "/getinvolved/conferences"},
 			{text: "Join Council!", href: "/getinvolved/council/join"},
@@ -69,7 +76,13 @@ define([
 		{text: "About Us", href: "/about", sub: [
 			{text: "Our People",        href: "/about/people"},
 			{text: "Affiliated Groups", href: "/about/groups"},
-			{text: "Culture",           href: "/about/culture"},
+			{text: "Culture",           href: "/about/culture", sub: [
+				{text: "Traditions",  href: "/about/culture/traditions"},
+				{text: "Flightsuits", href: "/about/culture/flightsuits"},
+				{text: "The Gong",    href: "/about/culture/thegong"},
+				{text: "The Jacket",  href: "/about/culture/thejacket"},
+				{text: "Pewter Mugs", href: "/about/culture/pewtermugs"},
+			]},
 		]},
 		{text: "Governance", href: "/governance", sub: [
 			{text: "Accountability",       href: "/governance/accountability"},
@@ -80,62 +93,19 @@ define([
 		{text: "Contact", href: "/contact"},
 	];
 	
-	var dropdownstyle = new jss.StyleSet(
-		new jss.Style({
-			position: "absolute",
-			left: "0",
-			top: "100%",
-			fontSize: "0.8em",
-			visibility: "visible",
-			textAlign: "left",
-			textTransform: "none",
-			fontWeight: "300",
-			zIndex: "50",
-			width: "12em",
-		}),
-		new jss.Style("&::before", {
-			content: "''",
-			display: "block",
-			width: "1ch",
-			height: "1ch",
-			margin: "0.2em 0 -0.5ch 0.6em",
-			transform: "rotateZ(45deg)",
-			
-			background: theme.chrome.bg,
-			border: "1px solid hsl(0, 0%, 78%)",
-			borderRight: "none",
-			borderBottom: "none",
-		}),
-		new jss.Style("&>li", {
-			display: "block",
-			border: "1px solid hsl(0, 0%, 78%)",
-			background: theme.chrome.bg,
-		}),
-		new jss.Style("&>li:not(:first-child)", {
-			borderTop: "none",
-		}),
-		new jss.Style("&>li>a", {
-			position: "relative",
-			display: "block",
-			padding: "0.4em",
-		}),
-		new jss.Style("&>li>a:hover", {
-			background: "hsl(0,0%,78%)",
-			border: "1px solid hsl(0, 0%, 78%)",
-			margin: "-1px",
-		})
-	);
+	// var dropdownstyle = new jss.StyleSet();
 	
 	function uiDropdown(spec){
 		return scriptup("ul", {
-			class: dropdownstyle.classes,
+			// class: dropdownstyle.classes,
 		}, function(su){
-			spec.forEach(function(item){
-				su("li", function(su){
-					su("a", {
+			spec.forEach(item => {
+				su("li", su => {
+					var a = su("a", {
 						text: item.text,
 						href: item.href,
 					});
+					if (item.sub) a.append(uiDropdown(item.sub));
 				});
 			});
 		});
@@ -161,6 +131,60 @@ define([
 			// textDecoration: "underline",
 			position: "absolute",
 			whiteSpace: "pre",
+		}),
+		new jss.Style("& ul", {
+			visibility: "visible",
+			textAlign: "left",
+			textTransform: "none",
+			fontWeight: "300",
+			zIndex: "50",
+			width: "12em",
+		}),
+		new jss.Style("&>ul", {
+			position: "absolute",
+			left: "0",
+			top: "100%",
+			fontSize: "0.8em",
+		}),
+		new jss.Style("&>ul ul", {
+			display: "none",
+			position: "absolute",
+			left: "100%",
+			top: "-1px", // Subtract border.
+		}),
+		new jss.Style("&>ul>li:hover ul", {
+			display: "block",
+		}),
+		new jss.Style("&>ul::before", {
+			content: "''",
+			display: "block",
+			width: "1ch",
+			height: "1ch",
+			margin: "0.2em 0 -0.5ch 0.6em",
+			transform: "rotateZ(45deg)",
+			
+			background: theme.chrome.bg,
+			border: "1px solid hsl(0, 0%, 78%)",
+			borderRight: "none",
+			borderBottom: "none",
+		}),
+		new jss.Style("& ul>li", {
+			display: "block",
+			border: "1px solid hsl(0, 0%, 78%)",
+			background: theme.chrome.bg,
+		}),
+		new jss.Style("& ul>li:not(:first-child)", {
+			borderTop: "none",
+		}),
+		new jss.Style("& ul>li>a", {
+			position: "relative",
+			display: "block",
+			padding: "0.4em",
+		}),
+		new jss.Style("& ul>li>a:hover", {
+			background: "hsl(0,0%,78%)",
+			border: "1px solid hsl(0, 0%, 78%)",
+			margin: "-1px",
 		})
 	);
 	var titlestyle = new jss.StyleSet(
