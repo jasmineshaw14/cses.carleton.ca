@@ -41,6 +41,7 @@ define([
 	
 	var links = [
 		{text: "Services", href: "/services", sub: [
+			{text: "Academic Concerns",             href: "/services/concerns"},
 			{text: "Alexander's Office",            href: "/services/office"},
 			{text: "Advertise Through Us",          href: "/services/advertise"},
 			{text: "Elsie Center",                  href: "/services/elsie"},
@@ -65,6 +66,7 @@ define([
 			{text: "Find an Event", href: "/getinvolved/findanevent", sub: [
 				{text: "Annual Events",             href: "/getinvolved/findanevent/annual"},
 				{text: "Calendar",                  href: "/getinvolved/findanevent/calendar"},
+				{text: "Gallery",                   href: "/getinvolved/findanevent/gallery"},
 				{text: "Engineering Competition",   href: "/getinvolved/findanevent/engcomp"},
 				{text: "Febuary Feel Good Week",    href: "/getinvolved/findanevent/ffgw"},
 				{text: "National Engineering Week", href: "/getinvolved/findanevent/new"},
