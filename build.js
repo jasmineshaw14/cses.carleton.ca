@@ -8,6 +8,7 @@
 		jquery: "empty:",
 		jssignals1: "empty:",
 		moment: "empty:",
+		papaparse4: "empty:",
 		Paragon1: "empty:",
 		q1: "empty:",
 		reqwest1: "empty:",
