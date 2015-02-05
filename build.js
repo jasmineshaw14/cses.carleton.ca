@@ -51,6 +51,9 @@
 		}, {
 			name: "site/page/admin",
 			exclude: ["bootstrap"],
+		}, {
+			name: "site/page/textbooktrade",
+			exclude: ["bootstrap"],
 		},
 	],
 	useStrict: true,
