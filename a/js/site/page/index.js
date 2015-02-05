@@ -86,28 +86,28 @@ define([
 			"effectivally in a team will make you an asset for any company. " +
 			"Check out the oppertunities we have to offer."
 		);
-		bar.add("/clubs", "Clubs",
+		bar.add("/getinvolved/findclub", "Clubs",
 			"Looking for a club that tailors to your interests? Or looking " +
 			"for something completely new? Look no further!"
 		);
-		bar.add("/events", "Events",
+		bar.add("/getinvolved/findanevent", "Events",
 			"Looking for various events to take part in? Here you can find a " +
 			"multitude of Club and Societal events!"
 		);
 		
 		bar  = bars.createBar();
 		bar.background = "#AF1F24";
-		bar.add("/services/engwear", "EngWear",
+		bar.add("/services/swag", "EngWear",
 			"EngWear is a service provided by CSES.  Every year, we order " +
 			"sweet swag that is emblazoned with the Carleton Engineering " +
 			"logo, so you can wear it proudly wherever you are."
 		);
-		bar.add("/services/engwear", "What We Have",
+		bar.add("/services/swag", "What We Have",
 			"We sell clothing such as hoodies, sweatpants, FIT shirts, and " +
 			"items such flasks, shot glasses and patches. Check out our " +
 			"inventory."
 		);
-		bar.add("/services/engwear", "Create Your Own",
+		bar.add("/services/swag", "Create Your Own",
 			"Have a design that could make some super cool swag‽ We want to " +
 			"see it! Send us your designs to be featured as official CSES " +
 			"swag."
