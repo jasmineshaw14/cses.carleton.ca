@@ -22,6 +22,8 @@ function(self,      $,        url, signals)
 	$(document).delegate("a", "click", function (e) {
 		if ( e.which != 1 ) return; // Only left click.
 		
+		e.stopPropagation();
+		
 		var rel = self.relativeURL(this.href);
 		// console.log("Clicked link to "+rel);
 		
@@ -29,7 +31,6 @@ function(self,      $,        url, signals)
 		{
 			self.go(rel);
 			e.preventDefault();
-			e.stopPropagation();
 		}
 	});
 	
