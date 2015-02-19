@@ -513,6 +513,58 @@
 	});
 	Object.preventExtensions(Banner.prototype);
 	
+	var MailingListSubModel = Paragon.create({
+		email: "",
+		date:  "",
+	});
+	function MailingListSub() {
+		MailingListSubModel.call(this);
+	}
+	Object.defineProperties(MailingListSub, {
+		subscribe: {
+			value: function MailingListSub_subscribe(email) {
+				return cses.request("POST", "/mailinglist", {
+					post: {
+						email: email,
+					},
+				});
+			}
+		},
+		
+		fetch: {
+			value: function MailingListSub_fetch(){
+				return cses.request("GET", "/mailinglist").then(function(r){
+					return {
+						deletionkey: r.json.deletionkey,
+						requests: r.json.requests.map(MailingListSub._fromAPI),
+					};
+				});
+			}
+		},
+		
+		delete: {
+			value: function MailingListSub_delete(key) {
+				return cses.request("DELETE", "/mailinglist", {
+					post: {
+						key: key,
+					},
+				});
+			}
+		},
+		
+		_fromAPI: {
+			value: function MailingListSub__fromAPI(json) {
+				var r = new MailingListSub();
+				r.email = json.email;
+				r.date = new Date(json.date*1000);
+				return r;
+			}
+		},
+	});
+	MailingListSub.prototype = Object.create(MailingListSubModel.prototype, {
+		constructor: {value: MailingListSub},
+	});
+	
 	var calendars = [
 		"mmblktn9tkvj50r24fcp9ejk5o%40group.calendar.google.com",
 		"qph9lt0jmmn0r6valqfhj5rre0%40group.calendar.google.com",
@@ -879,6 +931,8 @@
 		Banner: {value: Banner, enumerable: true},
 		
 		Event: {value: Event, enumerable: true},
+		
+		MailingListSub: {value: MailingListSub, enumerable: true},
 	});
 	Object.preventExtensions(cses);
 	
