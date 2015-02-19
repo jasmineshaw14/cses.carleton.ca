@@ -18,6 +18,7 @@ define([
 			su("h1", "Admin Area");
 			su("ul", function(su){
 				[
+					{href: "/people", text: "Search Users"},
 					{href: "/people/new", text: "Create a User"},
 					{href: "/admin/post/new", text: "Create a Post"},
 					{href: "/admin/upload", text: "Upload"},
