@@ -52,7 +52,7 @@ define([
 			{text: "Student Group Resource Center", href: "/services/sgrc"},
 			{text: "Student Group Funding",         href: "/services/sgf"},
 			{text: "Exam Library",                  href: "/services/examlibrary"},
-			{text: "Textbook Library",              href: "/services/library"},
+			{text: "Textbook Library",              href: "https://elp.librarika.com/search"},
 			{text: "Textbook Trade",                href: "/textbooktrade"},
 		]},
 		{text: "Publications", href: "/publications", sub: [
