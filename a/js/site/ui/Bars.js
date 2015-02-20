@@ -23,7 +23,7 @@ define([
 			background: "red",
 			boxShadow: "0.2em 0.2em 0.2em hsla(0,0%,0%,0.5)",
 		}),
-		new jss.Style("&>div>a", {
+		new jss.Style("&>div>*", {
 			display: "table-cell",
 			height: "100%",
 			padding: "0.8em 0.8em 2.8em 0.8em",
@@ -36,24 +36,27 @@ define([
 					"hsla(0,0%,100%,1),"+
 					"hsla(0,0%,100%,0)90%"+
 				")1",
-			
+		}),
+		new jss.Style("&>div>a", {
 			backgroundImage: "url("+assets.ribbionNext+")",
 			backgroundRepeat: "no-repeat",
 			backgroundSize: "5em",
 			backgroundPosition: "calc(100% - 1em)calc(100% - 0.8em)",
 		}),
-		new jss.Style("&>div>a:first-child", {
+		new jss.Style("&>div>*:first-child", {
 			border: "none",
+		}),
+		new jss.Style("&>div>a:first-child", {
 			backgroundPosition: "calc(100% - 1em)calc(0% + 0.8em)",
 		}),
 		new jss.Style("&>div>a:hover", {
 			backgroundImage: "url("+assets.ribbionNextHover+")",
 		}),
-		new jss.Style("&>div>a h1", {
+		new jss.Style("&>div>* h1", {
 			fontSize: "1.2em",
 			marginBottom: "0.6em",
 		}),
-		new jss.Style("&>div>a p", {
+		new jss.Style("&>div>* p", {
 			fontSize: "0.8em",
 		})
 	);
@@ -85,10 +88,19 @@ define([
 		 */
 		add: {
 			value: function bar_add(url, title, content) {
-				scriptup("a", {href: url}, su => {
-					su("h1", title);
-					su("p").html(content);
-				}).appendTo(this.$root);
+				this.addElement(
+					scriptup("a", {href: url}, su => {
+						su("h1", title);
+						su("p").html(content);
+					})
+				);
+			},
+		},
+		
+		addElement: {
+			value: function bar_addElement(e) {
+				this.$root.append(e);
+				return e;
 			},
 		},
 		

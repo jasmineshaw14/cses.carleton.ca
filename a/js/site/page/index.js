@@ -113,8 +113,80 @@ define([
 			"swag."
 		);
 		
-		// bar  = bars.createBar();
-		// bar.background = "#272826";
+		bar  = bars.createBar();
+		bar.background = "#272826";
+		bar.addElement(scriptup("div", su => {
+			su("h1", "Announce");
+			su("p",
+				"Do you need reminders to keep up with everything that's " +
+				"going on in the wonderful world of C-Eng?!  Subscribe to " +
+				"our weekly email announcement with the latest and greatest " +
+				"happenings going on at school."
+			);
+		}));
+		bar.addElement(scriptup("div", su => {
+			var form, email, agree;
+			
+			su("h1", "Subscribe Now!");
+			
+			form = su("form", {
+				submit: function(e){
+					e.preventDefault();
+					
+					if (!agree.prop("checked")) return;
+					
+					cses.MailingListSub.subscribe(email.val()).done(r => {
+						form.remove();
+						su("p", {
+							text: "Subscription Successful!",
+						});
+					}, r => {
+						alert("Error subscribing: "+r);
+					});
+				},
+			}, su => {
+				email = su("input", {
+					type: "email",
+					placeholder: "Email Address",
+					required: "true",
+					css: {
+						display: "block",
+						width: "100%",
+					},
+				});
+				su("label", {
+					text:
+						"By checking this box I consent to subsrcibing to " +
+						"the CSES Announce.",
+					css: {
+						position: "relative",
+						display: "block",
+						paddingLeft: "1em",
+					}
+				}, function(){
+						agree = scriptup("input", {
+							type: "checkbox",
+							required: "true",
+							value: "agree",
+							css: {
+								position: "absolute",
+								left: "0",
+								top: "0.2em"
+							}
+						}).prependTo(this);
+					}
+				);
+				su("button", {
+					type: "submit",
+					text: "Subscribe",
+				});
+			});
+		}));
+		bar.add("/services/advertise", "Spread Your Word",
+			"Do you have an event coming up or an opportunity you think would " +
+			"tailor to your engineering peers?  Submit it here and have it " +
+			"included in the next weekly announce!"
+		);
 		
 		return bars.$root;
 	}
