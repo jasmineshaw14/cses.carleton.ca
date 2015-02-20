@@ -1,12 +1,14 @@
 define([
 	"q1",
 	"site/page/admin/index",
+	"site/page/admin/mailinglist",
 	"site/page/admin/post",
 	"site/page/admin/textbooktrade",
 	"site/page/admin/upload",
 ], function(
 	Q,
 	index,
+	mailinglist,
 	post,
 	tbt,
 	upload
@@ -18,6 +20,7 @@ define([
 			var slug = url.path.split("/")[2] || "index";
 			var page = {
 				index: index,
+				mailinglist: mailinglist,
 				post: post,
 				textbooktrade: tbt,
 				upload: upload,

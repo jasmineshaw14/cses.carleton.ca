@@ -21,6 +21,7 @@ define([
 					{href: "/people", text: "Search Users"},
 					{href: "/people/new", text: "Create a User"},
 					{href: "/admin/post/new", text: "Create a Post"},
+					{href: "/admin/mailinglist", text: "Mailing List Subcription Requests"},
 					{href: "/admin/upload", text: "Upload"},
 					{href: "/admin/textbooktrade", text: "Textbook Trade"},
 				].forEach(function(l){
