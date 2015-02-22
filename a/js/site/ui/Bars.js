@@ -26,7 +26,8 @@ define([
 		new jss.Style("&>div>*", {
 			display: "table-cell",
 			height: "100%",
-			padding: "0.8em 0.8em 2.8em 0.8em",
+			padding: "0.8em",
+			fontSize: "0.8em",
 			
 			borderLeftWidth: "1px",
 			borderLeftStyle: "solid",
@@ -38,6 +39,7 @@ define([
 				")1",
 		}),
 		new jss.Style("&>div>a", {
+			paddingBottom: "2.8em",
 			backgroundImage: "url("+assets.ribbionNext+")",
 			backgroundRepeat: "no-repeat",
 			backgroundSize: "5em",
@@ -47,17 +49,15 @@ define([
 			border: "none",
 		}),
 		new jss.Style("&>div>a:first-child", {
+			paddingBottom: "0.8em",
 			backgroundPosition: "calc(100% - 1em)calc(0% + 0.8em)",
 		}),
 		new jss.Style("&>div>a:hover", {
 			backgroundImage: "url("+assets.ribbionNextHover+")",
 		}),
 		new jss.Style("&>div>* h1", {
-			fontSize: "1.2em",
+			fontSize: "1.4em",
 			marginBottom: "0.6em",
-		}),
-		new jss.Style("&>div>* p", {
-			fontSize: "0.8em",
 		})
 	);
 	

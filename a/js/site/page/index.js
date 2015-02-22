@@ -161,7 +161,8 @@ define([
 					css: {
 						position: "relative",
 						display: "block",
-						paddingLeft: "1em",
+						paddingLeft: "1.4em",
+						marginTop: "0.6em",
 					}
 				}, function(){
 						agree = scriptup("input", {
@@ -179,6 +180,10 @@ define([
 				su("button", {
 					type: "submit",
 					text: "Subscribe",
+					css: {
+						width: "100%",
+						marginTop: "0.6em",
+					},
 				});
 			});
 		}));

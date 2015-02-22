@@ -1,21 +1,17 @@
 define([
 	"jquery",
-	"moment",
 	"site/PageGenerated",
 	"site/session",
 	"site/router",
 	"cses",
 	"scriptup",
-	"site/ui/Post"
 ], function(
 	$,
-	moment,
 	mkgen,
 	session,
 	router,
 	cses,
-	scriptup,
-	PostView
+	scriptup
 ) {
 	"use strict";
 	
@@ -56,6 +52,9 @@ define([
 			});
 		}, function(){
 			session.loginRequest("/admin/mailinglist");
+			scriptup($cont, su => {
+				su("p", "You don't have permission to view this page.");
+			})
 		});
 	});
 });
