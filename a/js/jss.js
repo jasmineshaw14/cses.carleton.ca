@@ -36,19 +36,30 @@ define(function(){
 	var nextid = 0;
 	function uid(){ return "-jss-" + nextid++; }
 	
-	function returnclasses(){ return this.classes }
+	function makerule(selector, parent) {
+		parent = parent || sheet;
+		parent.insertRule(selector+"{}", 0);
+		return parent.cssRules[0];
+	}
 	
-	function Style(selector, style) {
-		if (typeof selector != "string") {
+	function Style(selector, style, parent) {
+		var rule;
+		
+		// if (selector instanceof CSSRule) {
+		// 	rule = selector;
+		// }
+		if (typeof selector == "object") {
 			style = selector;
 			selector = "&";
 		}
 		
-		this.classes = uid();
-		selector = selector.replace(/&/g, "."+this.classes)
+		if (!rule) {
+			this.classes = uid();
+			selector = selector.replace(/&/g, "."+this.classes)
+			
+			var rule = makerule(selector, parent);
+		}
 		
-		sheet.insertRule(selector+"{}", 0);
-		var rule = sheet.cssRules[0];
 		this.style = rule.style;
 		
 		if (style) {
@@ -57,11 +68,21 @@ define(function(){
 		}
 	}
 	Object.defineProperties(Style.prototype, {
-		toString: {value: returnclasses},
+		toString: {value: function style_toString(){ return this.classes }},
 	});
 	
-	function StyleSet()
-	{
+	function Media(media) {
+		this.rule = makerule("@media "+media, this.rule);
+	}
+	Object.defineProperties(Media.prototype, {
+		newStyle: {
+			value: function media_newStyle(selector, style) {
+				return new Style(selector, style, this.rule);
+			},
+		},
+	});
+	
+	function StyleSet() {
 		this._e = [].slice.call(arguments);
 	}
 	Object.defineProperties(StyleSet.prototype, {
@@ -76,12 +97,13 @@ define(function(){
 				return this;
 			},
 		},
-		toString: {value: returnclasses},
+		toString: {value: function styleset_toString(){ return this.classes }},
 	});
 	
 	Object.defineProperties(self, {
-		Style: {value: Style},
+		Style:    {value: Style   },
 		StyleSet: {value: StyleSet},
+		Media:    {value: Media   },
 	});
 	return self;
 });

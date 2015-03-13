@@ -31,6 +31,7 @@ define([
 	banner.$root.css({
 		width: "auto",
 		maxWidth: "50rem",
+		minHeight: "2em",
 		margin: "auto",
 		marginBottom: "1em",
 	})
@@ -95,8 +96,6 @@ define([
 		{text: "Contact", href: "/contact"},
 	];
 	
-	// var dropdownstyle = new jss.StyleSet();
-	
 	function uiDropdown(spec){
 		return scriptup("ul", {
 			// class: dropdownstyle.classes,
@@ -113,17 +112,19 @@ define([
 		});
 	}
 	
+	var mediaSmall = new jss.Media("(max-width: 69.99999em)");
+	var mediaLarge = new jss.Media("(min-width: 70em)");
+	
 	var linkstyle = new jss.StyleSet(
 		theme.chrome.headerLinkFont,
 		new jss.Style({
+			display: "inline-block",
+			margin: "1em 0.7em",
+			fontSize: "1.4em",
 			position: "relative",
-			fontSize: "1.3em",
 		}),
 		new jss.Style("&:hover", {
 			visibility: "hidden",
-		}),
-		new jss.Style("&:not(:hover) ul", {
-			display: "none",
 		}),
 		new jss.Style("&:hover::before", {
 			display: "block",
@@ -132,9 +133,24 @@ define([
 			fontWeight: "bolder",
 			// textDecoration: "underline",
 			position: "absolute",
+			left: "0",
+			right: "0",
 			whiteSpace: "pre",
 		}),
-		new jss.Style("& ul", {
+		
+		// Small displays.
+		mediaSmall.newStyle({
+			margin: "0.2em 0",
+		}),
+		mediaSmall.newStyle("& ul", {
+			display: "none",
+		}),
+		
+		// Large Displays
+		mediaLarge.newStyle("&:not(:hover) ul", {
+			display: "none",
+		}),
+		mediaLarge.newStyle("& ul", {
 			visibility: "visible",
 			textAlign: "left",
 			textTransform: "none",
@@ -142,22 +158,22 @@ define([
 			zIndex: "50",
 			width: "12em",
 		}),
-		new jss.Style("&>ul", {
+		mediaLarge.newStyle("&>ul", {
 			position: "absolute",
 			left: "0",
 			top: "100%",
 			fontSize: "0.8em",
 		}),
-		new jss.Style("&>ul ul", {
+		mediaLarge.newStyle("&>ul ul", {
 			display: "none",
 			position: "absolute",
 			left: "100%",
 			top: "-1px", // Subtract border.
 		}),
-		new jss.Style("&>ul>li:hover ul", {
+		mediaLarge.newStyle("&>ul>li:hover ul", {
 			display: "block",
 		}),
-		new jss.Style("&>ul::before", {
+		mediaLarge.newStyle("&>ul::before", {
 			content: "''",
 			display: "block",
 			width: "1ch",
@@ -170,193 +186,135 @@ define([
 			borderRight: "none",
 			borderBottom: "none",
 		}),
-		new jss.Style("& ul>li", {
+		mediaLarge.newStyle("& ul>li", {
 			display: "block",
 			border: "1px solid hsl(0, 0%, 78%)",
 			background: theme.chrome.bg,
 		}),
-		new jss.Style("& ul>li:not(:first-child)", {
+		mediaLarge.newStyle("& ul>li:not(:first-child)", {
 			borderTop: "none",
 		}),
-		new jss.Style("& ul>li>a", {
+		mediaLarge.newStyle("& ul>li>a", {
 			position: "relative",
 			display: "block",
 			padding: "0.4em",
 		}),
-		new jss.Style("& ul>li>a:hover", {
+		mediaLarge.newStyle("& ul>li>a:hover", {
 			background: "hsl(0,0%,78%)",
 			border: "1px solid hsl(0, 0%, 78%)",
 			margin: "-1px",
 		})
 	);
-	var titlestyle = new jss.StyleSet(
-		theme.chrome.headerFont,
-		new jss.Style({
-			fontSize: "2em",
-		})
-	);
-	
-	function drawHeader480(){
-		return scriptup("h1", "No small header");
-	}
-	
-	var header1000_container = new jss.Style("&>*", {
-		display: "inline-block",
-		margin: "1.3em 1.3em 0 0",
-		verticalAlign: "middle",
-	});
-	function drawHeader1000(){
-		return scriptup("div", {
-			class: header1000_container.classes,
-			css: {
-				textAlign: "center",
-				fontSize: "1.3em",
-			},
-		}, function(su){
-				var img = su("a", {
-					href: "/",
-				}, function(su){
-					su("img", {
-						src: assets.logo,
-						alt: "CSES Logo",
-						css: {
-							maxWidth: "8em",
-						}
-					});
-				});
-				su("ul", {
-					css: {
-						textAlign: "left",
-					},
-				}, function(su){
-					for (var i = 0; i < links.length; i++) {
-						su("li", function(su) {
-							su("a", {
-								href: links[i].href,
-								text: links[i].text,
-								"data-text": links[i].text,
-								"class": linkstyle.classes,
-							});
-						});
-					}
-			});
-		});
-	}
 	var headerBig_continer = new jss.StyleSet(
+		new jss.Style({
+			textAlign: "center",
+			marginBottom: "3em",
+			
+			background: "linear-gradient(to bottom, hsl(0,0%,100%),"+theme.chrome.bg+")",
+			borderBottom: "0.1em solid hsl(0, 0%, 83%)",
+			// boxShadow: "hsl(0, 0%, 60%) 0 0 3em -0.5em",
+		}),
 		new jss.Style("&>*", {
 			display: "inline-block",
 			verticalAlign: "bottom",
 		}),
-		new jss.Style("&>*:first-child", {textAlign: "right"}),
-		new jss.Style("&>*:last-child", {textAlign: "left"})
+		
+		mediaSmall.newStyle({
+			display: "flex",
+			flexDirection: "column",
+		})
 	);
-	function drawHeaderBig(){
-		function navlink(l) {
-			return scriptup("a", {
-				text: l.text,
-				href: l.href,
-				"data-text": l.text,
-				"class": linkstyle.classes,
-				css: {
-					display: "inline-block",
-					margin: "1em 0.7em",
-				},
-			}, function(su){
-				if (l.sub)
-					this.append(uiDropdown(l.sub));
-			});
-		}
-		return scriptup("div", {
-			css: {
-				textAlign: "center",
-				marginBottom: "3em",
-				
-				background: "linear-gradient(to bottom, hsl(0,0%,100%),"+theme.chrome.bg+")",
-				borderBottom: "0.1em solid hsl(0, 0%, 83%)",
-				// boxShadow: "hsl(0, 0%, 60%) 0 0 3em -0.5em",
-			},
+	
+	var stylelogo = new jss.StyleSet(
+		// Large Screen.
+		mediaLarge.newStyle({
+			position: "relative",
+			width: "8em",
+			height: "7.5em",
+			margin: "0 2em",
+			padding: "0",
+		}),
+		mediaLarge.newStyle("&:before, &:after", {
+			fontSize: "2em",
+			position: "absolute",
+			display: "block",
+			width: "50vw",
+			margin: "0.5em 1em",
+			
+			fontFamily: "Montserrat, sans-serif",
+			fontWeight: "900",
+			textTransform: "uppercase",
+		}),
+		mediaLarge.newStyle("&:before", {
+			content: "'Carleton Student'",
+			
+			right: "100%",
+			textAlign: "right",
+		}),
+		mediaLarge.newStyle("&:after", {
+			content: "'Engineering Society'",
+			left: "100%",
+			textAlign: "left",
+		}),
+		
+		// Small screen.
+		mediaSmall.newStyle({
+			display: "none",
+		})
+	);
+	
+	var stylegong = new jss.StyleSet(
+		mediaLarge.newStyle({
+			position: "absolute",
+			width: "100%",
+			left: "0",
+			bottom: "-4em%"
+		})
+	);
+	
+	var stylebasket = new jss.StyleSet(
+		mediaLarge.newStyle({
+			position: "absolute",
+			width: "200%",
+			left: "-50%",
+			bottom: "-62%"
+		})
+	);
+	
+	function navlink(l) {
+		return scriptup("a", {
+			text: l.text,
+			href: l.href,
+			"data-text": l.text,
+			class: linkstyle.classes,
 		}, function(su){
-			banner.$root.css("minHeight", "2em");
-			su("div", {
-				class: headerBig_continer.classes,
-				css: {
-					display: "inline-block",
-				},
-			}, function(su){
-				su("div", function(su){
-					su("h1", {
-						text: "Carleton Student",
-						class: titlestyle.classes,
-					});
-					for (var i = 0; i < links.length/2; i++) {
-						this.append(navlink(links[i]));
-					}
-				});
-				su("a", {
-					href: "/",
-					css: {
-						position: "relative",
-						width: "8em",
-						height: "7.5em",
-						margin: "0 2em",
-						padding: "0",
-					},
-				}, function(su){
-					su("img", {
-						src: assets.headerBasket,
-						css: {
-							position: "absolute",
-							width: "15.92em",
-							left: "-3.96em",
-							bottom: "-4.6em"
-						},
-					});
-					su("img", {
-						src: assets.logo,
-						alt: "CSES Logo",
-						css: {
-							position: "absolute",
-							width: "8em",
-							left: "0",
-							bottom: "-4em"
-						},
-					});
-				});
-				su("div", function(su){
-					su("h1", {
-						text: "Engineering Society",
-						class: titlestyle.classes,
-					});
-					for (var i = links.length/2; i < links.length; i++) {
-						this.append(navlink(links[i]));
-					}
-				});
-			});
+			if (l.sub)
+				this.append(uiDropdown(l.sub));
 		});
 	}
 	
-	var lastsize;
-	var sizes = [
-		// {w: 480, f: drawHeader480},
-		{w: 1000, f: drawHeader1000},
-		{w: Infinity, f: drawHeaderBig},
-	];
-	function drawHeader(){
-		var wsize = window.innerWidth;
-		var i;
-		for (i = 0; sizes[i].w < wsize; i++)
-			;
-		
-		if (i === lastsize) return; // Save work.
-		lastsize = i;
-		
-		var si = sizes[i];
-		// console.log("Changing Header to", i, si);
-		
-		banner.$root.css("minHeight", "initial");
-		container.empty().append(si.f());
-	}
-	
-	$(window).on("resize", drawHeader);
-	drawHeader();
+	scriptup(container, {
+		class: headerBig_continer.classes,
+	}, function(su){
+		for (var i = 0; i < links.length/2; i++) {
+			this.append(navlink(links[i]));
+		}
+		su("a", {
+			href: "/",
+			class: stylelogo.classes,
+		}, function(su){
+			su("img", {
+				src: assets.headerBasket,
+				class: stylebasket,
+			});
+			su("img", {
+				src: assets.logo,
+				alt: "CSES Logo",
+				class: stylegong,
+			});
+		});
+		for (var i = links.length/2; i < links.length; i++) {
+			this.append(navlink(links[i]));
+		}
+	});
 });
