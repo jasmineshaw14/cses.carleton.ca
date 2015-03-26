@@ -268,7 +268,7 @@ define([
 			position: "absolute",
 			width: "100%",
 			left: "0",
-			bottom: "-4em%"
+			bottom: "-52%"
 		})
 	);
 	
