@@ -4,6 +4,5 @@
 	include('header.php');
 ?>
 </head><body>
-<h1>CSES</h1>
-<p>Welcome to the CSES website, there is nothing here yet.</p>
+<?php include('header_body.php') ?>
 </body></html>
