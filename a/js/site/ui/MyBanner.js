@@ -5,6 +5,7 @@ function(jss)
 	
 	var style = new jss.StyleSet(
 		new jss.Style({
+			position: "relative",
 			display: "block",
 			padding: "0",
 			overflow: "hidden",
@@ -25,6 +26,33 @@ function(jss)
 			verticalAlign: "middle",
 			
 			transition: "transform 0.8s ease-in-out",
+		}),
+		new jss.Style("&>ol", {
+			boxSizing: "content-box",
+			position: "absolute",
+			width: "1em",
+			top: "0",
+			bottom: "0",
+			right: "0",
+			padding: "1em",
+			textAlign: "right",
+			pointerEvents: "none",
+		}),
+		new jss.Style("&>ol>li", {
+			height: "1em",
+			width: "100%",
+			marginBottom: "0.4em",
+			padding: "0",
+			border: "3px solid white",
+			borderRadius: "50%",
+			boxShadow: "0.1em 0.1em 0.2em hsla(0,0%,0%,0.6)," +
+			           "0.1em 0.1em 0.2em hsla(0,0%,0%,0.6) inset",
+			listStyle: "none",
+			pointerEvents: "auto",
+		}),
+		new jss.Style("&>ol>li.-MyBanner-active", {
+			background: "white",
+			boxShadow: "0.1em 0.1em 0.2em hsla(0,0%,0%,0.6)",
 		})
 	);
 	
@@ -41,7 +69,27 @@ function(jss)
 		this.root.className = style.classes;
 		
 		this.list = document.createElement("ul");
+		this.list.className = "banners"
 		this.root.appendChild(this.list);
+		
+		this.buttons = document.createElement("ol");
+		this.buttons.className = "buttons";
+		this.buttons.addEventListener("click", e => {
+			console.log(e.target);
+			console.log(style.selector+">ol>li");
+			if (!e.target.matches(style.selector+">ol>li")) return;
+			
+			console.log("Matches");
+			
+			var i = 0;
+			var cur = e.target;
+			while (cur = cur.previousSibling)
+				i++;
+			
+			console.log(i);
+			this.current = i;
+		});
+		this.root.appendChild(this.buttons);
 		
 		this.in  = MyBanner.slideIn;
 		this.out = MyBanner.slideOut;
@@ -53,6 +101,18 @@ function(jss)
 		
 		this.holds = 0;
 		this._held = false;
+		
+		if ("WeakMap" in window && "MutationObserver" in window) {
+			this._md = new WeakMap();
+			new MutationObserver((records, mo) => {
+				records.forEach(r => {
+					for (var i = 0; i < r.addedNodes.length; ++i)
+						this._childAdded(r.addedNodes[i]);
+					for (var i = 0; i < r.removedNodes.length; ++i)
+						this._childRemoved(r.removedNodes[i]);
+				});
+			}).observe(this.list, {childList: true});
+		}
 		
 		window.b = this;
 	}
@@ -79,6 +139,11 @@ function(jss)
 				
 				this.out[0](dst, i);
 				this.in[0](dst, i);
+				
+				var srcbutton = this.buttons.children[this._c];
+				var dstbutton = this.buttons.children[i]
+				srcbutton.classList.remove("-MyBanner-active");
+				dstbutton.classList.add("-MyBanner-active");
 				
 				dst.offsetHeight; // Force layout to avoid transition.
 				dst.style.transition = "";
@@ -143,6 +208,32 @@ function(jss)
 		clear: {
 			value: function mybanner_clear(){
 				this.list.innerHTML = '';
+			},
+		},
+		_childAdded: {
+			value(c) {
+				var info = {
+					button: document.createElement("li"),
+				};
+				
+				var next = c.nextSibling;
+				var nextd;
+				while (next && !(nextd = this._md.get(next)))
+					next = next.nextSibling;
+					
+				if (next) {
+					this.buttons.insertBefore(nextd.button, info.button);
+				} else {
+					this.buttons.appendChild(info.button);
+				}
+				
+				this._md.set(c, info);
+			},
+		},
+		_childRemoved: {
+			value(c) {
+				var info = this._md.get(c);
+				info.button.parentNode.removeChild(info.button);
 			},
 		},
 	});

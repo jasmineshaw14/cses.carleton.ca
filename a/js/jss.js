@@ -68,7 +68,8 @@ define(function(){
 		}
 	}
 	Object.defineProperties(Style.prototype, {
-		toString: {value: function style_toString(){ return this.classes }},
+		selector: {get(){ return "."+this.classes }},
+		toString: {value(){ return this.classes }},
 	});
 	
 	function Media(media) {
@@ -89,6 +90,11 @@ define(function(){
 		classes: {
 			get: function(){
 				return this._e.map(function(s){ return s.classes }).join(" ");
+			},
+		},
+		selector: {
+			get: function(){
+				return this._e.map(function(s){ return s.selector }).join("");
 			},
 		},
 		add: {
