@@ -31,6 +31,7 @@ define([
 			
 			borderLeftWidth: "1px",
 			borderLeftStyle: "solid",
+			borderRight: "0",
 			borderImage:
 				"linear-gradient(to bottom,"+
 					"hsla(0,0%,100%,0)10%,"+
