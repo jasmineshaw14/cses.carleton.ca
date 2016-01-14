@@ -1,5 +1,7 @@
 #! /bin/bash
 
+set -e
+
 tdir='generated/'
 ver=$(printf '%X' $(date -u '+%s'))
 rm -rvf "$tdir"
@@ -59,3 +61,12 @@ echo 'Configuring router.php'
 perl -pe "s/(^\s*\\\$buildid\s*=).*$/\$1 '$ver';/;" \
      -e  "s,http://localhost:8080,$api," \
          'noscript/router.php' > "$tdir/noscript/router.php"
+
+if [ -z "$DEPLOY" ]; then
+	echo "Stopping before deploy because DEPLOY is not set."
+	exit
+fi
+
+echo "Deploying!"
+
+rsync -rvz --chmod 775 "$tdir/" root@newstout.engsoc.org:/srv/http/cses.carleton.ca/
