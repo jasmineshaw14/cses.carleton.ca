@@ -127,8 +127,8 @@ define([
 					+ " a student has purchased your textbook the original"
 					+ " owner will be notified and all money returned to them."
 					+ " Textbook trade is a free service run out of our office"
-					+ " for all members.  Contact your VP Services, Alex"
-					+ " Whitlock, for more information."
+					+ " for all members.  Contact your VP Services, Michael"
+					+ " Lanning, for more information."
 				);
 				
 				su("div", function(su){
