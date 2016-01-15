@@ -25,16 +25,16 @@ function($, cses, scriptup)
 			},
 		}, function(su){
 			su("label", {text: "First Name "}, function(su){
-				name = su("input", {type: "text", pattern: ".+"});
+				name = su("input", {type: "text", required: true, pattern: ".+"});
 			}); su("br");
 			su("label", {text: "Last Name "}, function(su){
-				last = su("input", {type: "text", pattern: ".+"});
+				last = su("input", {type: "text", required: true, pattern: ".+"});
 			}); su("br");
 			su("label", {text: "Student Number "}, function(su){
-				number = su("input", {type: "text", pattern: "\\d{9}|"});
+				number = su("input", {type: "text", required: true, pattern: "\\d{9}|"});
 			}); su("br");
 			su("label", {text: "Email "}, function(su){
-				email = su("input", {type: "email"});
+				email = su("input", {type: "email", required: true});
 			}); su("br");
 			su("button", {text: "Add"});
 			error = su("p");
