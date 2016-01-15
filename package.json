@@ -1,0 +1,24 @@
+{
+  "name": "cses.carleton.ca",
+  "version": "1.0.0",
+  "description": "CSES Website",
+  "main": "none.js",
+  "dependencies": {
+    "requirejs": "^2.1.22",
+    "traceur": "0.0.89"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CarletonEng/cses.carleton.ca.git"
+  },
+  "author": "",
+  "license": "zlib",
+  "bugs": {
+    "url": "https://github.com/CarletonEng/cses.carleton.ca/issues"
+  },
+  "homepage": "https://github.com/CarletonEng/cses.carleton.ca#readme"
+}
