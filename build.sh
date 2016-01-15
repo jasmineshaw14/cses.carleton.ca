@@ -69,4 +69,4 @@ fi
 
 echo "Deploying!"
 
-rsync -rvz --chmod 775 "$tdir/" root@newstout.engsoc.org:/srv/http/cses.carleton.ca/
+exec ./deploy.sh "$tdir"
