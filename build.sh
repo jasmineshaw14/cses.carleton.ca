@@ -2,6 +2,9 @@
 
 set -e
 
+npm install
+export PATH="node_modules/.bin:$PATH"
+
 tdir='generated/'
 ver=$(printf '%X' $(date -u '+%s'))
 rm -rvf "$tdir"
