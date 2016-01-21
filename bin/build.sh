@@ -64,12 +64,3 @@ echo 'Configuring router.php'
 perl -pe "s/(^\s*\\\$buildid\s*=).*$/\$1 '$ver';/;" \
      -e  "s,http://localhost:8080,$api," \
          'noscript/router.php' > "$tdir/noscript/router.php"
-
-if [ -z "$DEPLOY" ]; then
-	echo "Stopping before deploy because DEPLOY is not set."
-	exit
-fi
-
-echo "Deploying!"
-
-exec ./deploy.sh "$tdir"

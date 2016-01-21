@@ -4,12 +4,6 @@ set -e
 
 tdir="${1:-generated}"
 
-# Deploy to EngSoc
-
-rsync -rvzp --chmod 775 "$tdir/" kevincox@newstout.engsoc.org:/srv/http/cses.carleton.ca/
-
-# Deploy to OpenShift
-
 if [ -n "$CI" ]; then
 	git config --global user.email 'robot@cses.carleton.ca'
 	git config --global user.name 'Robot'
