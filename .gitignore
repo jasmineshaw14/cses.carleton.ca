@@ -2,3 +2,4 @@ build/
 generated/
 require.js
 node_modules/
+deploy/

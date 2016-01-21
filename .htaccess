@@ -3,16 +3,16 @@ RewriteBase /
 
 # Strip www
 RewriteCond %{HTTP_HOST} ^www\.(.*)$
-RewriteRule '' %{REQUEST_SCHEME}://%1%{REQUEST_URI} [R=301,END]
+RewriteRule '' %{REQUEST_SCHEME}://%1%{REQUEST_URI} [R=301,L]
 
 RewriteRule ^a/ - [L]
 
 # If we need to generate a static page.
 RewriteCond %{QUERY_STRING} (^|&)_escaped_fragment_
-RewriteRule '' /noscript/router.php [END]
+RewriteRule '' /noscript/router.php [L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule '' /index.html [END]
+RewriteRule '' /index.html [L]
 
 AddType text/cache-manifest .manifest
 
