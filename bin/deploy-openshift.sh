@@ -13,9 +13,9 @@ fi
 git clone "$repo" deploy
 cp -r "$tdir" deploy/public_html
 
-bin/clean.sh "$deploy"
+bin/clean.sh deploy/public_html
 
 cd deploy
 git add -A
 git commit -m 'Deploy'
-git push
+git push origin master
