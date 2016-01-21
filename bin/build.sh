@@ -6,7 +6,8 @@ npm install
 export PATH="node_modules/.bin:$PATH"
 
 tdir='generated/'
-ver=$(printf '%X' $(date -u '+%s'))
+date=$(date -u '+%s')
+ver=$(printf '%X' $date)
 rm -rvf "$tdir"
 
 api="${1:-https://api-cses.engsoc.org}"
@@ -64,3 +65,6 @@ echo 'Configuring router.php'
 perl -pe "s/(^\s*\\\$buildid\s*=).*$/\$1 '$ver';/;" \
      -e  "s,http://localhost:8080,$api," \
          'noscript/router.php' > "$tdir/noscript/router.php"
+
+echo 'Adding build metadata.'
+echo $date > "$tdir/a/$ver/.build-date"
