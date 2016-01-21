@@ -1,6 +1,6 @@
 #! /bin/bash
 
-set -e
+set -ex
 shopt -s nullglob
 
 tdir="${1:-generated}/a"
@@ -8,7 +8,10 @@ age="${CLEAN_AGE:-2}"
 
 builds=("$tdir"/*)
 
-[ "${#builds[@]}" -le 2 ] && exit
+if [ "${#builds[@]}" -le 2 ]; then
+	echo "Less then two builds, exiting."
+	exit
+fi
 
 from="${builds[-2]}"
 fromdate="$(cat "$from/.build-date")"
