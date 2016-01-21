@@ -4,7 +4,7 @@ set -e
 shopt -s nullglob
 
 tdir="${1:-generated}/a"
-age="${CLEAN_AGE:-0}"
+age="${CLEAN_AGE:-2}"
 
 builds=("$tdir"/*)
 
