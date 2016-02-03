@@ -1,6 +1,6 @@
 # cses.carleton.ca
 
-[ ![Codeship Status for CarletonEng/cses.carleton.ca](https://codeship.com/projects/70f21780-9de7-0133-d745-5e859e904c15/status?branch=master)](https://codeship.com/projects/127646)
+[![Build Status](https://semaphoreci.com/api/v1/projects/d5ba9926-fb5a-400f-a68e-c4d37e4e175b/663224/shields_badge.svg)](https://semaphoreci.com/kevincox/cses-carleton-ca)
 
 The CSES website is a hub of information for Carleton engineering students.
 
