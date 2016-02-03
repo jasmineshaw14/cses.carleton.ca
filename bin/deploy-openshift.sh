@@ -15,7 +15,7 @@ if [ -n "$CI" ]; then
 fi
 
 git clone "$repo" "$tmp"
-rsync -a --size-only -W "$tdir/" "$html/"
+rsync -a -IW "$tdir/" "$html/"
 
 bin/clean.sh "$html"
 
