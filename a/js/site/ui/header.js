@@ -49,7 +49,6 @@ define([
 			{text: "Equipment Loan Program",        href: "/services/elp"},
 			{text: "Exam Library",                  href: "/services/examlibrary"},
 			{text: "Leonardo's Lounge",             href: "/services/leos"},
-			{text: "McCoy's Study Lounge",          href: "/services/mccoys"},
 			{text: "Student Group Funding",         href: "/services/sgf"},
 			{text: "Student Group Resource Center", href: "/services/sgrc"},
 			{text: "Textbook Library",              href: "https://elp.librarika.com/search"},
